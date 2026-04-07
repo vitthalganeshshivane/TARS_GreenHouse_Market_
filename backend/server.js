@@ -3,6 +3,8 @@ import express from "express";
 import cors from "cors";
 import db from "./config/db.js";
 
+import authRoutes from "./routes/authRoutes.js";
+
 const app = express();
 const PORT = 3000;
 
@@ -16,6 +18,8 @@ app.use(
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use("/api/auth", authRoutes);
 
 // GLOBAL ERROR HANDLER
 app.use((err, req, res, next) => {
