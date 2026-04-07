@@ -20,6 +20,7 @@ const isMatch = (user, password) => {
 export const signup = async (req, res) => {
   try {
     const { name, email, phone, password } = req.body;
+    console.log("fiels signup:", name, email, password);
 
     if (!name || !email || !password) {
       return res.status(400).json({ message: "All fields are required" });
@@ -163,6 +164,8 @@ export const verifyOtpController = async (req, res) => {
   try {
     const { email, otp } = req.body;
 
+    console.log("email: ", email);
+
     if (!email || !otp) {
       return res.status(400).json({
         message: "Email and OTP are required",
@@ -196,4 +199,10 @@ export const verifyOtpController = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+};
+
+export const getMe = async (req, res) => {
+  res.json({
+    user: req.user,
+  });
 };
