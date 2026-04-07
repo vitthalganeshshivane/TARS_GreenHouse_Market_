@@ -12,19 +12,27 @@ import CategoryEntry from './components/categoryEntry.jsx'
 import CategoryCard from './components/categoryCard.jsx'
 import ProductCard from './components/productCard.jsx'
 import Topbar from './components/pages/home/topbar.jsx'
+import Navbar from './components/pages/home/navbar.jsx'
 
 function App() {
 
   return (
-    <Routes>
-      <Route path='/' element={<Navigate to='/signup' replace />} />
-      <Route path='/signup' element={<Signup />} />
-      <Route path='/login' element={<Login />} />
-      <Route path='/forgot-password' element={<ForgotPassword />} />
-      <Route path='/verify' element={<VerifyOTP />} />
-      <Route path='/success' element={<Success />} />
-      <Route path='*' element={<Navigate to='/signup' replace />} />
-    </Routes>
+    <div>
+
+      <Routes>
+        <Route path='/' element={<Navigate to='/signup' replace />} />
+        <Route path='/signup' element={<Signup />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/forgot-password' element={<ForgotPassword />} />
+        <Route path='/verify' element={<VerifyOTP />} />
+        <Route path='/success' element={<Success />} />
+        <Route path='*' element={<Navigate to='/signup' replace />} />
+      </Routes>
+      <div className='bg-background'>
+        <Topbar />
+        <Navbar />
+      </div>
+    </div>
   )
 }
 

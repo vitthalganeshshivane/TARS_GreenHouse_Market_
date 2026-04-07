@@ -13,11 +13,14 @@ const NavbarBtn = ({ icon, text, badge, link, className }) => {
       </div>
 
       {/* badge */}
-      <div className='flex justify-center items-center p-1 text-white absolute w-3 h-3 bg-green-500 rounded-full left-3 -top-1'>
-        <span className='text-[.6rem]'>
-          {value}
-        </span>
-      </div>
+      {
+        status &&
+        <div className='flex justify-center items-center p-1 text-white absolute w-3 h-3 bg-green-500 rounded-full left-3 -top-1'>
+          <span className='text-[.6rem]'>
+            {value}
+          </span>
+        </div>
+      }
     </Link>
   )
 }
