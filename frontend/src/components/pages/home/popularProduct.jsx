@@ -3,6 +3,7 @@ import CategoryCard from "../../categoryCard"
 import CategoryEntry from "../../categoryEntry"
 import ProductCard from "../../productCard"
 import Tags from "../../tags"
+import DealsOfDay from "./dealsOfDay"
 
 export default function PopularProduct() {
   return (
@@ -12,7 +13,7 @@ export default function PopularProduct() {
 
         {/* LEFT: Products */}
         <div className="flex-1">
-          <h2 className="text-xl md:text-2xl font-semibold mb-5">
+          <h2 className="text-xl md:text-3xl font-semibold mb-5">
             Popular Products
           </h2>
 
@@ -185,6 +186,8 @@ export default function PopularProduct() {
           </CategoryCard>
 
         </aside>
+
+
       </div>
     </section>
   )
