@@ -17,7 +17,7 @@ export default function PopularProduct() {
           </h2>
 
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+          <div className="flex flex-wrap gap-0 justify-around md:gap-6">
 
             <ProductCard
               image='https://www.sirimart.in/wp-content/uploads/2023/12/Organic_Red_Rice.jpg'
@@ -166,7 +166,7 @@ export default function PopularProduct() {
         </div>
 
         {/* RIGHT: Sidebar */}
-        <aside className="w-full lg:w-[280px] flex flex-col gap-6">
+        <aside className="hidden md:flex w-full lg:w-[280px] flex-col gap-6">
 
           <CategoryCard title='Category'>
             <CategoryEntry icon={<Recycle size={16} />} text='Compare' number='4' link='#' />

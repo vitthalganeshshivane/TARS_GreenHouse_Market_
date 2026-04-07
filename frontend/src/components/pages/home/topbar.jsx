@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 export default function Topbar() {
   return (
-    <div className="text-xs md:text-sm p-2 flex flex-col md:flex-row justify-center md:justify-around items-center gap-2 md:gap-0 border-b">
+    <div className="hidden md:flex text-xs md:text-sm p-2 flex-col md:flex-row justify-center md:justify-around items-center gap-2 md:gap-0 border-b">
       <div className="text-gray-500 flex flex-wrap justify-center gap-2 md:gap-0">
         <Link className="md:ml-4 hover:text-primary transition" href='/about'>About Us</Link>
         <Link className="md:ml-4 hover:text-primary transition" href='/account'>My Account</Link>
