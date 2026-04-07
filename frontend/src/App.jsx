@@ -4,6 +4,7 @@ import NavbarBtn from './components/navbarBtn.jsx'
 import { Recycle } from 'lucide-react'
 import CategoryEntry from './components/categoryEntry.jsx'
 import CategoryCard from './components/categoryCard.jsx'
+import ProductCard from './components/productCard.jsx'
 
 function App() {
 
@@ -16,6 +17,8 @@ function App() {
       <CategoryCard title='Category' >
         <CategoryEntry icon={<Recycle />} text='compare' number='4' link='https://ritish.site' />
       </CategoryCard>
+
+      <ProductCard image='' category='Fresh Food' name='Organic Red Rice' rating={4} brand="NestFood" price={200} discount={5} />
 
 
 
