@@ -55,7 +55,7 @@ export default function ImageSlider({ slides = [], interval = 3000 }) {
 
   return (
     <div
-      className="relative w-full h-[70vh] overflow-hidden rounded-xl group"
+      className="relative w-full h-[40vh] md:h-[60vh] lg:h-[70vh] overflow-hidden rounded-xl group"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onTouchStart={handleTouchStart}   // FIX 2: swipe support
@@ -100,14 +100,14 @@ export default function ImageSlider({ slides = [], interval = 3000 }) {
           <button
             onClick={goPrev}
             aria-label="Previous slide" // FIX 3: aria-label on arrow buttons
-            className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/40 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition hover:bg-black/60"
+            className="absolute left-2 md:left-3 top-1/2 -translate-y-1/2 w-7 h-7 md:w-9 md:h-9 rounded-full bg-black/40 text-white flex items-center justify-center opacity-0 md:opacity-0 group-hover:opacity-100 touch:opacity-100 transition hover:bg-black/60 text-lg md:text-xl"
           >
             ‹
           </button>
           <button
             onClick={goNext}
             aria-label="Next slide" // FIX 3: aria-label on arrow buttons
-            className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/40 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition hover:bg-black/60"
+            className="absolute right-2 md:right-3 top-1/2 -translate-y-1/2 w-7 h-7 md:w-9 md:h-9 rounded-full bg-black/40 text-white flex items-center justify-center opacity-0 md:opacity-0 group-hover:opacity-100 touch:opacity-100 transition hover:bg-black/60 text-lg md:text-xl"
           >
             ›
           </button>
