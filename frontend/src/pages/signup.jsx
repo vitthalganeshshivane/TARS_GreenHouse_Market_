@@ -1,14 +1,22 @@
+import { useState } from "react";
 import AuthShell from "@/components/auth/AuthShell";
 import AuthNavbar from "@/components/auth/AuthNavbar";
 import AuthFooter from "@/components/auth/AuthFooter";
 import AuthCard from "@/components/auth/AuthCard";
+import OTPVerificationModal from "@/components/auth/OTPVerificationModal";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Link } from "react-router-dom";
-import { Check, Eye } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Check, Eye, EyeOff } from "lucide-react";
 
 export default function Signup() {
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [showOTPModal, setShowOTPModal] = useState(false);
+
   return (
     <AuthShell>
       <AuthNavbar showLoginLink />
@@ -20,9 +28,9 @@ export default function Signup() {
             <div className="relative hidden min-h-[620px] overflow-hidden bg-gradient-to-br from-[#dff4ef] via-[#b8e6ca] to-[#4cc487] p-8 lg:block xl:p-10">
               <div className="max-w-[560px]">
                 <h1 className="text-5xl leading-[1.03] font-extrabold tracking-tight text-slate-950 xl:text-6xl">
-                  Experience the <span className="text-emerald-700">Peak</span>
+                  Experience the <span className="text-emerald-700">Peak of</span>
                   <br />
-                  of <span className="text-emerald-700">Freshness</span> in Every
+                   <span className="text-emerald-700">Freshness</span> in Every
                   <br />
                   Bite.
                 </h1>
@@ -32,11 +40,11 @@ export default function Signup() {
                 </p>
               </div>
 
-              <div className="absolute bottom-0 right-0 w-[60%] max-w-[500px]">
+              <div className="absolute bottom-0 right-0 w-[70%] max-w-[500px]">
                 <img
                   src="https://images.unsplash.com/photo-1610348725531-843dff563e2c?q=80&w=1400&auto=format&fit=crop"
                   alt="Vegetables"
-                  className="h-[320px] w-full rounded-tl-[28px] object-cover shadow-2xl [clip-path:polygon(18%_0,100%_14%,100%_100%,0_100%)]"
+                  className="h-[360px] w-full rounded-tl-[28px] object-cover shadow-2xl [clip-path:polygon(18%_0,100%_14%,100%_100%,0_100%)]"
                 />
               </div>
 
@@ -59,7 +67,7 @@ export default function Signup() {
                   </div>
                 </div>
                 <p className="mt-4 text-sm text-emerald-950/85 xl:text-base">
-                  Trusted by 12,000+ local foodies
+                  Trusted by <span className="font-bold">12,000+ local foodies</span>
                 </p>
               </div>
             </div>
@@ -87,21 +95,48 @@ export default function Signup() {
                   <div className="relative">
                     <Input
                       placeholder="hello@greenhouse.com"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       className="h-12 rounded-xl border-slate-200 px-4 pr-11 text-sm sm:text-base"
                     />
-                    <Check className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-emerald-600" />
+                    <Check
+                      className={`absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 ${
+                        isEmailVerified ? "text-emerald-600" : "text-slate-300"
+                      }`}
+                    />
                   </div>
+                  {email && !isEmailVerified && (
+                    <button
+                      type="button"
+                      onClick={() => setShowOTPModal(true)}
+                      className="mt-3 h-10 w-full rounded-xl border border-emerald-700 bg-emerald-50 text-sm font-semibold text-emerald-700 hover:bg-emerald-100 transition"
+                    >
+                      Send OTP
+                    </button>
+                  )}
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-semibold text-slate-700">Password</label>
                   <div className="relative">
                     <Input
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       placeholder="••••••••"
                       className="h-12 rounded-xl border-slate-200 px-4 pr-11 text-sm sm:text-base"
                     />
-                    <Eye className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                    <button
+                      type="button"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </button>
                   </div>
 
                   <div className="flex items-center gap-3 pt-1">
@@ -138,11 +173,18 @@ export default function Signup() {
                   </p>
                 </div>
 
-                <Button className="h-12 w-full rounded-full bg-gradient-to-r from-emerald-700 to-emerald-400 text-base font-semibold text-white shadow-[0_12px_24px_rgba(16,185,129,0.26)] hover:opacity-95 sm:h-[52px]">
+                <Button className="h-12 w-full rounded-full bg-gradient-to-r from-emerald-700 to-emerald-400 text-base font-semibold text-white shadow-[0_12px_24px_rgba(16,185,129,0.26)] hover:opacity-95 sm:h-[52px]"
+                disabled={!isEmailVerified}
+                onClick={() => navigate("/success")}
+                style={{
+                  opacity: isEmailVerified ? 1 : 0.5,
+                  cursor: isEmailVerified ? "pointer" : "not-allowed",
+                }}
+                >
                   Create Account
                 </Button>
 
-                <div className="flex items-center gap-3 py-1">
+                {/* <div className="flex items-center gap-3 py-1">
                   <div className="h-px flex-1 bg-slate-200" />
                   <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-slate-500 sm:text-xs">
                     Or sign up with
@@ -159,13 +201,23 @@ export default function Signup() {
                     <span>🍎</span>
                     Apple
                   </button>
-                </div>
+                </div> */}
               </div>
               </AuthCard>
             </div>
           </div>
         </section>
       </main>
+
+      <OTPVerificationModal
+        isOpen={showOTPModal}
+        onClose={() => setShowOTPModal(false)}
+        onVerify={() => {
+          setIsEmailVerified(true);
+          setShowOTPModal(false);
+        }}
+        email={email}
+      />
 
       <AuthFooter />
     </AuthShell>

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import AuthShell from "@/components/auth/AuthShell";
 import AuthNavbar from "@/components/auth/AuthNavbar";
 import AuthCard from "@/components/auth/AuthCard";
@@ -5,9 +6,11 @@ import AuthFooter from "@/components/auth/AuthFooter";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Leaf, Mail, Lock, Eye } from "lucide-react";
+import { Leaf, Mail, Lock, Eye, EyeOff } from "lucide-react";
 
 export default function Login() {
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <AuthShell>
       <AuthNavbar />
@@ -40,7 +43,8 @@ export default function Login() {
                 <img
                   src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1200&auto=format&fit=crop"
                   alt="Fresh vegetables"
-                  className="h-[320px] w-full rounded-tl-[28px] object-cover shadow-2xl [clip-path:polygon(18%_0,100%_14%,100%_100%,0_100%)]"
+                  className="h-[300px] w-full rounded-tl-[28px] object-cover shadow-2xl [clip-path:polygon(18%_0,100%_14%,100%_100%,0_100%)]"
+                  //h-320 (previous)
                 />
               </div>
 
@@ -108,11 +112,22 @@ export default function Login() {
                     <div className="relative">
                       <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                       <Input
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         placeholder="••••••••"
                         className="h-12 rounded-xl border-slate-200 pl-10 pr-10 text-sm sm:text-base"
                       />
-                      <Eye className="absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                      <button
+                        type="button"
+                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        aria-label={showPassword ? "Hide password" : "Show password"}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </button>
                     </div>
                   </div>
 
@@ -120,7 +135,7 @@ export default function Login() {
                     Login
                   </Button>
 
-                  <div className="flex items-center gap-3 py-1">
+                  {/* <div className="flex items-center gap-3 py-1">
                     <div className="h-px flex-1 bg-slate-200" />
                     <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-slate-500 sm:text-xs">
                       Or continue with
@@ -132,13 +147,14 @@ export default function Login() {
                     <span className="text-base sm:text-lg">G</span>
                     Sign in with Google
                   </button>
+                  */}
 
                   <p className="pt-2 text-center text-sm text-slate-700 sm:text-base">
                     Don&apos;t have an account?{" "}
                     <Link to="/signup" className="font-semibold text-emerald-700 hover:underline">
                       Sign Up
                     </Link>
-                  </p>
+                  </p> 
                 </div>
               </AuthCard>
             </div>

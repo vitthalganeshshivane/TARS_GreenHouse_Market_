@@ -11,7 +11,6 @@ import { Recycle } from 'lucide-react'
 import CategoryEntry from './components/categoryEntry.jsx'
 import CategoryCard from './components/categoryCard.jsx'
 import ProductCard from './components/productCard.jsx'
-import Navbar from './components/navbar.jsx'
 import Topbar from './components/pages/home/topbar.jsx'
 
 function App() {
