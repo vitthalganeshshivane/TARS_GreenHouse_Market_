@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 export default function Topbar() {
   return (
-    <div className="flex justify-around border-b">
+    <div className="text-sm p-2 flex justify-around border-b">
       <div className="text-gray-500 flex">
         <Link className="ml-4" href='/about'>About Us</Link>
         <Link className="ml-4" href='/account'>My Account</Link>

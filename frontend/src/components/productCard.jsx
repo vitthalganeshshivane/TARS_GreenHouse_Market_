@@ -22,7 +22,7 @@ function countDiscount(price, discount) {
 
 export default function ProductCard({ image, category, name, rating, ratingCount, brand, price, discount, sale, className }) {
   return (
-    <div className={cn("shadow-sm flex justify-center items-center flex-col w-60 rounded-md border p-2 relative", className)}>
+    <div className={cn("shadow-sm flex justify-center items-center flex-col w-60 rounded-xl border p-2 relative", className)}>
       <span className="rounded-tl-xl rounded-br-xl absolute top-0 left-0 bg-green-500 text-white px-5 py-1">{discount}%</span>
       {sale && <span className="rounded-tr-xl rounded-bl-xl absolute top-0 right-0 bg-blue-400 text-white px-5 py-1">Sale</span>}
 

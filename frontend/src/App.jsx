@@ -13,6 +13,8 @@ import CategoryCard from './components/categoryCard.jsx'
 import ProductCard from './components/productCard.jsx'
 import Topbar from './components/pages/home/topbar.jsx'
 import Navbar from './components/pages/home/navbar.jsx'
+import ImageSlider from './components/imageSlider.jsx'
+import PopularProduct from './components/pages/home/popularProduct.jsx'
 
 function App() {
 
@@ -20,17 +22,23 @@ function App() {
     <div>
 
       <Routes>
-        <Route path='/' element={<Navigate to='/signup' replace />} />
+        {/* <Route path='/' element={<Navigate to='/signup' replace />} /> */}
         <Route path='/signup' element={<Signup />} />
         <Route path='/login' element={<Login />} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/verify' element={<VerifyOTP />} />
         <Route path='/success' element={<Success />} />
-        <Route path='*' element={<Navigate to='/signup' replace />} />
+        {/* <Route path='*' element={<Navigate to='/signup' replace />} /> */}
       </Routes>
-      <div className='bg-background'>
+      <div className='bg-white'>
         <Topbar />
         <Navbar />
+        <div className='p-2'>
+          <ImageSlider slides={[{ href: 'ritish.site', src: 'https://static.vecteezy.com/system/resources/thumbnails/004/948/401/small/organic-shop-poster-finished-design-trolley-with-vegetables-vector.jpg' }, { href: 'ritish.site', src: 'https://static.vecteezy.com/system/resources/thumbnails/004/948/401/small/organic-shop-poster-finished-design-trolley-with-vegetables-vector.jpg' }, { href: 'ritish.site', src: 'https://static.vecteezy.com/system/resources/thumbnails/004/948/401/small/organic-shop-poster-finished-design-trolley-with-vegetables-vector.jpg' }]} />
+        </div>
+
+        <PopularProduct />
+
       </div>
     </div>
   )
@@ -56,3 +64,15 @@ export default App
 //
 //
 // </>
+//
+// <CategoryCard title='Category' >
+//   <CategoryEntry icon={<Recycle />} text='compare' number='4' link='https://ritish.site' />
+// </CategoryCard>
+//
+// <div className='flex gap-5'>
+//
+//   <ProductCard image='https://www.sirimart.in/wp-content/uploads/2023/12/Organic_Red_Rice.jpg' ratingCount={20} category='Fresh Food' name='Organic Red Rice' rating={4} brand="NestFood" price={200} discount={5} sale={true} />
+//   <ProductCard image='https://www.sirimart.in/wp-content/uploads/2023/12/Organic_Red_Rice.jpg' ratingCount={20} category='Fresh Food' name='Organic Red Rice' rating={4} brand="NestFood" price={200} discount={5} sale={true} />
+//   <ProductCard image='https://www.sirimart.in/wp-content/uploads/2023/12/Organic_Red_Rice.jpg' ratingCount={20} category='Fresh Food' name='Organic Red Rice' rating={4} brand="NestFood" price={200} discount={5} sale={true} />
+//   <ProductCard image='https://www.sirimart.in/wp-content/uploads/2023/12/Organic_Red_Rice.jpg' ratingCount={20} category='Fresh Food' name='Organic Red Rice' rating={4} brand="NestFood" price={200} discount={5} sale={true} />
+// </div>
