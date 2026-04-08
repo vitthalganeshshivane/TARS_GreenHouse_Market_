@@ -7,7 +7,7 @@ import {
   verifyOtpController,
 } from "../controllers/authControllers.js";
 const router = express.Router();
-import { protect } from "../middleware/authMiddleware.js";
+import { protect } from "../middleware/auth.middleware.js";
 
 router.post("/send-otp", sendOtpController);
 router.post("/verify-otp", verifyOtpController);
