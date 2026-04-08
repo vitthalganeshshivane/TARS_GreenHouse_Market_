@@ -60,8 +60,11 @@ export default function Home() {
       <Cta />
 
 
-      <div>
-        <ChooseUsComponent icon='/bpo.png' />
+      <div className="flex flex-wrap justify-between gap-2 w-full px-4 md:px-8 lg:px-12 py-6">
+        <ChooseUsComponent icon='/bpo.png' heading='Best Prices & offers' subHeading='Orders 100 rs or more' />
+        <ChooseUsComponent icon='/bpo.png' heading='Best Prices & offers' subHeading='Orders 100 rs or more' />
+        <ChooseUsComponent icon='/bpo.png' heading='Best Prices & offers' subHeading='Orders 100 rs or more' />
+        <ChooseUsComponent icon='/bpo.png' heading='Best Prices & offers' subHeading='Orders 100 rs or more' />
       </div>
       <Footer />
 

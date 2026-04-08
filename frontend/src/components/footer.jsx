@@ -125,7 +125,7 @@ const ContactItem = ({ icon, children }) => (
 // ---------- Main ----------
 export default function Footer() {
   return (
-    <footer className="bg-white border-t">
+    <footer className="bg-white ">
       {/* Top */}
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 py-10">
         <div className="grid gap-8 
