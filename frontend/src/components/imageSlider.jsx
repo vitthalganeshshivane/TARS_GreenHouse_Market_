@@ -82,7 +82,7 @@ export default function ImageSlider({ slides = [], interval = 3000 }) {
               <img
                 src={slide.src}
                 alt={slide.alt || `Slide ${index + 1}`} // FIX 3: use slide.alt if provided
-                className="w-full h-full object-cover cursor-pointer"
+                className="w-full h-full object-contain cursor-pointer"
                 draggable={false}
                 loading={index === 0 ? "eager" : "lazy"}
               />
@@ -129,8 +129,8 @@ export default function ImageSlider({ slides = [], interval = 3000 }) {
               aria-selected={current === index}              // FIX 3: selected state
               aria-label={`Go to slide ${index + 1}`}       // FIX 3: descriptive label
               className={`h-1.5 rounded-full transition-all duration-300 ${current === index
-                  ? "w-5 bg-white"
-                  : "w-1.5 bg-white/50 hover:bg-white/75"
+                ? "w-5 bg-white"
+                : "w-1.5 bg-white/50 hover:bg-white/75"
                 }`}
             />
           ))}

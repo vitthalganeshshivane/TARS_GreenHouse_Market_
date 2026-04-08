@@ -26,12 +26,12 @@ function handleAdd() {
 
 export default function ProductCard({ image, category, name, rating, ratingCount, brand, price, discount, sale, className }) {
   return (
-    <div className={cn("md:shadow-sm relative flex justify-center items-center flex-col w-32 md:w-60 rounded-xl md:border p-2 ", className)}>
+    <div className={cn("relative flex justify-center items-center flex-col w-32 md:w-62 rounded-xl md:border p-2 ", className)}>
 
       <span className="rounded-tl-xl rounded-br-xl absolute top-0 left-0 bg-green-500 text-white px-5 py-1 hidden md:inline">{discount}%</span>
       {sale && <span className="rounded-tr-xl rounded-bl-xl absolute top-0 right-0 bg-blue-400 text-white px-5 py-1  hidden md:inline">Sale</span>}
 
-      <div className="relative rounded-xl md:border-2 w-full md:w-40 md:m-10">
+      <div className="relative rounded-xl  w-full md:w-40 md:m-10">
         <img src={image} alt={image} className="w-full overflow-hidden rounded-xl" />
 
         <Button onClick={handleAdd} variant="outline" className='absolute border border-green-200 rounded-sm text-green-800 block md:hidden -bottom-1 -right-1'><span>Add</span></Button>

@@ -16,6 +16,7 @@ import Navbar from './components/pages/home/navbar.jsx'
 import ImageSlider from './components/imageSlider.jsx'
 import PopularProduct from './components/pages/home/popularProduct.jsx'
 import DealsOfDay from './components/pages/home/dealsOfDay.jsx'
+import AdverseComponent from './components/adverseComponent.jsx'
 
 function Home() {
   return (
@@ -36,6 +37,9 @@ function Home() {
 
       <DealsOfDay />
 
+      <div className='m-20 flex gap-2'>
+        <AdverseComponent image='adverse.jpeg' text='EveryDay Fresh & Clean' link='link' />
+      </div>
 
 
     </div>

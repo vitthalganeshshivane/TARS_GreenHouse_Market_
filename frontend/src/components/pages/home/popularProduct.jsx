@@ -21,7 +21,7 @@ export default function PopularProduct() {
           <div className="flex flex-wrap gap-0 justify-around md:gap-6">
 
             <ProductCard
-              image='https://www.sirimart.in/wp-content/uploads/2023/12/Organic_Red_Rice.jpg'
+              image='adverse.jpeg'
               ratingCount={20}
               category='Fresh Food'
               name='Organic Red Rice'
@@ -33,7 +33,7 @@ export default function PopularProduct() {
             />
 
             <ProductCard
-              image='https://www.sirimart.in/wp-content/uploads/2023/12/Organic_Red_Rice.jpg'
+              image='adverse.jpeg'
               ratingCount={20}
               category='Fresh Food'
               name='Organic Red Rice'
@@ -45,7 +45,7 @@ export default function PopularProduct() {
             />
 
             <ProductCard
-              image='https://www.sirimart.in/wp-content/uploads/2023/12/Organic_Red_Rice.jpg'
+              image='adverse.jpeg'
               ratingCount={20}
               category='Fresh Food'
               name='Organic Red Rice'
@@ -57,7 +57,7 @@ export default function PopularProduct() {
             />
 
             <ProductCard
-              image='https://www.sirimart.in/wp-content/uploads/2023/12/Organic_Red_Rice.jpg'
+              image='adverse.jpeg'
               ratingCount={20}
               category='Fresh Food'
               name='Organic Red Rice'
@@ -69,7 +69,7 @@ export default function PopularProduct() {
             />
 
             <ProductCard
-              image='https://www.sirimart.in/wp-content/uploads/2023/12/Organic_Red_Rice.jpg'
+              image='adverse.jpeg'
               ratingCount={20}
               category='Fresh Food'
               name='Organic Red Rice'
@@ -81,7 +81,7 @@ export default function PopularProduct() {
             />
 
             <ProductCard
-              image='https://www.sirimart.in/wp-content/uploads/2023/12/Organic_Red_Rice.jpg'
+              image='adverse.jpeg'
               ratingCount={20}
               category='Fresh Food'
               name='Organic Red Rice'
@@ -93,7 +93,7 @@ export default function PopularProduct() {
             />
 
             <ProductCard
-              image='https://www.sirimart.in/wp-content/uploads/2023/12/Organic_Red_Rice.jpg'
+              image='adverse.jpeg'
               ratingCount={20}
               category='Fresh Food'
               name='Organic Red Rice'
@@ -105,7 +105,7 @@ export default function PopularProduct() {
             />
 
             <ProductCard
-              image='https://www.sirimart.in/wp-content/uploads/2023/12/Organic_Red_Rice.jpg'
+              image='adverse.jpeg'
               ratingCount={20}
               category='Fresh Food'
               name='Organic Red Rice'
@@ -117,7 +117,7 @@ export default function PopularProduct() {
             />
 
             <ProductCard
-              image='https://www.sirimart.in/wp-content/uploads/2023/12/Organic_Red_Rice.jpg'
+              image='adverse.jpeg'
               ratingCount={20}
               category='Fresh Food'
               name='Organic Red Rice'
@@ -129,7 +129,7 @@ export default function PopularProduct() {
             />
 
             <ProductCard
-              image='https://www.sirimart.in/wp-content/uploads/2023/12/Organic_Red_Rice.jpg'
+              image='adverse.jpeg'
               ratingCount={20}
               category='Fresh Food'
               name='Organic Red Rice'
@@ -141,7 +141,7 @@ export default function PopularProduct() {
             />
 
             <ProductCard
-              image='https://www.sirimart.in/wp-content/uploads/2023/12/Organic_Red_Rice.jpg'
+              image='adverse.jpeg'
               ratingCount={20}
               category='Fresh Food'
               name='Organic Red Rice'
@@ -153,7 +153,7 @@ export default function PopularProduct() {
             />
 
             <ProductCard
-              image='https://www.sirimart.in/wp-content/uploads/2023/12/Organic_Red_Rice.jpg'
+              image='adverse.jpeg'
               ratingCount={20}
               category='Fresh Food'
               name='Organic Red Rice'
