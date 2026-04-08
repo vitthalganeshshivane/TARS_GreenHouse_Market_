@@ -13,26 +13,55 @@ import CategoryCard from "./components/categoryCard.jsx";
 import ProductCard from "./components/productCard.jsx";
 import Topbar from "./components/pages/home/topbar.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
+import PublicRoute from "./routes/PublicRoute.jsx";
 import Home from "./pages/home.jsx";
+import { useAuth } from "./hooks/useAuth.js";
+
+function RootRedirect() {
+  const { user, loading } = useAuth();
+
+  if (loading) return <p>Loading...</p>;
+
+  return user ? (
+    <Navigate to="/home" replace />
+  ) : (
+    <Navigate to="/login" replace />
+  );
+}
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/signup" replace />} />
+      {/* <Route path="/" element={<Navigate to="/signup" replace />} /> */}
+      <Route path="/" element={<RootRedirect />} />
       <Route
-        path="/dashboard"
+        path="/home"
         element={
           <ProtectedRoute>
             <Home />
           </ProtectedRoute>
         }
       />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/login" element={<Login />} />
+      <Route
+        path="/signup"
+        element={
+          // <PublicRoute>
+          <Signup />
+          // </PublicRoute>
+        }
+      />
+      <Route
+        path="/login"
+        element={
+          // <PublicRoute>
+          <Login />
+          // </PublicRoute>
+        }
+      />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/verify" element={<VerifyOTP />} />
       <Route path="/success" element={<Success />} />
-      <Route path="*" element={<Navigate to="/signup" replace />} />
+      {/* <Route path="*" element={<Navigate to="/signup" replace />} /> */}
     </Routes>
   );
 }

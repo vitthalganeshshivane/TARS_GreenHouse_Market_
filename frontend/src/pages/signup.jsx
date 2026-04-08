@@ -51,7 +51,7 @@ export default function Signup() {
         password,
       });
 
-      navigate("/dashboard");
+      navigate("/home");
     } catch (error) {
       alert(error.response?.data?.message || "Signup failed");
     }
