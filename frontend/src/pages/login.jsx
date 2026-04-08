@@ -2,14 +2,49 @@ import { useState } from "react";
 import AuthShell from "@/components/auth/AuthShell";
 import AuthNavbar from "@/components/auth/AuthNavbar";
 import AuthCard from "@/components/auth/AuthCard";
-import AuthFooter from "@/components/auth/AuthFooter";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Leaf, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const [emailOrPhone, setEmailOrPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    try {
+      setLoading(true);
+
+      const payload = {
+        password,
+      };
+
+      if (emailOrPhone.includes("@")) {
+        payload.email = emailOrPhone;
+      } else {
+        payload.phone = emailOrPhone;
+      }
+
+      await login(payload);
+
+      navigate("/home");
+    } catch (error) {
+      console.error(error);
+
+      const message = error.response?.data?.message || "Login failed";
+
+      alert(message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <AuthShell>
@@ -35,7 +70,8 @@ export default function Login() {
                 </h1>
 
                 <p className="mt-4 text-base leading-8 text-slate-700 xl:text-lg">
-                  Sustainably sourced groceries from local greenhouses to your kitchen.
+                  Sustainably sourced groceries from local greenhouses to your
+                  kitchen.
                 </p>
               </div>
 
@@ -92,6 +128,8 @@ export default function Login() {
                       <Mail className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                       <Input
                         placeholder="hello@example.com"
+                        value={emailOrPhone}
+                        onChange={(e) => setEmailOrPhone(e.target.value)}
                         className="h-12 rounded-xl border-slate-200 pl-10 text-sm sm:text-base"
                       />
                     </div>
@@ -114,13 +152,17 @@ export default function Login() {
                       <Input
                         type={showPassword ? "text" : "password"}
                         placeholder="••••••••"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         className="h-12 rounded-xl border-slate-200 pl-10 pr-10 text-sm sm:text-base"
                       />
                       <button
                         type="button"
                         className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
                         onClick={() => setShowPassword((prev) => !prev)}
-                        aria-label={showPassword ? "Hide password" : "Show password"}
+                        aria-label={
+                          showPassword ? "Hide password" : "Show password"
+                        }
                       >
                         {showPassword ? (
                           <EyeOff className="h-4 w-4" />
@@ -131,8 +173,12 @@ export default function Login() {
                     </div>
                   </div>
 
-                  <Button className="h-12 w-full rounded-full bg-gradient-to-r from-emerald-700 to-emerald-400 text-base font-semibold text-white shadow-[0_12px_24px_rgba(16,185,129,0.28)] hover:opacity-95 sm:h-[52px]">
-                    Login
+                  <Button
+                    onClick={handleLogin}
+                    disabled={loading}
+                    className="h-12 w-full rounded-full bg-gradient-to-r from-emerald-700 to-emerald-400 text-base font-semibold text-white shadow-[0_12px_24px_rgba(16,185,129,0.28)] hover:opacity-95 sm:h-[52px]"
+                  >
+                    {loading ? "Logging in..." : "Login"}
                   </Button>
 
                   {/* <div className="flex items-center gap-3 py-1">
@@ -151,10 +197,13 @@ export default function Login() {
 
                   <p className="pt-2 text-center text-sm text-slate-700 sm:text-base">
                     Don&apos;t have an account?{" "}
-                    <Link to="/signup" className="font-semibold text-emerald-700 hover:underline">
+                    <Link
+                      to="/signup"
+                      className="font-semibold text-emerald-700 hover:underline"
+                    >
                       Sign Up
                     </Link>
-                  </p> 
+                  </p>
                 </div>
               </AuthCard>
             </div>
