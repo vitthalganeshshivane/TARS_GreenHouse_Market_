@@ -4,6 +4,7 @@ import Navbar from "../components/pages/home/navbar.jsx";
 import ImageSlider from "../components/imageSlider.jsx";
 import PopularProduct from "../components/pages/home/popularProduct.jsx";
 import DealsOfDay from "../components/dealsOfDayComponent.jsx";
+import Banner from "../assets/banner.png";
 
 export default function Home() {
   const { user, loading } = useAuth();
@@ -17,20 +18,17 @@ export default function Home() {
       <Topbar />
       <Navbar />
 
-      <div className="px-2 sm:px-4 md:px-6 lg:px-8 py-2 md:py-4">
+      <div>
         <ImageSlider
           slides={[
             {
-              href: "ritish.site",
-              src: "https://static.vecteezy.com/system/resources/thumbnails/004/948/401/small/organic-shop-poster-finished-design-trolley-with-vegetables-vector.jpg",
+              src: Banner,
             },
             {
-              href: "ritish.site",
-              src: "https://static.vecteezy.com/system/resources/thumbnails/004/948/401/small/organic-shop-poster-finished-design-trolley-with-vegetables-vector.jpg",
+              src: Banner,
             },
             {
-              href: "ritish.site",
-              src: "https://static.vecteezy.com/system/resources/thumbnails/004/948/401/small/organic-shop-poster-finished-design-trolley-with-vegetables-vector.jpg",
+              src: Banner,
             },
           ]}
         />
