@@ -1,4 +1,4 @@
-import { Button } from "./ui/button"
+import { Button } from "@/components/ui/button"
 import { Link, useNavigate } from "react-router"
 
 import { cn } from "@/lib/utils"

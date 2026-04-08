@@ -1,6 +1,6 @@
 import { MoveRight } from "lucide-react";
-import { useDeviceType } from "../../../lib/device";
-import DealsOfDayComponent from "../../dealsOfDayComponent";
+import { useDeviceType } from "@/lib/device";
+import DealsOfDayComponent from "../../common/dealsOfDayComponent";
 import { Button } from "../../ui/button";
 
 export default function DealsOfDay() {

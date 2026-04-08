@@ -1,6 +1,6 @@
 import { MoveRight, MoveLeft } from "lucide-react";
 import { Button } from "../../ui/button";
-import ShopByCategoryCard from "../../shopByCategoryCard";
+import ShopByCategoryCard from "../../common/shopByCategoryCard";
 
 export default function ShopByCategory() {
   return (

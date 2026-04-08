@@ -1,4 +1,4 @@
-import AdverseComponent from "../../adverseComponent"
+import AdverseComponent from "../../common/adverseComponent"
 
 export default function Advertisement() {
   return (

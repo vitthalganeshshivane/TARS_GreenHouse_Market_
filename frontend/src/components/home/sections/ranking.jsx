@@ -1,5 +1,5 @@
-import CategoryCard from "../../categoryCard"
-import ProductCardHorizontal from "../../productCardHorizontal"
+import CategoryCard from "../../common/categoryCard"
+import ProductCardHorizontal from "../../product/productCardHorizontal"
 
 export default function Ranking() {
   return (

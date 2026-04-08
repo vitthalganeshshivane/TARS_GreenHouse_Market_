@@ -1,4 +1,4 @@
-import SearchProduct from "../../searchProduct";
+import SearchProduct from "../product/searchProduct";
 import { Button } from "@/components/ui/button";
 import {
   ArrowRight,
@@ -11,9 +11,9 @@ import {
   PhoneCall,
   Menu,
 } from "lucide-react";
-import NavbarBtn from "../../navbarBtn";
+import NavbarBtn from "./navbarBtn";
 import { Link } from "react-router";
-import { useDeviceType } from "../../../lib/device";
+import { useDeviceType } from "@/lib/device";
 import { Navigations } from "./navigation";
 import { useState } from "react";
 import Sidebar from "./sidebar";

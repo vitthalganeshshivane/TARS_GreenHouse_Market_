@@ -1,8 +1,8 @@
 import { Recycle } from "lucide-react"
-import CategoryCard from "../../categoryCard"
-import CategoryEntry from "../../categoryEntry"
-import ProductCard from "../../productCard"
-import Tags from "../../tags"
+import CategoryCard from "../../common/categoryCard"
+import CategoryEntry from "../../common/categoryEntry"
+import ProductCard from "../../product/productCard"
+import Tags from "../../common/tags"
 import DealsOfDay from "./dealsOfDay"
 
 export default function PopularProduct() {

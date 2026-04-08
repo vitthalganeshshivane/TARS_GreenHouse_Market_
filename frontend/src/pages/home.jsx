@@ -1,16 +1,16 @@
 import { useAuth } from "../hooks/useAuth";
-import Topbar from "../components/pages/home/topbar.jsx";
-import Navbar from "../components/pages/home/navbar.jsx";
-import ImageSlider from "../components/imageSlider.jsx";
-import PopularProduct from "../components/pages/home/popularProduct.jsx";
-import DealsOfDay from "../components/pages/home/dealsOfDay.jsx";
-import Advertisement from "../components/pages/home/advertisement.jsx";
-import ShopByCategory from "../components/pages/home/shopByCategory.jsx";
-import Ranking from "../components/pages/home/ranking.jsx";
-import Cta from "../components/pages/home/cta.jsx";
+import Topbar from "../components/layout/topbar.jsx";
+import Navbar from "../components/layout/navbar.jsx";
+import ImageSlider from "../components/common/imageSlider.jsx";
+import PopularProduct from "../components/home/sections/popularProduct.jsx";
+import DealsOfDay from "../components/home/sections/dealsOfDay.jsx";
+import Advertisement from "../components/home/sections/advertisement.jsx";
+import ShopByCategory from "../components/home/sections/shopByCategory.jsx";
+import Ranking from "../components/home/sections/ranking.jsx";
+import Cta from "../components/home/sections/cta.jsx";
 import Banner from "../assets/banner.png";
-import Footer from "../components/footer.jsx";
-import ChooseUsComponent from "../components/chooseUsComponent.jsx";
+import Footer from "../components/layout/footer.jsx";
+import ChooseUsComponent from "../components/common/chooseUsComponent.jsx";
 
 export default function Home() {
   const { user, loading } = useAuth();
