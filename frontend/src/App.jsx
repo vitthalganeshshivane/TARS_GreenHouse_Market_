@@ -16,6 +16,7 @@ import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 import PublicRoute from "./routes/PublicRoute.jsx";
 import Home from "./pages/home.jsx";
 import { useAuth } from "./hooks/useAuth.js";
+import Product from "./pages/product.jsx";
 
 function RootRedirect() {
   const { user, loading } = useAuth();
@@ -61,6 +62,15 @@ function App() {
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/verify" element={<VerifyOTP />} />
       <Route path="/success" element={<Success />} />
+
+      <Route
+        path="/product"
+        element={
+          <ProtectedRoute>
+            <Product />
+          </ProtectedRoute>
+        }
+      />
       {/* <Route path="*" element={<Navigate to="/signup" replace />} /> */}
     </Routes>
   );

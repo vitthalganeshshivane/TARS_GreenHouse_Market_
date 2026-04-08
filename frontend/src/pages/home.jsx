@@ -20,18 +20,17 @@ export default function Home() {
   if (!user) return <p>Unauthorized</p>;
 
   return (
-    <div className='bg-white min-h-screen'>
-      <div className="border ">
+    <div className="bg-white min-h-screen">
+      <div>
         <div className="px-30">
           <Topbar />
         </div>
         <div className="px-10 md:px-30 ">
-
           <Navbar />
         </div>
       </div>
 
-      <div className='px-2 sm:px-4 md:px-6 lg:px-8 py-2 md:py-4'>
+      <div className="px-2 sm:px-4 md:px-6 lg:px-8 py-2 md:py-4">
         <ImageSlider
           slides={[
             {
@@ -49,7 +48,6 @@ export default function Home() {
 
       <PopularProduct />
 
-
       <DealsOfDay />
 
       <Advertisement />
@@ -59,16 +57,29 @@ export default function Home() {
       <Ranking />
       <Cta />
 
-
       <div className="flex flex-wrap justify-between gap-2 w-full px-4 md:px-8 lg:px-12 py-6">
-        <ChooseUsComponent icon='/bpo.png' heading='Best Prices & offers' subHeading='Orders 100 rs or more' />
-        <ChooseUsComponent icon='/bpo.png' heading='Best Prices & offers' subHeading='Orders 100 rs or more' />
-        <ChooseUsComponent icon='/bpo.png' heading='Best Prices & offers' subHeading='Orders 100 rs or more' />
-        <ChooseUsComponent icon='/bpo.png' heading='Best Prices & offers' subHeading='Orders 100 rs or more' />
+        <ChooseUsComponent
+          icon="/bpo.png"
+          heading="Best Prices & offers"
+          subHeading="Orders 100 rs or more"
+        />
+        <ChooseUsComponent
+          icon="/bpo.png"
+          heading="Best Prices & offers"
+          subHeading="Orders 100 rs or more"
+        />
+        <ChooseUsComponent
+          icon="/bpo.png"
+          heading="Best Prices & offers"
+          subHeading="Orders 100 rs or more"
+        />
+        <ChooseUsComponent
+          icon="/bpo.png"
+          heading="Best Prices & offers"
+          subHeading="Orders 100 rs or more"
+        />
       </div>
       <Footer />
-
     </div>
   );
 }
-

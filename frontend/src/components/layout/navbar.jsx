@@ -57,9 +57,9 @@ export default function Navbar() {
       </nav>
 
       {/* BOTTOM NAV */}
-      <nav className="w-full border-t border-gray-200 py-2 flex flex-col lg:flex-row items-center justify-between gap-3">
+      <nav className="w-full border-t border-gray-200 py-2 flex  lg:flex-row items-center justify-between gap-3">
         {/* LEFT */}
-        <div className="flex items-center gap-3 md:gap-6 w-full lg:w-auto overflow-x-auto scrollbar-hide">
+        <div className="flex items-center gap-3 md:gap-6 lg:w-auto overflow-x-auto scrollbar-hide">
           <Button className="bg-green-500 text-white flex items-center gap-2 px-3 md:px-4 py-2 text-xs md:text-sm whitespace-nowrap">
             <Grid className="w-4 h-4" />
             Browse All Categories
@@ -73,9 +73,9 @@ export default function Navbar() {
             Hot Deals
           </Link>
 
-          <div className="hidden xl:block">
-            <Navigations />
-          </div>
+          {/* <div className="hidden xl:block"> */}
+          {/*   <Navigations /> */}
+          {/* </div> */}
         </div>
 
         {/* RIGHT */}
@@ -125,6 +125,9 @@ export default function Navbar() {
     <>
       <Sidebar isOpen={sideBar} onClose={() => setSideBar(false)} />
       {isDesktop ? desktop : mobile}
+      <div className=" justify-center hidden md:flex">
+            <Navigations />
+      </div>
     </>
   );
 }
