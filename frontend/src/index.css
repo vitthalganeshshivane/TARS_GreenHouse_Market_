@@ -9,6 +9,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --breakpoint-xl2: 1300px;
   --font-heading: var(--font-sans);
   --font-sans: 'Nunito', sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);

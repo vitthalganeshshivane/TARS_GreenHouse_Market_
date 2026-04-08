@@ -7,13 +7,13 @@ const NavbarBtn = ({ icon, text, badge, link, className }) => {
     <Link
       to={link}
       className={cn(
-        "flex justify-between items-center relative md:w-15 md:m-5",
+        "flex justify-between items-center relative ",
         className,
       )}
     >
       <div className="flex justify-between items-center gap-1">
         <span>{icon}</span>
-        <span className="hidden md:inline text-gray-500">{text}</span>
+        <span className="hidden xl2:inline text-gray-500">{text}</span>
       </div>
 
       {/* badge */}
