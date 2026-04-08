@@ -15,7 +15,7 @@ export default function DealsOfDay() {
         <Button variant="ghost" className='text-primary'>All Details <MoveRight /></Button>
       </div>
 
-      <div className="flex justify-around flex-wrap">
+      <div className="flex justify-around flex-wrap space-y-5 ">
         <DealsOfDayComponent
           image='https://www.sirimart.in/wp-content/uploads/2023/12/Organic_Red_Rice.jpg'
           name='Organic Red Rice'

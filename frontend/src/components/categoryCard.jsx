@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils"
 
 const CategoryCard = ({ title, children, className }) => {
   return (
-    <div className={cn("m-1 rounded-md shadow-sm w-50 p-4", className)}>
+    <div className={cn("rounded-md shadow-sm w-50 p-2 md:p-4", className)}>
       <div className="font-bold">
         {title}
       </div>
@@ -12,7 +12,7 @@ const CategoryCard = ({ title, children, className }) => {
       </div>
 
 
-      <div className="my-5 flex-col flex gap-2 ">
+      <div className="h-full my-5 flex-col flex gap-2 ">
 
         {children}
       </div>

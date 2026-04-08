@@ -1,7 +1,9 @@
+import { Link } from "react-router";
+import { cn } from "@/lib/utils"
 
-export default function AdverseComponent({ image, text, link }) {
+export default function AdverseComponent({ color, image, text, link, className }) {
   return (
-    <div className="bg-white relative w-150 min-h-[200px] rounded-xl p-6 overflow-hidden">
+    <div style={{ background: color }} className={cn("flex md:w-md justify-center items-center py-9 px-5 rounded-lg", className)}>
 
       {/* Content */}
       <div className="max-w-[60%]">
@@ -9,19 +11,19 @@ export default function AdverseComponent({ image, text, link }) {
           {text}
         </h2>
 
-        <a
+        <Link
           href={link}
           className="inline-block bg-black text-white px-4 py-2 rounded-lg text-sm hover:bg-gray-800 transition"
         >
           Explore
-        </a>
+        </Link>
       </div>
 
       {/* Image (bottom-right corner) */}
       <img
         src={image}
         alt={text}
-        className="absolute bottom-0 right-0 w-50 md:w-40 object-contain"
+        className="h-full w-1/2 object-contain"
       />
     </div>
   );
