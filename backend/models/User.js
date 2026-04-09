@@ -33,17 +33,6 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-
-    addresses: [
-      {
-        fullName: String,
-        phone: String,
-        addressLine: String,
-        city: String,
-        state: String,
-        pincode: String,
-      },
-    ],
   },
   { timestamps: true },
 );
