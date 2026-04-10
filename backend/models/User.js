@@ -23,10 +23,24 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
 
+    image: String,
+
     role: {
       type: String,
       enum: ["customer", "vendor"],
       default: "customer",
+    },
+
+    store: {
+      storeName: { type: String, default: "" },
+      gstNumber: { type: String, default: "" },
+      storeAddress: { type: String, default: "" },
+      pincode: { type: String, default: "" },
+      openTime: { type: String, default: "" },
+      closeTime: { type: String, default: "" },
+      deliveryRadius: { type: Number, default: 0 },
+      minOrderAmount: { type: Number, default: 0 },
+      freeDeliveryAbove: { type: Number, default: 0 },
     },
 
     isVerified: {
