@@ -17,9 +17,9 @@ export default function ProductDetail() {
     dispatch(fetchSingleProduct(id));
   }, [id]);
 
-  useEffect(() => {
-    console.log("single product:", singleProduct);
-  }, []);
+  // useEffect(() => {
+  //   console.log("single product:", singleProduct);
+  // }, []);
 
   if (!singleProduct || loading) return <p>Loading...</p>;
 
@@ -29,7 +29,7 @@ export default function ProductDetail() {
         <Navbar />
       </div>
       <div>
-        <div className="max-w-[700px]  mx-auto flex justify-center mt-5 p-5 gap-5">
+        <div className="max-w-[700px] mx-auto sm:flex justify-center mt-5 p-5 gap-5">
           <ProductImage images={singleProduct.images} />
           <div>
             <ProductInfo product={singleProduct} />
@@ -37,7 +37,7 @@ export default function ProductDetail() {
           </div>
         </div>
 
-        <div className="max-w-[700px] mx-auto pb-50">
+        <div className="max-w-[700px] mx-auto pb-50 px-5">
           <ProductInfoSection product={singleProduct} />
         </div>
       </div>

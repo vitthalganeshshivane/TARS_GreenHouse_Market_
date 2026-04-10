@@ -25,7 +25,7 @@ export default function ProductInfoSection({ product }) {
         {activeTab === "info" && (
           <div>
             <div className="mt-5">
-              <h3 className="text-2xl font-semibold text-black/80 border-b border-gray-100">
+              <h3 className="text-xl sm:text-2xl font-semibold text-black/80 border-b border-gray-100">
                 Description
               </h3>
               <p className="text-sm text-slate-500 mt-2">
@@ -34,7 +34,7 @@ export default function ProductInfoSection({ product }) {
             </div>
 
             <div className="mt-5">
-              <h3 className="text-2xl font-semibold text-black/80 border-b border-gray-100">
+              <h3 className="text-xl sm:text-2xl font-semibold text-black/80 border-b border-gray-100">
                 Packaging
               </h3>
               <p className="text-sm text-slate-500 mt-2">
@@ -42,7 +42,7 @@ export default function ProductInfoSection({ product }) {
               </p>
             </div>
             <div className="mt-5">
-              <h3 className="text-2xl font-semibold text-black/80 border-b border-gray-100">
+              <h3 className="text-xl sm:text-2xl font-semibold text-black/80 border-b border-gray-100">
                 Ingredients
               </h3>
               <p className="text-sm text-slate-500 mt-2">
@@ -50,7 +50,7 @@ export default function ProductInfoSection({ product }) {
               </p>
             </div>
             <div className="mt-5">
-              <h3 className="text-2xl font-semibold text-black/80 border-b border-gray-100">
+              <h3 className="text-xl sm:text-2xl font-semibold text-black/80 border-b border-gray-100">
                 Warnings
               </h3>
               <p className="text-sm text-slate-500 mt-2">
@@ -63,7 +63,7 @@ export default function ProductInfoSection({ product }) {
         {activeTab === "vendor" && (
           <div>
             <div className="mt-5">
-              <h3 className="text-2xl font-semibold text-black/80 border-b border-gray-100">
+              <h3 className="text-xl sm:text-2xl font-semibold text-black/80 border-b border-gray-100">
                 Name
               </h3>
               <p className="text-sm text-slate-500 mt-2">
@@ -72,7 +72,7 @@ export default function ProductInfoSection({ product }) {
             </div>
 
             <div className="mt-5">
-              <h3 className="text-2xl font-semibold text-black/80 border-b border-gray-100">
+              <h3 className="text-xl sm:text-2xl font-semibold text-black/80 border-b border-gray-100">
                 Email
               </h3>
               <p className="text-sm text-slate-500 mt-2">

@@ -34,7 +34,7 @@ export default function PopularProduct() {
       <div className="flex flex-wrap justify-start gap-4 md:gap-6">
         {products.map((item) => {
           const defaultVariant = getDefaultVariant(item.variants);
-          console.log("variant", defaultVariant);
+          // console.log("variant", defaultVariant);
           return (
             <ProductCard
               key={item._id}

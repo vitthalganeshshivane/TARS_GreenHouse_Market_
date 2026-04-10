@@ -10,7 +10,7 @@ export const fetchProducts = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const { data } = await API.get("/product");
-      console.log("All Product:", data.products);
+      // console.log("All Product:", data.products);
       return data.products;
     } catch (error) {
       return thunk(error, thunkAPI);
@@ -23,7 +23,7 @@ export const fetchSingleProduct = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const { data } = await API.get(`product/${id}`);
-      console.log(" Single Product:", data.products);
+      // console.log(" Single Product:", data.products);
       return data.product;
     } catch (error) {
       return thunk(error, thunkAPI);

@@ -73,7 +73,7 @@ export default function ProductCard({
 
       <div className="py-1 w-full flex justify-center items-center flex-col ">
         <div className="w-full flex justify-between">
-          <div className="text-gray-500 text-[12px]">{category}</div>
+          <div className="text-gray-500 text-[12px]">{category?.name}</div>
           <div className="text-gray-500 text-[12px]">{label}</div>
         </div>
         <span className="w-full text-[16px] font-bold">{name}</span>

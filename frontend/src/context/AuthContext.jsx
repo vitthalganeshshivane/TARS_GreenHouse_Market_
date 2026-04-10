@@ -26,8 +26,8 @@ export const AuthProvider = ({ children }) => {
     const { data } = await API.post("/auth/signup", formData);
     setToken(data.token);
     setUser(data.user);
-    console.log("FULL RESPONSE:", data);
-    console.log("TOKEN AFTER SIGNUP:", getToken());
+    // console.log("FULL RESPONSE:", data);
+    // console.log("TOKEN AFTER SIGNUP:", getToken());
   };
 
   // GET CURRENT USER
@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const token = getToken();
-    console.log("TOKEN ON LOAD:", token);
+    // console.log("TOKEN ON LOAD:", token);
     if (token) {
       getProfile();
     } else {
