@@ -18,23 +18,14 @@ const productSchema = new mongoose.Schema(
     },
 
     category: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
       required: true,
     },
 
-    subCategory: String,
-
-    price: {
-      type: Number,
-      required: true,
-    },
-
-    discountPrice: Number,
-
-    stock: {
-      type: Number,
-      required: true,
-      default: 0,
+    subCategory: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
     },
 
     // Stock Keeping Unit
@@ -62,14 +53,32 @@ const productSchema = new mongoose.Schema(
 
     thumbnail: String,
 
-    sizes: [String], // 50g, 60g etc.
+    variants: {
+      type: [
+        {
+          label: {
+            type: String,
+            required: true,
+          },
+          discountPrice: Number,
+          price: {
+            type: Number,
+            required: true,
+          },
+          stock: {
+            type: Number,
+            default: 0,
+          },
+          sku: String,
+        },
+      ],
+      validate: [(arr) => arr.length > 0, "At least one variant is required"],
+    },
 
-    colors: [
-      {
-        name: String,
-        stock: Number,
-      },
-    ],
+    unit: {
+      type: String, // "kg", "litre", "piece"
+      required: true,
+    },
 
     ratings: {
       average: {
