@@ -21,11 +21,9 @@ function Rating({ rating = 0, total = 0 }) {
   );
 }
 
-function countDiscount(price, discount) {
-  return price - (price * discount) / 100;
+function getFinalPrice(price, discount) {
+  return discount > 0 ? discount : price;
 }
-
-function handleAdd() {}
 
 export default function ProductCard({
   image,
@@ -36,26 +34,28 @@ export default function ProductCard({
   brand,
   price,
   discount,
+  label,
   sale,
   className,
+  navigate,
 }) {
   return (
     <div
       className={cn(
-        "relative flex justify-center items-center flex-col w-32 md:w-62 rounded-xl md:border p-2 ",
+        "relative flex justify-center items-center flex-col w-32 md:w-52 rounded-xl border-1 border-gray-100/90 p-2 ",
         className,
       )}
     >
-      <span className="rounded-tl-xl rounded-br-xl absolute top-0 left-0 bg-green-500 text-white px-5 py-1 hidden md:inline">
+      <span className="rounded-tl-xl rounded-br-xl absolute top-0 left-0 bg-green-500 text-white px-4 hidden md:inline">
         {discount}%
       </span>
-      {sale && (
+      {/* {sale && (
         <span className="rounded-tr-xl rounded-bl-xl absolute top-0 right-0 bg-blue-400 text-white px-5 py-1  hidden md:inline">
           Sale
-        </span>
-      )}
+        </span> */}
+      {/* )} */}
 
-      <div className="relative rounded-xl  w-full md:w-40 md:m-10">
+      <div className="relative rounded-xl w-full md:w-40 md:m-5">
         <img
           src={image}
           alt={image}
@@ -63,7 +63,7 @@ export default function ProductCard({
         />
 
         <Button
-          onClick={handleAdd}
+          onClick={navigate}
           variant="outline"
           className="absolute border border-green-200 rounded-sm text-green-800 block md:hidden -bottom-1 -right-1"
         >
@@ -71,9 +71,12 @@ export default function ProductCard({
         </Button>
       </div>
 
-      <div className="py-2 w-full flex justify-center items-center flex-col ">
-        <span className="w-full text-gray-500 text-sm">{category}</span>
-        <span className="w-full text-lg font-bold">{name}</span>
+      <div className="py-1 w-full flex justify-center items-center flex-col ">
+        <div className="w-full flex justify-between">
+          <div className="text-gray-500 text-[12px]">{category}</div>
+          <div className="text-gray-500 text-[12px]">{label}</div>
+        </div>
+        <span className="w-full text-[16px] font-bold">{name}</span>
 
         <div className="w-full">
           <Rating rating={rating} total={ratingCount} />
@@ -84,16 +87,16 @@ export default function ProductCard({
           <span className="text-green-500 text-sm">{brand}</span>
         </span>
 
-        <div className="flex justify-around items-center w-full">
-          <span className="text-green-500 underline font-extrabold">
+        <div className="text-[14px] flex justify-around items-center w-full">
+          <span className="text-green-500 font-semibold">
             {" "}
-            &#8377; {countDiscount(price, discount)}
+            &#8377;{getFinalPrice(price, discount)}
           </span>
           <span className="line-through text-gray-300">&#8377; {price}</span>
           <Button
-            onClick={handleAdd}
+            onClick={navigate}
             variant="outline"
-            className="bg-green-100 rounded-sm text-green-800 hidden md:flex"
+            className="bg-green-100 h-8 rounded-sm text-green-800 hidden md:flex "
           >
             <ShoppingCart />
             <span>Add</span>
