@@ -17,6 +17,7 @@ import PublicRoute from "./routes/PublicRoute.jsx";
 import Home from "./pages/home.jsx";
 import { useAuth } from "./hooks/useAuth.js";
 import Product from "./pages/product.jsx";
+import ProductDetail from "./components/customer/ProductDetails/layout.jsx";
 
 function RootRedirect() {
   const { user, loading } = useAuth();
@@ -68,6 +69,15 @@ function App() {
         element={
           <ProtectedRoute>
             <Product />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/product/:id"
+        element={
+          <ProtectedRoute>
+            <ProductDetail />
           </ProtectedRoute>
         }
       />
