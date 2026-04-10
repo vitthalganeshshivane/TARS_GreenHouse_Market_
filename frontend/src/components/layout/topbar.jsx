@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 export default function Topbar() {
   return (
-    <div className="hidden md:block border-b bg-white text-xs md:text-sm">
+    <div className="hidden lg:block border-b bg-white text-xs md:text-sm">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-2 flex items-center justify-between">
         {/* LEFT */}
         <div className="text-gray-500 flex items-center gap-3 md:gap-4 flex-wrap">

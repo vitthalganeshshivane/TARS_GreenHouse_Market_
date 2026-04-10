@@ -10,6 +10,7 @@ import {
   Star,
   PhoneCall,
   Menu,
+  Leaf,
 } from "lucide-react";
 import NavbarBtn from "./navbarBtn";
 import { Link } from "react-router";
@@ -25,27 +26,34 @@ export default function Navbar() {
   const desktop = (
     <div>
       <nav className="flex-wrap flex flex-col md:flex-row w-full justify-between items-center py-2 px-4 md:px-2 gap-3 md:gap-0">
-        <div className="flex items-center justify-between gap-2 md:gap-4 w-full md:w-auto ">
+        {/* <div className="flex items-center justify-between gap-2 md:gap-4 w-full md:w-auto ">
           <img
-            className="h-7 md:h-9 flex-shrink-0"
+            className="h-5 md:h-7 flex-shrink-0"
             src="https://brandlogos.net/wp-content/uploads/2025/08/bigbasket-logo_brandlogos.net_n0gb0-768x171.png"
             alt="logo"
           />
+        </div> */}
 
-          <div className="flex-1">
-            <SearchProduct />
-          </div>
+        <div className="flex items-center gap-1">
+          <Leaf className="h-7 w-7 fill-emerald-700 text-emerald-700" />
+          <span className="text-xl font-bold text-green-800">
+            Greenhouse Market
+          </span>
+        </div>
+
+        <div>
+          <SearchProduct />
         </div>
 
         {/* RIGHT */}
         <div className="flex items-center gap-2 md:gap-3 w-full lg:w-auto justify-between lg:justify-end flex-wrap ">
-          <Button
+          {/* <Button
             variant="outline"
             className="bg-white text-primary text-xs md:text-sm px-3 hidden sm:flex"
           >
             Become Vendor
             <ArrowRight className="w-4 h-4 ml-1" />
-          </Button>
+          </Button> */}
 
           <div className="flex items-center justify-between gap-4">
             <NavbarBtn icon={<Recycle />} text="Compare" link="/compare" />
@@ -57,8 +65,8 @@ export default function Navbar() {
       </nav>
 
       {/* BOTTOM NAV */}
-      <nav className="w-full border-t border-gray-200 py-2 flex  lg:flex-row items-center justify-between gap-3">
-        {/* LEFT */}
+      {/* <nav className="w-full border-t border-gray-200 py-2 flex  lg:flex-row items-center justify-between gap-3">
+     
         <div className="flex items-center gap-3 md:gap-6 lg:w-auto overflow-x-auto scrollbar-hide">
           <Button className="bg-green-500 text-white flex items-center gap-2 px-3 md:px-4 py-2 text-xs md:text-sm whitespace-nowrap">
             <Grid className="w-4 h-4" />
@@ -72,13 +80,8 @@ export default function Navbar() {
             <Star className="w-4 h-4" />
             Hot Deals
           </Link>
-
-          {/* <div className="hidden xl:block"> */}
-          {/*   <Navigations /> */}
-          {/* </div> */}
         </div>
 
-        {/* RIGHT */}
         <div className="flex items-center gap-2 md:gap-3 text-sm">
           <PhoneCall className="text-primary w-5 h-5" />
 
@@ -91,7 +94,7 @@ export default function Navbar() {
             </span>
           </div>
         </div>
-      </nav>
+      </nav> */}
     </div>
   );
 
@@ -125,9 +128,9 @@ export default function Navbar() {
     <>
       <Sidebar isOpen={sideBar} onClose={() => setSideBar(false)} />
       {isDesktop ? desktop : mobile}
-      <div className=" justify-center hidden md:flex">
+      {/* <div className=" justify-center hidden md:flex">
             <Navigations />
-      </div>
+      </div> */}
     </>
   );
 }
