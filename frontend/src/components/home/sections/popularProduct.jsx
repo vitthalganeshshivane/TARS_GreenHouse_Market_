@@ -1,194 +1,58 @@
-import { Recycle } from "lucide-react"
-import CategoryCard from "../../common/categoryCard"
-import CategoryEntry from "../../common/categoryEntry"
-import ProductCard from "../../product/productCard"
-import Tags from "../../common/tags"
-import DealsOfDay from "./dealsOfDay"
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import ProductCard from "../../product/productCard";
+import { fetchProducts } from "../../../redux/slices/productSlice";
+import { useNavigate } from "react-router";
 
 export default function PopularProduct() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { products, loading, error } = useSelector((state) => state.product);
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+    console.log("All Product:", products);
+  }, [dispatch]);
+
+  const getDefaultVariant = (variants) => {
+    if (!variants || variants.length === 0) return null;
+
+    return variants.reduce((min, curr) => {
+      return curr.price < min.price ? curr : min;
+    }, variants[0]);
+  };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
   return (
-    <section className="w-full px-4 md:px-8 lg:px-12 py-6">
+    <section className="w-full px-6 py-4">
+      <h2 className="px-4 text-xl md:text-3xl font-semibold mb-5">
+        Popular Products
+      </h2>
 
-      <div className="flex flex-col lg:flex-row gap-8">
-
-        {/* LEFT: Products */}
-        <div className="flex-1">
-          <h2 className="text-xl md:text-3xl font-semibold mb-5">
-            Popular Products
-          </h2>
-
-
-          <div className="flex flex-wrap gap-0 justify-around md:gap-6">
-
+      <div className="flex flex-wrap justify-start gap-4 md:gap-6">
+        {products.map((item) => {
+          const defaultVariant = getDefaultVariant(item.variants);
+          console.log("variant", defaultVariant);
+          return (
             <ProductCard
-              image='adverse.jpeg'
-              ratingCount={20}
-              category='Fresh Food'
-              name='Organic Red Rice'
-              rating={4}
-              brand="NestFood"
-              price={200}
-              discount={5}
+              key={item._id}
+              image={item.thumbnail}
+              category={item.category}
+              name={item.title}
+              rating={item.ratings?.average || 4}
+              ratingCount={item.ratings?.count || 20}
+              brand={item.brand}
+              price={defaultVariant?.price}
+              discount={defaultVariant?.discountPrice || 0}
+              label={defaultVariant?.label}
               sale={true}
+              navigate={() => navigate(`/product/${item._id}`)}
             />
-
-            <ProductCard
-              image='adverse.jpeg'
-              ratingCount={20}
-              category='Fresh Food'
-              name='Organic Red Rice'
-              rating={4}
-              brand="NestFood"
-              price={200}
-              discount={5}
-              sale={true}
-            />
-
-            <ProductCard
-              image='adverse.jpeg'
-              ratingCount={20}
-              category='Fresh Food'
-              name='Organic Red Rice'
-              rating={4}
-              brand="NestFood"
-              price={200}
-              discount={5}
-              sale={true}
-            />
-
-            <ProductCard
-              image='adverse.jpeg'
-              ratingCount={20}
-              category='Fresh Food'
-              name='Organic Red Rice'
-              rating={4}
-              brand="NestFood"
-              price={200}
-              discount={5}
-              sale={true}
-            />
-
-            <ProductCard
-              image='adverse.jpeg'
-              ratingCount={20}
-              category='Fresh Food'
-              name='Organic Red Rice'
-              rating={4}
-              brand="NestFood"
-              price={200}
-              discount={5}
-              sale={true}
-            />
-
-            <ProductCard
-              image='adverse.jpeg'
-              ratingCount={20}
-              category='Fresh Food'
-              name='Organic Red Rice'
-              rating={4}
-              brand="NestFood"
-              price={200}
-              discount={5}
-              sale={true}
-            />
-
-            <ProductCard
-              image='adverse.jpeg'
-              ratingCount={20}
-              category='Fresh Food'
-              name='Organic Red Rice'
-              rating={4}
-              brand="NestFood"
-              price={200}
-              discount={5}
-              sale={true}
-            />
-
-            <ProductCard
-              image='adverse.jpeg'
-              ratingCount={20}
-              category='Fresh Food'
-              name='Organic Red Rice'
-              rating={4}
-              brand="NestFood"
-              price={200}
-              discount={5}
-              sale={true}
-            />
-
-            <ProductCard
-              image='adverse.jpeg'
-              ratingCount={20}
-              category='Fresh Food'
-              name='Organic Red Rice'
-              rating={4}
-              brand="NestFood"
-              price={200}
-              discount={5}
-              sale={true}
-            />
-
-            <ProductCard
-              image='adverse.jpeg'
-              ratingCount={20}
-              category='Fresh Food'
-              name='Organic Red Rice'
-              rating={4}
-              brand="NestFood"
-              price={200}
-              discount={5}
-              sale={true}
-            />
-
-            <ProductCard
-              image='adverse.jpeg'
-              ratingCount={20}
-              category='Fresh Food'
-              name='Organic Red Rice'
-              rating={4}
-              brand="NestFood"
-              price={200}
-              discount={5}
-              sale={true}
-            />
-
-            <ProductCard
-              image='adverse.jpeg'
-              ratingCount={20}
-              category='Fresh Food'
-              name='Organic Red Rice'
-              rating={4}
-              brand="NestFood"
-              price={200}
-              discount={5}
-              sale={true}
-            />
-          </div>
-        </div>
-
-        {/* RIGHT: Sidebar */}
-        <aside className="hidden md:flex w-full lg:w-[280px] flex-col gap-6">
-
-          <CategoryCard title='Category'>
-            <CategoryEntry icon={<Recycle size={16} />} text='Compare' number='4' link='#' />
-            <CategoryEntry icon={<Recycle size={16} />} text='Compare' number='4' link='#' />
-            <CategoryEntry icon={<Recycle size={16} />} text='Compare' number='4' link='#' />
-            <CategoryEntry icon={<Recycle size={16} />} text='Compare' number='4' link='#' />
-          </CategoryCard>
-
-          <CategoryCard title='Tags'>
-            <div className="flex flex-wrap gap-2">
-              <Tags name='Brown' />
-              <Tags name='Coffee' />
-              <Tags name='Organic' />
-              <Tags name='Rice' />
-            </div>
-          </CategoryCard>
-
-        </aside>
-
-
+          );
+        })}
       </div>
     </section>
-  )
+  );
 }

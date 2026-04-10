@@ -8,7 +8,8 @@ import Advertisement from "../components/home/sections/advertisement.jsx";
 import ShopByCategory from "../components/home/sections/shopByCategory.jsx";
 import Ranking from "../components/home/sections/ranking.jsx";
 import Cta from "../components/home/sections/cta.jsx";
-import Banner from "../assets/banner.png";
+import Banner1 from "../assets/newBanner.png";
+import Banner2 from "../assets/banner.png";
 import Footer from "../components/layout/footer.jsx";
 import ChooseUsComponent from "../components/common/chooseUsComponent.jsx";
 
@@ -22,25 +23,25 @@ export default function Home() {
   return (
     <div className="bg-white min-h-screen">
       <div>
-        <div className="px-30">
+        {/* <div className="px-5">
           <Topbar />
-        </div>
-        <div className="px-10 md:px-30 ">
+        </div> */}
+        <div className="px-10">
           <Navbar />
         </div>
       </div>
 
-      <div className="px-2 sm:px-4 md:px-6 lg:px-8 py-2 md:py-4">
+      <div className="px-2">
         <ImageSlider
           slides={[
             {
-              src: Banner,
+              src: Banner1,
             },
             {
-              src: Banner,
+              src: Banner2,
             },
             {
-              src: Banner,
+              src: Banner1,
             },
           ]}
         />
