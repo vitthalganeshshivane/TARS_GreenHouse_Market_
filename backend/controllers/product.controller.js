@@ -3,12 +3,62 @@ import cloudinary from "../config/cloudinary.js";
 
 export const createProduct = async (req, res) => {
   try {
-    const imageUrls = req.files.map((file) => file.path);
+    const imageUrls = req.files?.map((file) => file.path) || [];
+
+    const {
+      title,
+      description,
+      brand,
+      category,
+      subCategory,
+      sku,
+      mfgDate,
+      life,
+      type,
+      unit,
+      variants,
+      tags,
+      additionalInfo,
+      isFeatured,
+      isAvailable,
+    } = req.body;
+
+    const parsedVariants =
+      typeof variants === "string" ? JSON.parse(variants) : variants;
+
+    if (!parsedVariants || parsedVariants.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "At least one variant is required",
+      });
+    }
+
+    const labels = parsedVariants.map((v) => v.label);
+    if (labels.length !== new Set(labels).size) {
+      return res.status(400).json({
+        success: false,
+        message: "Duplicate variant labels not allowed",
+      });
+    }
 
     const product = new Product({
-      ...req.body,
+      title,
+      description,
+      brand,
+      category,
+      subCategory,
+      sku,
+      mfgDate,
+      life,
+      type,
+      unit,
+      variants: parsedVariants,
       images: imageUrls,
       thumbnail: imageUrls[0],
+      tags: tags ? JSON.parse(tags) : [],
+      additionalInfo: additionalInfo ? JSON.parse(additionalInfo) : {},
+      isFeatured: isFeatured || false,
+      isAvailable: isAvailable !== undefined ? isAvailable : true,
       vendor: req.user._id,
     });
 
@@ -30,7 +80,10 @@ export const createProduct = async (req, res) => {
 
 export const getProducts = async (req, res) => {
   try {
-    const products = await Product.find().populate("vendor", "name email");
+    const products = await Product.find()
+      .populate("vendor", "name email")
+      .populate("category", "name emoji image")
+      .populate("subCategory", "name");
 
     res.status(200).json({
       success: true,
@@ -48,10 +101,10 @@ export const getProducts = async (req, res) => {
 
 export const getSingleProduct = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id).populate(
-      "vendor",
-      "name email",
-    );
+    const product = await Product.findById(req.params.id)
+      .populate("vendor", "name email")
+      .populate("category", "name emoji image")
+      .populate("subCategory", "name");
 
     if (!product) {
       return res.status(404).json({
@@ -73,53 +126,6 @@ export const getSingleProduct = async (req, res) => {
   }
 };
 
-// export const updateProduct = async (req, res) => {
-//   try {
-//     let product = await Product.findById(req.params.id);
-
-//     if (!product) {
-//       return res.status(404).json({
-//         success: false,
-//         message: "Product not found",
-//       });
-//     }
-
-//     if (product.vendor.toString() !== req.user._id.toString()) {
-//       return res.status(403).json({
-//         message: "You are not allowed to modify this product",
-//       });
-//     }
-
-//     let imageUrls = product.images;
-
-//     if (req.files && req.files.length > 0) {
-//       imageUrls = req.files.map((file) => file.path);
-//     }
-
-//     product = await Product.findByIdAndUpdate(
-//       req.params.id,
-//       {
-//         ...req.body,
-//         images: imageUrls,
-//         thumbnail: imageUrls[0],
-//       },
-//       { new: true },
-//     );
-
-//     res.status(200).json({
-//       success: true,
-//       message: "Product updated",
-//       product,
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       success: false,
-//       message: "Update failed",
-//       error: error.message,
-//     });
-//   }
-// };
-
 export const updateProduct = async (req, res) => {
   try {
     let product = await Product.findById(req.params.id);
@@ -131,8 +137,10 @@ export const updateProduct = async (req, res) => {
       });
     }
 
+    // 🔐 Ownership check
     if (product.vendor.toString() !== req.user._id.toString()) {
       return res.status(403).json({
+        success: false,
         message: "You are not allowed to modify this product",
       });
     }
@@ -169,24 +177,68 @@ export const updateProduct = async (req, res) => {
       }
     }
 
-    const sizes = req.body.sizes ? req.body.sizes.split(",") : product.sizes;
+    let variants = product.variants;
 
-    const tags = req.body.tags ? req.body.tags.split(",") : product.tags;
+    if (req.body.variants) {
+      variants =
+        typeof req.body.variants === "string"
+          ? JSON.parse(req.body.variants)
+          : req.body.variants;
 
-    const colors = req.body.colors
-      ? JSON.parse(req.body.colors)
-      : product.colors;
+      if (!variants || variants.length === 0) {
+        return res.status(400).json({
+          success: false,
+          message: "At least one variant is required",
+        });
+      }
 
-    delete req.body.imagesToDelete;
-    delete req.body.replaceImages;
+      const labels = variants.map((v) => v.label);
+      if (labels.length !== new Set(labels).size) {
+        return res.status(400).json({
+          success: false,
+          message: "Duplicate variant labels not allowed",
+        });
+      }
+    }
+
+    const tags = req.body.tags
+      ? typeof req.body.tags === "string"
+        ? JSON.parse(req.body.tags)
+        : req.body.tags
+      : product.tags;
+
+    const additionalInfo = req.body.additionalInfo
+      ? typeof req.body.additionalInfo === "string"
+        ? JSON.parse(req.body.additionalInfo)
+        : req.body.additionalInfo
+      : product.additionalInfo;
 
     const updatedData = {
-      ...req.body,
+      title: req.body.title ?? product.title,
+      description: req.body.description ?? product.description,
+      brand: req.body.brand ?? product.brand,
+      category: req.body.category ?? product.category,
+      subCategory: req.body.subCategory ?? product.subCategory,
+      sku: req.body.sku ?? product.sku,
+      mfgDate: req.body.mfgDate ?? product.mfgDate,
+      life: req.body.life ?? product.life,
+      type: req.body.type ?? product.type,
+      unit: req.body.unit ?? product.unit,
+      variants,
+      tags,
+      additionalInfo,
+      isFeatured:
+        req.body.isFeatured !== undefined
+          ? req.body.isFeatured
+          : product.isFeatured,
+      isAvailable:
+        req.body.isAvailable !== undefined
+          ? req.body.isAvailable
+          : product.isAvailable,
       images: imageUrls,
       thumbnail: imageUrls[0],
-      sizes,
-      tags,
-      colors,
+
+      vendor: product.vendor,
     };
 
     const updatedProduct = await Product.findByIdAndUpdate(
