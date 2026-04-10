@@ -35,7 +35,7 @@ export default function ImageSlider({ slides = [], interval = 3000 }) {
 
   return (
     <div
-      className="relative w-full h-[180px] sm:h-[240px] md:h-[320px] lg:h-[420px] xl:h-[480px] overflow-hidden rounded-xl group"
+      className="relative w-full h-[180px] sm:h-[240px] md:h-[320px] lg:h-[350px] overflow-hidden rounded-sm group"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onTouchStart={handleTouchStart}
@@ -50,7 +50,7 @@ export default function ImageSlider({ slides = [], interval = 3000 }) {
             <img
               src={slide.src}
               alt={slide.alt || ""}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover rounded-sm-mt-5"
               draggable={false}
             />
           </div>
