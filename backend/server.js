@@ -6,6 +6,7 @@ import db from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import uploadRoutes from "./routes/upload.routes.js";
 import productRoutes from "./routes/product.routes.js";
+import categoryRoutes from "./routes/category.routes.js";
 
 const app = express();
 const PORT = 3000;
@@ -24,6 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", authRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/product", productRoutes);
+app.use("/api/category", categoryRoutes);
 
 // GLOBAL ERROR HANDLER
 app.use((err, req, res, next) => {
