@@ -189,3 +189,81 @@ export const deleteCategory = async (req, res) => {
     });
   }
 };
+
+// customer api
+export const getCategoryTree = async (req, res) => {
+  try {
+    const categories = await Category.find({ isActive: true });
+
+    const map = {};
+    const roots = [];
+
+    categories.forEach((cat) => {
+      map[cat._id] = { ...cat.toObject(), children: [] };
+    });
+
+    categories.forEach((cat) => {
+      if (cat.parent && map[cat.parent]) {
+        map[cat.parent].children.push(map[cat._id]);
+      } else {
+        roots.push(map[cat._id]);
+      }
+    });
+
+    const countChildren = (node) => {
+      let count = 0;
+
+      node.children.forEach((child) => {
+        count += 1;
+        count += countChildren(child);
+      });
+
+      return count;
+    };
+
+    Object.values(map).forEach((cat) => {
+      cat.totalSubcategories = countChildren(cat);
+    });
+
+    res.json({
+      success: true,
+      categories: roots,
+    });
+  } catch (error) {
+    console.log("Error i get categorie:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Tree fetch failed",
+      error: error.message,
+    });
+  }
+};
+
+export const getCategoryBySlug = async (req, res) => {
+  try {
+    const { slug } = req.params;
+
+    const category = await Category.findOne({
+      slug,
+      isActive: true,
+    }).populate("parent", "name slug");
+
+    if (!category) {
+      return res.status(404).json({
+        success: false,
+        message: "Category not found",
+      });
+    }
+
+    res.json({
+      success: true,
+      category,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Fetch failed",
+      error: error.message,
+    });
+  }
+};
