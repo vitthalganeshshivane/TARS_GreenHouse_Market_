@@ -18,6 +18,8 @@ import Home from "./pages/home.jsx";
 import { useAuth } from "./hooks/useAuth.js";
 import Product from "./pages/product.jsx";
 import ProductDetail from "./components/customer/ProductDetails/layout.jsx";
+import BrowseCategory from "./components/customer/Category/BrowseCategory.jsx";
+import BrowseAllProducts from "./components/customer/BrowseAllProducts.jsx";
 
 function RootRedirect() {
   const { user, loading } = useAuth();
@@ -72,6 +74,10 @@ function App() {
           </ProtectedRoute>
         }
       />
+
+      <Route path="/category/:slug" element={<BrowseCategory />} />
+
+      <Route path="/all-products" element={<BrowseAllProducts />} />
 
       <Route
         path="/product/:id"

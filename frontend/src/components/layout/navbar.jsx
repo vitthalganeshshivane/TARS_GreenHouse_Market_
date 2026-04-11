@@ -13,7 +13,7 @@ import {
   Leaf,
 } from "lucide-react";
 import NavbarBtn from "./navbarBtn";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useDeviceType } from "@/lib/device";
 import { Navigations } from "./navigation";
 import { useState } from "react";
@@ -22,6 +22,7 @@ import Sidebar from "./sidebar";
 export default function Navbar() {
   const { isDesktop } = useDeviceType();
   const [sideBar, setSideBar] = useState(false);
+  const navigate = useNavigate();
 
   const desktop = (
     <div>
@@ -65,10 +66,12 @@ export default function Navbar() {
       </nav>
 
       {/* BOTTOM NAV */}
-      {/* <nav className="w-full border-t border-gray-200 py-2 flex  lg:flex-row items-center justify-between gap-3">
-     
+      <nav className="w-full border-t border-gray-200 py-2 flex  lg:flex-row items-center justify-between gap-3 border-b border-gray-200">
         <div className="flex items-center gap-3 md:gap-6 lg:w-auto overflow-x-auto scrollbar-hide">
-          <Button className="bg-green-500 text-white flex items-center gap-2 px-3 md:px-4 py-2 text-xs md:text-sm whitespace-nowrap">
+          <Button
+            onClick={() => navigate("/all-products")}
+            className="bg-green-500 cursor-pointer text-white flex items-center gap-2 px-3 md:px-4 py-2 text-xs md:text-sm whitespace-nowrap"
+          >
             <Grid className="w-4 h-4" />
             Browse All Categories
           </Button>
@@ -94,7 +97,7 @@ export default function Navbar() {
             </span>
           </div>
         </div>
-      </nav> */}
+      </nav>
     </div>
   );
 
