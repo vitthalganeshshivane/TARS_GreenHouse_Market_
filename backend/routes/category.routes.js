@@ -20,7 +20,7 @@ router.post(
   createCategory,
 );
 
-router.get("/", protect, authorizeRoles("vendor"), getCategories);
+router.get("/", getCategories);
 
 router.get("/:id", protect, authorizeRoles("vendor"), getSingleCategory);
 
