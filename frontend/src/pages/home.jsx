@@ -49,16 +49,16 @@ export default function Home() {
 
       <PopularProduct />
 
-      <DealsOfDay />
+      {/* <DealsOfDay /> */}
 
-      <Advertisement />
+      {/* <Advertisement /> */}
 
-      <ShopByCategory />
+      {/* <ShopByCategory /> */}
 
-      <Ranking />
-      <Cta />
+      {/* <Ranking />
+      <Cta /> */}
 
-      <div className="flex flex-wrap justify-between gap-2 w-full px-4 md:px-8 lg:px-12 py-6">
+      {/* <div className="flex flex-wrap justify-between gap-2 w-full px-4 md:px-8 lg:px-12 py-6">
         <ChooseUsComponent
           icon="/bpo.png"
           heading="Best Prices & offers"
@@ -79,7 +79,7 @@ export default function Home() {
           heading="Best Prices & offers"
           subHeading="Orders 100 rs or more"
         />
-      </div>
+      </div> */}
       <Footer />
     </div>
   );
