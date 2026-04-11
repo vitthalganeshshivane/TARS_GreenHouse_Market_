@@ -1,12 +1,11 @@
-import React, { useEffect } from "react";
-import ProductImage from "./ProductImage";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSingleProduct } from "../../../redux/slices/productSlice";
 import { useParams } from "react-router";
 import Navbar from "../../layout/navbar";
-import ProductInfo from "./ProductInfo";
-import ProductData from "./ProductData";
+
 import ProductInfoSection from "./ProductInfoSection";
+import ProductModal from "./ProductModal";
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -29,13 +28,7 @@ export default function ProductDetail() {
         <Navbar />
       </div>
       <div>
-        <div className="max-w-[700px] mx-auto sm:flex justify-center mt-5 p-5 gap-5">
-          <ProductImage images={singleProduct.images} />
-          <div>
-            <ProductInfo product={singleProduct} />
-            <ProductData product={singleProduct} />
-          </div>
-        </div>
+        <ProductModal product={singleProduct} />
 
         <div className="max-w-[700px] mx-auto pb-50 px-5">
           <ProductInfoSection product={singleProduct} />

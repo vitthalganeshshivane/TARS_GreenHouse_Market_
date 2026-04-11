@@ -19,7 +19,7 @@ export default function ProductImage({ images }) {
             <img
               src={img}
               alt={`product-${index}`}
-              className="w-full h-64 object-contain rounded-lg"
+              className="w-full h-45 sm:h-64 object-contain rounded-lg"
             />
           </SwiperSlide>
         ))}
