@@ -42,7 +42,7 @@ export default function ProductCard({
   return (
     <div
       className={cn(
-        "relative flex justify-center items-center flex-col w-32 md:w-52 rounded-xl border-1 border-gray-100/90 p-2 ",
+        "relative flex justify-center items-center flex-col w-32 md:w-50 rounded-xl border-1 border-gray-100/90 p-2 ",
         className,
       )}
     >
@@ -55,12 +55,8 @@ export default function ProductCard({
         </span> */}
       {/* )} */}
 
-      <div className="relative rounded-xl w-full md:w-40 md:m-5">
-        <img
-          src={image}
-          alt={image}
-          className="w-full overflow-hidden rounded-xl"
-        />
+      <div className="relative w-full h-28 md:h-40 flex items-center justify-center overflow-hidden rounded-xl">
+        <img src={image} alt={image} className="w-full h-full object-contain" />
 
         <Button
           onClick={navigate}
@@ -71,7 +67,7 @@ export default function ProductCard({
         </Button>
       </div>
 
-      <div className="py-1 w-full flex justify-center items-center flex-col ">
+      <div className=" w-full flex justify-center items-center flex-col ">
         <div className="w-full flex justify-between">
           <div className="text-gray-500 text-[12px]">{category?.name}</div>
           <div className="text-gray-500 text-[12px]">{label}</div>
