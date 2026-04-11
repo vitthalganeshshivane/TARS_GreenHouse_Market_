@@ -1,5 +1,6 @@
 import Product from "../models/Product.js";
 import cloudinary from "../config/cloudinary.js";
+import Category from "../models/Category.js";
 
 export const createProduct = async (req, res) => {
   try {
@@ -291,5 +292,121 @@ export const deleteProduct = async (req, res) => {
       message: "Delete failed",
       error: error.message,
     });
+  }
+};
+
+const getAllSubcategoryIds = (node) => {
+  let ids = [node._id]; // ✅ include parent
+
+  node.children.forEach((child) => {
+    ids = ids.concat(getAllSubcategoryIds(child));
+  });
+
+  return ids;
+};
+
+export const getProductsGroupedByCategory = async (req, res) => {
+  try {
+    const categories = await Category.find({ isActive: true });
+
+    const products = await Product.find().populate("subCategory");
+
+    // map for grouping
+    const grouped = {};
+
+    categories.forEach((cat) => {
+      grouped[cat._id] = {
+        categoryId: cat._id,
+        categoryName: cat.name,
+        products: [],
+      };
+    });
+
+    const others = {
+      categoryId: "others",
+      categoryName: "Others",
+      products: [],
+    };
+
+    products.forEach((product) => {
+      const subCat = product.subCategory;
+
+      if (!subCat) {
+        others.products.push(product);
+        return;
+      }
+
+      const key = subCat.parent
+        ? subCat.parent.toString()
+        : subCat._id.toString();
+
+      if (grouped[key]) {
+        grouped[key].products.push(product);
+      } else {
+        // fallback safety
+        others.products.push(product);
+      }
+    });
+
+    let result = Object.values(grouped).filter((c) => c.products.length > 0);
+
+    if (others.products.length > 0) {
+      result = [others, ...result];
+    }
+
+    res.json({
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error grouping products" });
+  }
+};
+// customer product listing according to category
+export const getProductByCategory = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    console.log("slug: ", slug);
+
+    const category = await Category.findOne({ slug, isActive: true });
+
+    if (!category) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
+    // build tree
+    const categories = await Category.find({ isActive: true });
+
+    const map = {};
+    categories.forEach((cat) => {
+      map[cat._id.toString()] = { ...cat.toObject(), children: [] };
+    });
+
+    categories.forEach((cat) => {
+      if (cat.parent && map[cat.parent.toString()]) {
+        map[cat.parent.toString()].children.push(map[cat._id.toString()]);
+      }
+    });
+
+    const selectedNode = map[category._id.toString()];
+
+    const categoryIds = getAllSubcategoryIds(selectedNode);
+
+    console.log("Selected category:", category.name);
+    console.log("Selected node:", selectedNode);
+    console.log("Category IDs:", categoryIds);
+
+    const products = await Product.find({
+      subCategory: { $in: categoryIds },
+    });
+
+    console.log("products:", products);
+    res.json({
+      success: true,
+      count: products.length,
+      products,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching products" });
   }
 };
