@@ -205,3 +205,93 @@ export const getMe = async (req, res) => {
     user: req.user,
   });
 };
+
+export const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+
+    const normalizedEmail = email.toLowerCase();
+
+    const user = await User.findOne({ email: normalizedEmail });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const otp = generateOTP();
+
+    await OTP.findOneAndUpdate(
+      { email: normalizedEmail },
+      {
+        email: normalizedEmail,
+        otp,
+        isVerified: false,
+        expiresAt: Date.now() + 5 * 60 * 1000,
+      },
+      { upsert: true, new: true },
+    );
+
+    await sendEmail(
+      normalizedEmail,
+      "Password Reset OTP",
+      `Your password reset OTP is ${otp}`,
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Password reset OTP sent successfully",
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        message: "Email and new password are required",
+      });
+    }
+
+    const normalizedEmail = email.toLowerCase();
+
+    const otpRecord = await OTP.findOne({ email: normalizedEmail });
+
+    if (!otpRecord || !otpRecord.isVerified) {
+      return res.status(400).json({
+        message: "Please verify OTP first",
+      });
+    }
+
+    if (otpRecord.expiresAt < Date.now()) {
+      return res.status(400).json({
+        message: "OTP expired, please request again",
+      });
+    }
+
+    const user = await User.findOne({ email: normalizedEmail });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.password = await bcrypt.hash(password, 10);
+    await user.save();
+
+    await OTP.deleteOne({ email: normalizedEmail });
+
+    res.status(200).json({
+      success: true,
+      message: "Password reset successfully",
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
