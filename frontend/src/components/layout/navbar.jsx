@@ -11,6 +11,7 @@ import {
   PhoneCall,
   Menu,
   Leaf,
+  Vault,
 } from "lucide-react";
 import NavbarBtn from "./navbarBtn";
 import { Link, useNavigate } from "react-router";
@@ -18,11 +19,16 @@ import { useDeviceType } from "@/lib/device";
 import { Navigations } from "./navigation";
 import { useState } from "react";
 import Sidebar from "./sidebar";
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
   const { isDesktop } = useDeviceType();
   const [sideBar, setSideBar] = useState(false);
   const navigate = useNavigate();
+  const { items, totalAmount } = useSelector((state) => state.cart);
+
+  const totalItems = items.reduce((acc, item) => acc + item.quantity, 0);
+  // console.log("totalitem:", totalItems);
 
   const desktop = (
     <div>
@@ -59,7 +65,12 @@ export default function Navbar() {
           <div className="flex items-center justify-between gap-4">
             <NavbarBtn icon={<Recycle />} text="Compare" link="/compare" />
             <NavbarBtn icon={<Heart />} text="Wishlist" link="/wishlist" />
-            <NavbarBtn icon={<ShoppingCart />} text="Cart" link="/cart" />
+            <NavbarBtn
+              icon={<ShoppingCart />}
+              text="Cart"
+              link="/cart"
+              badge={{ status: totalItems > 0, value: totalItems }}
+            />
             <NavbarBtn icon={<User />} text="Account" link="/account" />
           </div>
         </div>
@@ -121,7 +132,15 @@ export default function Navbar() {
 
         <div className="flex gap-2">
           <NavbarBtn icon={<Heart />} text="Wishlist" link="/wishlist" />
-          <NavbarBtn icon={<ShoppingCart />} text="Cart" link="/cart" />
+          <NavbarBtn
+            icon={<ShoppingCart />}
+            text="Cart"
+            link="/cart"
+            badge={{
+              status: totalItems > 0,
+              value: totalItems,
+            }}
+          />
         </div>
       </nav>
     </div>
