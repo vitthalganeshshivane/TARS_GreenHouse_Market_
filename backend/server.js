@@ -10,6 +10,7 @@ import categoryRoutes from "./routes/category.routes.js";
 import vendorRoutes from "./routes/vendor.routes.js";
 import addressRoutes from "./routes/address.routes.js";
 import orderRoutes from "./routes/order.routes.js";
+import notificationRoutes from "./routes/notification.routes.js";
 
 const app = express();
 const PORT = 3000;
@@ -32,6 +33,7 @@ app.use("/api/category", categoryRoutes);
 app.use("/api/vendor", vendorRoutes);
 app.use("/api/address", addressRoutes);
 app.use("/api/order", orderRoutes);
+app.use("/api/notification", notificationRoutes);
 
 // GLOBAL ERROR HANDLER
 app.use((err, req, res, next) => {
