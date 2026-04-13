@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }) => {
     const { data } = await API.post("/auth/login", formData);
     setToken(data.token);
     setUser(data.user);
+    return data.user;
   };
 
   // logout
