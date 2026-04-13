@@ -1,16 +1,110 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Heart, IndianRupee, Minus, Plus, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  optimisticAdd,
+  addToCartAsync,
+  updateCartAsync,
+} from "../../../redux/slices/cartSlice";
+import toast from "react-hot-toast";
 
 export default function ProductVariant({ product }) {
+  const { items } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+
+  console.log("items", items);
+
   const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
   const [quantity, setQuantity] = useState(1);
+
+  // ✅ Derived during render — always fresh
+  const existingItem = items.find(
+    (item) =>
+      item.product._id === product._id &&
+      item.variant.label === selectedVariant.label,
+  );
+
+  // ✅ Sync when cart items load from API OR when variant changes
+  useEffect(() => {
+    if (!items.length) return;
+
+    const cartItem = items.find(
+      (item) =>
+        item.product._id === product._id &&
+        item.variant.label === selectedVariant.label,
+    );
+
+    if (cartItem && cartItem.quantity !== quantity) {
+      setQuantity(cartItem.quantity);
+    }
+  }, [items, selectedVariant]);
+
+  // ✅ On first mount — set variant + quantity from cart if exists
+  useEffect(() => {
+    if (!items.length) return;
+
+    const cartItem = items.find((item) => item.product._id === product._id);
+
+    if (!cartItem) return;
+
+    const matchedVariant = product.variants.find(
+      (v) => v.label === cartItem.variant.label,
+    );
+
+    if (matchedVariant) {
+      setSelectedVariant(matchedVariant);
+      setQuantity(cartItem.quantity);
+    }
+  }, [items, product]); // runs once on mount
 
   const handleIncrement = () => {
     setQuantity((prev) => prev + 1);
   };
   const handleDecrement = () =>
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+
+  const handleAddToCart = () => {
+    if (!selectedVariant) return;
+
+    const finalPrice = selectedVariant.discountPrice || selectedVariant.price;
+
+    if (existingItem) {
+      // update
+      dispatch(
+        updateCartAsync({
+          productId: product._id,
+          variantLabel: selectedVariant.label,
+          quantity,
+        }),
+      );
+
+      toast.success("Cart updated");
+    } else {
+      // optimistic add (instant ui)
+      dispatch(
+        optimisticAdd({
+          productId: product._id,
+          variantLabel: selectedVariant.label,
+          price: finalPrice,
+          name: product.title,
+          image: product.thumbnail,
+          quantity,
+        }),
+      );
+
+      // backend sync
+      dispatch(
+        addToCartAsync({
+          productId: product._id,
+          variantLabel: selectedVariant.label,
+          quantity,
+        }),
+      );
+
+      toast.success("Item added to cart");
+    }
+  };
 
   return (
     <div className="mt-2">
@@ -53,11 +147,14 @@ export default function ProductVariant({ product }) {
         </div>
 
         <div className="bg-green-500 rounded ml-3">
-          <button className="flex items-center gap-2 text-white text-[13px] px-2 py-2 cursor-pointer">
+          <button
+            onClick={handleAddToCart}
+            className="flex items-center gap-2 text-white text-[13px] px-2 py-2 cursor-pointer"
+          >
             <span>
               <ShoppingCart size={16} strokeWidth={2} />
             </span>
-            <span>Add to Cart</span>
+            <span>{existingItem ? "Update cart" : "Add to Cart"}</span>
           </button>
         </div>
 

@@ -59,31 +59,32 @@ export default function PopularProduct() {
 
       <div className="flex">
         {/* left side */}
-        <div className="flex-1 flex flex-wrap justify-start gap-4 md:gap-6">
+        <div className="flex-1 grid grid-cols-2 sm:grid-cols-[repeat(auto-fill,minmax(170px,1fr))] gap-3 sm:gap-4">
           {displayProducts.map((item) => {
             const defaultVariant = getDefaultVariant(item.variants);
             // console.log("variant", defaultVariant);
             return (
-              <ProductCard
-                key={item._id}
-                image={item.thumbnail}
-                category={item.category}
-                name={item.title}
-                rating={item.ratings?.average || 4}
-                ratingCount={item.ratings?.count || 20}
-                brand={item.brand}
-                price={defaultVariant?.price}
-                discount={defaultVariant?.discountPrice || 0}
-                label={defaultVariant?.label}
-                sale={true}
-                navigate={() => navigate(`/product/${item._id}`)}
-              />
+              <div key={item._id} className="w-full">
+                <ProductCard
+                  image={item.thumbnail}
+                  category={item.category}
+                  name={item.title}
+                  rating={item.ratings?.average || 4}
+                  ratingCount={item.ratings?.count || 20}
+                  brand={item.brand}
+                  price={defaultVariant?.price}
+                  discount={defaultVariant?.discountPrice || 0}
+                  label={defaultVariant?.label}
+                  sale={true}
+                  navigate={() => navigate(`/product/${item._id}`)}
+                />
+              </div>
             );
           })}
         </div>
 
         {/* right side */}
-        <div className="hidden lg:block w-70 shrink-0">
+        <div className="hidden lg:block w-70 shrink-0 pl-4">
           <CategoryAside onSelectCategory={handleCategorySelect} />
         </div>
       </div>
