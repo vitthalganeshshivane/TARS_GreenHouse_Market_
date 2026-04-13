@@ -20,6 +20,10 @@ import Product from "./pages/product.jsx";
 import ProductDetail from "./components/customer/ProductDetails/layout.jsx";
 import BrowseCategory from "./components/customer/Category/BrowseCategory.jsx";
 import BrowseAllProducts from "./components/customer/BrowseAllProducts.jsx";
+import MainLayout from "./components/layout/MainLayout.jsx";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchCart } from "./redux/slices/cartSlice.js";
 
 function RootRedirect() {
   const { user, loading } = useAuth();
@@ -34,60 +38,35 @@ function RootRedirect() {
 }
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchCart());
+  }, []);
   return (
     <Routes>
-      {/* <Route path="/" element={<Navigate to="/signup" replace />} /> */}
       <Route path="/" element={<RootRedirect />} />
-      <Route
-        path="/home"
+
+      {/* 🔥 FIXED: Nested routes */}
+      {/* <Route
         element={
           <ProtectedRoute>
-            <Home />
+            <MainLayout />
           </ProtectedRoute>
         }
-      />
-      <Route
-        path="/signup"
-        element={
-          // <PublicRoute>
-          <Signup />
-          // </PublicRoute>
-        }
-      />
-      <Route
-        path="/login"
-        element={
-          // <PublicRoute>
-          <Login />
-          // </PublicRoute>
-        }
-      />
+      > */}
+      <Route path="/home" element={<Home />} />
+      <Route path="/product" element={<Product />} />
+      <Route path="/product/:id" element={<ProductDetail />} />
+      <Route path="/category/:slug" element={<BrowseCategory />} />
+      <Route path="/all-products" element={<BrowseAllProducts />} />
+      {/* </Route> */}
+
+      {/* Public routes */}
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/verify" element={<VerifyOTP />} />
       <Route path="/success" element={<Success />} />
-
-      <Route
-        path="/product"
-        element={
-          <ProtectedRoute>
-            <Product />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route path="/category/:slug" element={<BrowseCategory />} />
-
-      <Route path="/all-products" element={<BrowseAllProducts />} />
-
-      <Route
-        path="/product/:id"
-        element={
-          <ProtectedRoute>
-            <ProductDetail />
-          </ProtectedRoute>
-        }
-      />
-      {/* <Route path="*" element={<Navigate to="/signup" replace />} /> */}
     </Routes>
   );
 }
