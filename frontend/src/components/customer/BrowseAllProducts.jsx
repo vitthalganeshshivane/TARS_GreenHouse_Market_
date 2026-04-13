@@ -33,14 +33,17 @@ export default function BrowseAllProducts() {
         <div key={cat.categoryId} className="mb-8 mt-5">
           <h2 className="text-xl font-bold mb-4">{cat.categoryName}</h2>
 
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-4">
+          <div className="grid grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-3 sm:gap-4">
             {cat.products.map((p) => {
               const defaultVariant = getDefaultVariant(p.variants);
 
               return (
-                <div onClick={() => setSelectedProduct(p)}>
+                <div
+                  key={p._id}
+                  className="w-full"
+                  onClick={() => setSelectedProduct(p)}
+                >
                   <ProductCard
-                    key={p._id}
                     image={p.thumbnail}
                     category={p.category}
                     name={p.title}

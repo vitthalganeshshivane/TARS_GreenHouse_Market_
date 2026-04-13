@@ -31,6 +31,10 @@ import TransactionsPage from "./pages/vendor/dashboards/TransactionsPage.jsx";
 import SettingsPage from "./pages/vendor/dashboards/SettingsPage.jsx";
 import EditProductPage from "./pages/vendor/dashboards/EditProductPage.jsx";
 import VendorRoute from "./routes/VendorRoute.jsx";
+import MainLayout from "./components/layout/MainLayout.jsx";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchCart } from "./redux/slices/cartSlice.js";
 
 function RootRedirect() {
   const { user, loading } = useAuth();
@@ -49,34 +53,32 @@ function RootRedirect() {
 }
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchCart());
+  }, []);
   return (
     <Routes>
-      {/* <Route path="/" element={<Navigate to="/signup" replace />} /> */}
       <Route path="/" element={<RootRedirect />} />
-      <Route
-        path="/home"
+
+      {/* 🔥 FIXED: Nested routes */}
+      {/* <Route
         element={
           <ProtectedRoute>
-            <Home />
+            <MainLayout />
           </ProtectedRoute>
         }
-      />
-      <Route
-        path="/signup"
-        element={
-          // <PublicRoute>
-          <Signup />
-          // </PublicRoute>
-        }
-      />
-      <Route
-        path="/login"
-        element={
-          // <PublicRoute>
-          <Login />
-          // </PublicRoute>
-        }
-      />
+      > */}
+      <Route path="/home" element={<Home />} />
+      <Route path="/product" element={<Product />} />
+      <Route path="/product/:id" element={<ProductDetail />} />
+      <Route path="/category/:slug" element={<BrowseCategory />} />
+      <Route path="/all-products" element={<BrowseAllProducts />} />
+      {/* </Route> */}
+
+      {/* Public routes */}
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/verify" element={<VerifyOTP />} />
       <Route path="/success" element={<Success />} />

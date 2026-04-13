@@ -42,7 +42,7 @@ export default function ProductCard({
   return (
     <div
       className={cn(
-        "relative flex justify-center items-center flex-col w-32 md:w-50 rounded-xl border-1 border-gray-100/90 p-2 ",
+        "relative flex justify-center items-center flex-col w-full rounded-xl border-1 border-gray-100/90 p-2 ",
         className,
       )}
     >
@@ -56,12 +56,16 @@ export default function ProductCard({
       {/* )} */}
 
       <div className="relative w-full h-28 md:h-40 flex items-center justify-center overflow-hidden rounded-xl">
-        <img src={image} alt={image} className="w-full h-full object-contain" />
+        <img
+          src={image}
+          alt={image}
+          className="w-full h-full object-contain rounded-xl"
+        />
 
         <Button
           onClick={navigate}
           variant="outline"
-          className="absolute border border-green-200 rounded-sm text-green-800 block md:hidden -bottom-1 -right-1"
+          className="absolute border border-green-200 cursor-pointer rounded-sm text-green-800 block md:hidden -bottom-1 -right-1"
         >
           <span>Add</span>
         </Button>
@@ -92,7 +96,7 @@ export default function ProductCard({
           <Button
             onClick={navigate}
             variant="outline"
-            className="bg-green-100 h-8 rounded-sm text-green-800 hidden md:flex "
+            className="bg-green-100 h-8 cursor-pointer rounded-sm text-green-800 hidden md:flex "
           >
             <ShoppingCart />
             <span>Add</span>
