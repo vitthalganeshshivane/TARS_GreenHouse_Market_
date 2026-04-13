@@ -8,6 +8,10 @@ import uploadRoutes from "./routes/upload.routes.js";
 import productRoutes from "./routes/product.routes.js";
 import categoryRoutes from "./routes/category.routes.js";
 import vendorRoutes from "./routes/vendor.routes.js";
+import addressRoutes from "./routes/address.routes.js";
+import orderRoutes from "./routes/order.routes.js";
+import notificationRoutes from "./routes/notification.routes.js";
+import cartRoutes from "./routes/cart.routes.js";
 
 const app = express();
 const PORT = 3000;
@@ -28,6 +32,10 @@ app.use("/api/upload", uploadRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/vendor", vendorRoutes);
+app.use("/api/address", addressRoutes);
+app.use("/api/order", orderRoutes);
+app.use("/api/notification", notificationRoutes);
+app.use("/api/cart", cartRoutes);
 
 // GLOBAL ERROR HANDLER
 app.use((err, req, res, next) => {
