@@ -4,6 +4,7 @@ import { Search, AlertTriangle, RefreshCw, Plus, Package } from "lucide-react";
 import StatusBadge from "../../../components/Vendor/dashboard/StatusBadge";
 import Pagination from "../../../components/Vendor/dashboard/Pagination";
 import API from "../../../api/axios";
+import Loader from "../../../components/Loader";
 
 const filterOptions = ["All", "In Stock", "Low Stock", "Out of Stock"];
 
@@ -309,7 +310,11 @@ export default function InventoryPage() {
                     colSpan="9"
                     className="px-5 py-10 text-center text-sm text-gray-500"
                   >
-                    Loading inventory...
+                    <Loader
+                      title="Loading inventory"
+                      subtitle="Checking stock levels and availability..."
+                      plain
+                    />
                   </td>
                 </tr>
               ) : paginated.length ? (

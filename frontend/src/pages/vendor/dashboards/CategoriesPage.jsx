@@ -21,6 +21,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "../../../components/ui/alert-dialog";
+import Loader from "../../../components/Loader";
 
 const itemsPerPage = 8;
 
@@ -482,7 +483,11 @@ export default function CategoriesPage() {
         <div className="p-5">
           {loading ? (
             <div className="text-sm text-gray-500 py-10 text-center">
-              Loading categories...
+              <Loader
+                title="Loading categories"
+                subtitle="Preparing your category structure..."
+                plain
+              />
             </div>
           ) : paginated.length ? (
             <div className="space-y-8">

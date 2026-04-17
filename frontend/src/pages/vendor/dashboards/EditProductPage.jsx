@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { X, Plus, Save, ChevronDown, ImagePlus, Trash2 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import API from "../../../api/axios";
+import Loader from "../../../components/Loader";
 
 const unitOptions = [
   "kg",
@@ -317,7 +318,10 @@ export default function EditProductPage() {
   if (loading) {
     return (
       <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm text-sm text-gray-500">
-        Loading product details...
+        <Loader
+          title="Loading product details"
+          subtitle="Preparing product information for editing..."
+        />
       </div>
     );
   }

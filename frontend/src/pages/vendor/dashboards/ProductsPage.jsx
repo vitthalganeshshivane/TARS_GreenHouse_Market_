@@ -14,6 +14,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "../../../components/ui/alert-dialog";
+import Loader from "../../../components/Loader";
 
 const ITEMS_PER_PAGE = 8;
 
@@ -268,7 +269,11 @@ export default function ProductsPage() {
                     colSpan="7"
                     className="px-5 py-10 text-center text-sm text-gray-500"
                   >
-                    Loading products...
+                    <Loader
+                      title="Loading products"
+                      subtitle="Fetching your latest product catalog..."
+                      plain
+                    />
                   </td>
                 </tr>
               ) : paginated.length ? (

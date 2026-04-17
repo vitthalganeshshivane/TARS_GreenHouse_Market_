@@ -6,6 +6,7 @@ import Pagination from "../../../components/Vendor/dashboard/Pagination";
 import { ShoppingCart, Plus } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import API from "../../../api/axios";
+import Loader from "../../../components/Loader";
 
 const tabs = [
   "All Orders",
@@ -697,7 +698,11 @@ export default function OrdersPage() {
                     colSpan="9"
                     className="px-5 py-10 text-center text-sm text-gray-500"
                   >
-                    Loading orders...
+                    <Loader
+                      title="Loading orders"
+                      subtitle="Fetching your latest order activity..."
+                      plain
+                    />
                   </td>
                 </tr>
               ) : paginated.length ? (

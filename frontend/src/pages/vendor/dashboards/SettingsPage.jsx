@@ -10,6 +10,7 @@ import {
   Bell,
 } from "lucide-react";
 import API from "../../../api/axios";
+import Loader from "../../../components/Loader";
 
 const getVendorFromResponse = (data) => {
   if (data?.user) return data.user;
@@ -390,6 +391,18 @@ export default function SettingsPage() {
   const inputClass =
     "w-full px-4 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-green-400 bg-gray-50 transition-all";
   const labelClass = "block text-sm font-semibold text-gray-700 mb-1.5";
+
+  if (pageLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#f8faf8]">
+        <Loader
+          title="Loading settings"
+          subtitle="Fetching your vendor profile and store details..."
+          plain
+        />{" "}
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-5">

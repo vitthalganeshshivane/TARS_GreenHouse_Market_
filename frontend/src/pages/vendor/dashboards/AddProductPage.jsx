@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { X, Plus, Save, ChevronDown, ImagePlus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import API from "../../../api/axios";
+import Loader from "../../../components/Loader";
 
 const unitOptions = [
   "kg",
@@ -518,9 +519,15 @@ export default function AddProductPage() {
                       className="w-full px-4 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-green-400 bg-gray-50 appearance-none transition-all disabled:opacity-60"
                     >
                       <option value="">
-                        {categoryLoading
-                          ? "Loading categories..."
-                          : "Select category"}
+                        {categoryLoading ? (
+                          <Loader
+                            plain
+                            title=""
+                            subtitle="Fetching Categories From DB ....."
+                          />
+                        ) : (
+                          "Select category"
+                        )}
                       </option>
                       {parentCategories.map((item) => (
                         <option key={item._id} value={item._id}>
