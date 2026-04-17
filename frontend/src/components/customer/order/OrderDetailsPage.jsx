@@ -10,10 +10,11 @@ export default function OrderDetailsPage() {
   const { id } = useParams();
 
   const { currentOrder, loading, error } = useSelector((state) => state.order);
-  //   console.log("order:", currentOrder);
 
   useEffect(() => {
-    dispatch(fetchSingleOrderAsync(currentOrder._id));
+    if (id) {
+      dispatch(fetchSingleOrderAsync(id));
+    }
   }, [dispatch, id]);
 
   if (loading) {
@@ -40,7 +41,15 @@ export default function OrderDetailsPage() {
     );
   }
 
-  if (!currentOrder) return null;
+  if (!currentOrder) {
+    return (
+      <div className="min-h-screen bg-[#f5f5f5] py-6">
+        <div className="max-w-xl mx-auto px-4">
+          <div className="text-center text-gray-500 mt-20">Order not found</div>
+        </div>
+      </div>
+    );
+  }
 
   const address = currentOrder.shippingAddress;
 
@@ -52,7 +61,6 @@ export default function OrderDetailsPage() {
   return (
     <div className="min-h-screen bg-[#f5f5f5] py-4">
       <div className="max-w-xl mx-auto px-4">
-        {/* Header */}
         <div className="flex items-center gap-2 mb-4">
           <button onClick={() => navigate("/")}>
             <ArrowLeft size={18} className="text-black/80" />
@@ -62,7 +70,6 @@ export default function OrderDetailsPage() {
           </h1>
         </div>
 
-        {/* Success Card */}
         <div className="bg-white rounded-xl p-5 mb-4 text-center">
           <CheckCircle2 size={44} className="mx-auto text-green-600 mb-3" />
           <h2 className="text-lg font-semibold text-black/85">
@@ -103,7 +110,6 @@ export default function OrderDetailsPage() {
           </div>
         </div>
 
-        {/* Address Card */}
         {address && (
           <div className="bg-white rounded-xl p-4 mb-4">
             <div className="flex items-center gap-2 mb-2">
@@ -121,7 +127,6 @@ export default function OrderDetailsPage() {
           </div>
         )}
 
-        {/* Items Card */}
         <div className="bg-white rounded-xl p-4 mb-4">
           <div className="flex items-center gap-2 mb-3">
             <Receipt size={16} className="text-green-600" />
@@ -158,7 +163,6 @@ export default function OrderDetailsPage() {
           </div>
         </div>
 
-        {/* Bill Summary */}
         <div className="bg-white rounded-xl p-4 mb-4">
           <h3 className="font-semibold text-black/85 mb-3">Bill Summary</h3>
 
@@ -175,7 +179,6 @@ export default function OrderDetailsPage() {
           </div>
         </div>
 
-        {/* Actions */}
         <div className="grid grid-cols-2 gap-3">
           <button
             onClick={() => navigate("/")}
