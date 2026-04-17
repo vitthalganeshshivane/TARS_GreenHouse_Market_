@@ -118,7 +118,7 @@ export const createOrder = async (req, res) => {
       vendor: vendorId,
     });
 
-    await order.save();
+    await order.save({ validateBeforeSave: false });
 
     await Cart.findOneAndUpdate(
       { user: req.user._id },

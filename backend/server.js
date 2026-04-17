@@ -13,6 +13,9 @@ import orderRoutes from "./routes/order.routes.js";
 import notificationRoutes from "./routes/notification.routes.js";
 import cartRoutes from "./routes/cart.routes.js";
 
+import paymentRoutes from "./routes/payment.routes.js";
+import webhookRoutes from "./routes/webhook.routes.js";
+
 const app = express();
 const PORT = 3000;
 
@@ -23,6 +26,8 @@ app.use(
     credentials: true,
   }),
 );
+
+app.use("/api/webhooks", webhookRoutes);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -36,6 +41,8 @@ app.use("/api/address", addressRoutes);
 app.use("/api/order", orderRoutes);
 app.use("/api/notification", notificationRoutes);
 app.use("/api/cart", cartRoutes);
+
+app.use("/api/payments", paymentRoutes);
 
 // GLOBAL ERROR HANDLER
 app.use((err, req, res, next) => {

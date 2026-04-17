@@ -59,22 +59,35 @@ const orderSchema = new mongoose.Schema(
 
     paymentMethod: {
       type: String,
-      enum: ["COD", "ONLINE", "UPI"],
+      enum: ["COD", "ONLINE"],
       default: "COD",
     },
 
     paymentStatus: {
       type: String,
-      enum: ["pending", "completed", "failed"],
+      enum: ["pending", "paid", "failed", "cod_pending"],
       default: "pending",
     },
 
     paymentId: String,
 
+    // orderStatus: {
+    //   type: String,
+    //   enum: ["placed", "confirmed", "shipped", "delivered", "cancelled"],
+    //   default: "placed",
+    // },
+
     orderStatus: {
       type: String,
-      enum: ["placed", "confirmed", "shipped", "delivered", "cancelled"],
-      default: "placed",
+      enum: [
+        "payment_pending",
+        "confirmed",
+        "processing",
+        "shipped",
+        "delivered",
+        "cancelled",
+      ],
+      default: "payment_pending",
     },
 
     vendor: {
