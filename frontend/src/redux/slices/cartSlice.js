@@ -72,6 +72,11 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
+    clearCartLocal: (state) => {
+      state.items = [];
+      state.totalAmount = 0;
+      state.prevState = null;
+    },
     optimisticAdd: (state, action) => {
       const { productId, variantLabel, price, name, image } = action.payload;
 
@@ -164,7 +169,12 @@ const cartSlice = createSlice({
   },
 });
 
-export const { optimisticAdd, optimisticRemove, optimisticUpdate, rollback } =
-  cartSlice.actions;
+export const {
+  optimisticAdd,
+  optimisticRemove,
+  optimisticUpdate,
+  rollback,
+  clearCartLocal,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

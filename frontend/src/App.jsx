@@ -24,6 +24,10 @@ import MainLayout from "./components/layout/MainLayout.jsx";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchCart } from "./redux/slices/cartSlice.js";
+import AddressPage from "./components/customer/Address/layout.jsx";
+import { fetchAddresses } from "./redux/slices/addressSlice.js";
+import CartPage from "./components/customer/cart/layout.jsx";
+import OrderDetailsPage from "./components/customer/order/OrderDetailsPage.jsx";
 
 function RootRedirect() {
   const { user, loading } = useAuth();
@@ -42,6 +46,10 @@ function App() {
   useEffect(() => {
     dispatch(fetchCart());
   }, []);
+
+  useEffect(() => {
+    dispatch(fetchAddresses());
+  }, [dispatch]);
   return (
     <Routes>
       <Route path="/" element={<RootRedirect />} />
@@ -55,10 +63,15 @@ function App() {
         }
       > */}
       <Route path="/home" element={<Home />} />
+      <Route path="/address" element={<AddressPage />} />
       <Route path="/product" element={<Product />} />
       <Route path="/product/:id" element={<ProductDetail />} />
       <Route path="/category/:slug" element={<BrowseCategory />} />
       <Route path="/all-products" element={<BrowseAllProducts />} />
+
+      <Route path="/cart" element={<CartPage />} />
+
+      <Route path="/order/:id" element={<OrderDetailsPage />} />
       {/* </Route> */}
 
       {/* Public routes */}
