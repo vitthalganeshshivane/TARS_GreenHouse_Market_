@@ -20,6 +20,17 @@ import Product from "./pages/product.jsx";
 import ProductDetail from "./components/customer/ProductDetails/layout.jsx";
 import BrowseCategory from "./components/customer/Category/BrowseCategory.jsx";
 import BrowseAllProducts from "./components/customer/BrowseAllProducts.jsx";
+import DashboardLayout from "./components/Vendor/dashboard/Layout.jsx";
+import DashboardPage from "./pages/vendor/dashboards/DashboardPage.jsx";
+import OrdersPage from "./pages/vendor/dashboards/OrdersPage.jsx";
+import ProductsPage from "./pages/vendor/dashboards/ProductsPage.jsx";
+import AddProductPage from "./pages/vendor/dashboards/AddProductPage.jsx";
+import InventoryPage from "./pages/vendor/dashboards/InventoryPage.jsx";
+import CategoriesPage from "./pages/vendor/dashboards/CategoriesPage.jsx";
+import TransactionsPage from "./pages/vendor/dashboards/TransactionsPage.jsx";
+import SettingsPage from "./pages/vendor/dashboards/SettingsPage.jsx";
+import EditProductPage from "./pages/vendor/dashboards/EditProductPage.jsx";
+import VendorRoute from "./routes/VendorRoute.jsx";
 import MainLayout from "./components/layout/MainLayout.jsx";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -34,10 +45,14 @@ function RootRedirect() {
 
   if (loading) return <p>Loading...</p>;
 
-  return user ? (
-    <Navigate to="/home" replace />
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return user.role === "vendor" ? (
+    <Navigate to="/vendor" replace />
   ) : (
-    <Navigate to="/login" replace />
+    <Navigate to="/home" replace />
   );
 }
 
@@ -80,6 +95,51 @@ function App() {
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/verify" element={<VerifyOTP />} />
       <Route path="/success" element={<Success />} />
+
+      <Route
+        path="/product"
+        element={
+          <ProtectedRoute>
+            <Product />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route path="/category/:slug" element={<BrowseCategory />} />
+
+      <Route path="/all-products" element={<BrowseAllProducts />} />
+
+      <Route
+        path="/product/:id"
+        element={
+          <ProtectedRoute>
+            <ProductDetail />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* <Route path="/vendor" element={<DashboardLayout />} /> */}
+      <Route
+        path="/vendor"
+        element={
+          <VendorRoute>
+            {" "}
+            <DashboardLayout />{" "}
+          </VendorRoute>
+        }
+      >
+        <Route index element={<DashboardPage />} />
+        <Route path="orders" element={<OrdersPage />} />
+        <Route path="products" element={<ProductsPage />} />
+        <Route path="products/add" element={<AddProductPage />} />
+        <Route path="products/edit/:id" element={<EditProductPage />} />
+        <Route path="inventory" element={<InventoryPage />} />
+        <Route path="categories" element={<CategoriesPage />} />
+        <Route path="transactions" element={<TransactionsPage />} />
+        <Route path="settings" element={<SettingsPage />} />
+      </Route>
+
+      {/* <Route path="*" element={<Navigate to="/signup" replace />} /> */}
     </Routes>
   );
 }

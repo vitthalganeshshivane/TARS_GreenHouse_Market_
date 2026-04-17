@@ -2,9 +2,15 @@ import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema(
   {
+    orderId: {
+      type: String,
+      unique: true,
+    },
+
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+      required: true,
     },
 
     items: [
@@ -12,21 +18,49 @@ const orderSchema = new mongoose.Schema(
         product: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Product",
+          required: true,
         },
-        quantity: Number,
-        price: Number,
+
+        title: {
+          type: String,
+          required: true,
+        },
+
+        thumbnail: String,
+
+        variant: {
+          type: String,
+          required: true,
+        },
+
+        quantity: {
+          type: Number,
+          required: true,
+          min: 1,
+        },
+
+        price: {
+          type: Number,
+          required: true,
+        },
       },
     ],
 
-    totalAmount: Number,
+    totalAmount: {
+      type: Number,
+      required: true,
+    },
 
     shippingAddress: {
-      fullName: String,
-      phone: String,
-      addressLine: String,
-      city: String,
-      state: String,
-      pincode: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Address",
+      required: true,
+    },
+
+    paymentMethod: {
+      type: String,
+      enum: ["COD", "ONLINE", "UPI"],
+      default: "COD",
     },
 
     paymentStatus: {
@@ -35,13 +69,19 @@ const orderSchema = new mongoose.Schema(
       default: "pending",
     },
 
+    paymentId: String,
+
     orderStatus: {
       type: String,
-      enum: ["placed", "shipped", "delivered", "cancelled"],
+      enum: ["placed", "confirmed", "shipped", "delivered", "cancelled"],
       default: "placed",
     },
 
-    paymentId: String,
+    vendor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   { timestamps: true },
 );

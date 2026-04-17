@@ -32,9 +32,13 @@ export default function Login() {
         payload.phone = emailOrPhone;
       }
 
-      await login(payload);
+      const loggedInUser = await login(payload);
 
-      navigate("/home");
+      if (loggedInUser?.role === "vendor") {
+        navigate("/vendor");
+      } else {
+        navigate("/home");
+      }
     } catch (error) {
       console.error(error);
 

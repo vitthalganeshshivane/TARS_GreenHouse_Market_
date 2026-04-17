@@ -3,6 +3,7 @@ import Address from "../models/Address.js";
 export const createAddress = async (req, res) => {
   try {
     // console.log("creating address api hit");
+
     const userId = req.user._id;
 
     const { fullName, addressLine, city, state, pincode, location, isDefault } =
@@ -42,6 +43,7 @@ export const createAddress = async (req, res) => {
     });
   } catch (error) {
     console.log("Error in creating adress:", error.message);
+
     res.status(500).json({
       success: false,
       message: "Failed to create address",

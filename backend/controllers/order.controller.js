@@ -142,6 +142,7 @@ export const createOrder = async (req, res) => {
     });
   } catch (error) {
     console.log("Error in Order Creation:", error.message);
+
     res.status(500).json({
       success: false,
       message: "Order creation failed",
