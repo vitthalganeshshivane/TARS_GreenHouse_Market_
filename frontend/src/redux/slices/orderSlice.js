@@ -27,7 +27,7 @@ export const fetchSingleOrderAsync = createAsyncThunk(
   async (orderId, thunkAPI) => {
     try {
       const { data } = await API.get(`/order/${orderId}`);
-      console.log("order data redux:", data.order);
+      // console.log("order data redux:", data.order);
       return data.order;
     } catch (error) {
       return thunk(error, thunkAPI);

@@ -39,6 +39,7 @@ import AddressPage from "./components/customer/Address/layout.jsx";
 import { fetchAddresses } from "./redux/slices/addressSlice.js";
 import CartPage from "./components/customer/cart/layout.jsx";
 import OrderDetailsPage from "./components/customer/order/OrderDetailsPage.jsx";
+import PaymentStatusPage from "./components/customer/payment/PaymentStatusPage.jsx";
 
 function RootRedirect() {
   const { user, loading } = useAuth();
@@ -87,6 +88,8 @@ function App() {
       <Route path="/cart" element={<CartPage />} />
 
       <Route path="/order/:id" element={<OrderDetailsPage />} />
+
+      <Route path="/payment-status" element={<PaymentStatusPage />} />
       {/* </Route> */}
 
       {/* Public routes */}

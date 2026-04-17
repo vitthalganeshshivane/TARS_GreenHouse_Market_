@@ -1,12 +1,15 @@
 import { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createOrderAsync } from "../redux/slices/orderSlice";
+import { createPaymentSessionAsync } from "../redux/slices/paymentSlice";
+import { openCashfreeCheckout } from "../utils/cashfree";
 
 export default function useCheckout() {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
   const addresses = useSelector((state) => state.address.addresses);
   const orderState = useSelector((state) => state.order);
+  const paymentState = useSelector((state) => state.payment);
 
   console.log("Product item:", cartItems);
 
@@ -65,8 +68,45 @@ export default function useCheckout() {
   };
 
   const startUPIPayment = async () => {
-    // placeholder for Cashfree
-    return { ok: false, message: "UPI flow not implemented yet" };
+    if (!cartItems.length) {
+      return { ok: false, message: "Cart is empty" };
+    }
+
+    if (!defaultAddress?._id) {
+      return { ok: false, message: "Please select a delivery address" };
+    }
+
+    const resultAction = await dispatch(
+      createPaymentSessionAsync({
+        shippingAddress: defaultAddress._id,
+      }),
+    );
+
+    console.log("payment resultAction:", resultAction);
+
+    if (!createPaymentSessionAsync.fulfilled.match(resultAction)) {
+      return {
+        ok: false,
+        message:
+          resultAction.payload?.message || "Failed to create payment session",
+      };
+    }
+
+    const session = resultAction.payload.data;
+
+    try {
+      await openCashfreeCheckout(session.paymentSessionId);
+
+      return {
+        ok: true,
+        orderCode: session.orderCode,
+      };
+    } catch (error) {
+      return {
+        ok: false,
+        message: error.message || "Cashfree checkout failed",
+      };
+    }
   };
 
   return {
@@ -77,7 +117,9 @@ export default function useCheckout() {
     platformFee,
     total,
     orderLoading: orderState.loading,
+    paymentLoading: paymentState.loading,
     orderError: orderState.error,
+    paymentError: paymentState.error,
     placeCODOrder,
     startUPIPayment,
   };

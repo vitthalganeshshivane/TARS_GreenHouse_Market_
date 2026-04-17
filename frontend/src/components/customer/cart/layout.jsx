@@ -43,8 +43,8 @@ export default function CartPage() {
       const result = await placeCODOrder();
 
       if (result.ok) {
-        dispatch(clearCartLocal);
-        dispatch(resetOrderState);
+        dispatch(clearCartLocal());
+        dispatch(resetOrderState());
         navigate(`/order/${result.order._id}`);
       } else {
         alert(result.message);
