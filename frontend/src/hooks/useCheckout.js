@@ -6,8 +6,8 @@ import { openCashfreeCheckout } from "../utils/cashfree";
 
 export default function useCheckout() {
   const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cart.items);
-  const addresses = useSelector((state) => state.address.addresses);
+  const cartItems = useSelector((state) => state.cart?.items ?? []);
+  const addresses = useSelector((state) => state.address?.addresses ?? []);
   const orderState = useSelector((state) => state.order);
   const paymentState = useSelector((state) => state.payment);
 

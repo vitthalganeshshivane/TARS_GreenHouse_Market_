@@ -40,6 +40,8 @@ import { fetchAddresses } from "./redux/slices/addressSlice.js";
 import CartPage from "./components/customer/cart/layout.jsx";
 import OrderDetailsPage from "./components/customer/order/OrderDetailsPage.jsx";
 import PaymentStatusPage from "./components/customer/payment/PaymentStatusPage.jsx";
+import WishlistPage from "./pages/wishlist.jsx";
+import { fetchWishlist } from "./redux/slices/wishlistSlice";
 
 function RootRedirect() {
   const { user, loading } = useAuth();
@@ -61,11 +63,10 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCart());
-  }, []);
-
-  useEffect(() => {
     dispatch(fetchAddresses());
+    dispatch(fetchWishlist());
   }, [dispatch]);
+
   return (
     <Routes>
       <Route path="/" element={<RootRedirect />} />
@@ -104,6 +105,15 @@ function App() {
         element={
           <ProtectedRoute>
             <Product />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/wishlist"
+        element={
+          <ProtectedRoute>
+            <WishlistPage />
           </ProtectedRoute>
         }
       />
