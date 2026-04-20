@@ -65,7 +65,22 @@ export default function PopularProduct() {
             // console.log("variant", defaultVariant);
             return (
               <div key={item._id} className="w-full">
+                {/* <ProductCard
+                  image={item.thumbnail}
+                  category={item.category}
+                  name={item.title}
+                  rating={item.ratings?.average || 4}
+                  ratingCount={item.ratings?.count || 20}
+                  brand={item.brand}
+                  price={defaultVariant?.price}
+                  discount={defaultVariant?.discountPrice || 0}
+                  label={defaultVariant?.label}
+                  sale={true}
+                  navigate={() => navigate(`/product/${item._id}`)}
+                /> */}
+
                 <ProductCard
+                  productId={item._id}
                   image={item.thumbnail}
                   category={item.category}
                   name={item.title}

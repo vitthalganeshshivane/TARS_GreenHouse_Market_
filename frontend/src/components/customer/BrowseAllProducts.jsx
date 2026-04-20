@@ -44,6 +44,7 @@ export default function BrowseAllProducts() {
                   onClick={() => setSelectedProduct(p)}
                 >
                   <ProductCard
+                    productId={p._id}
                     image={p.thumbnail}
                     category={p.category}
                     name={p.title}
@@ -55,6 +56,19 @@ export default function BrowseAllProducts() {
                     label={defaultVariant?.label}
                     sale={true}
                   />
+
+                  {/* <ProductCard
+                    image={p.thumbnail}
+                    category={p.category}
+                    name={p.title}
+                    rating={p.ratings?.average || 4}
+                    ratingCount={p.ratings?.count || 20}
+                    brand={p.brand}
+                    price={defaultVariant?.price}
+                    discount={defaultVariant?.discountPrice || 0}
+                    label={defaultVariant?.label}
+                    sale={true}
+                  /> */}
                 </div>
               );
             })}
