@@ -277,9 +277,9 @@ export default function Topbar({ onToggleSidebar }) {
               onClick={() => setNotificationOpen((prev) => !prev)}
               className="relative p-2 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors"
             >
-              <Bell className="w-5 h-5 text-gray-500" />
+              <Bell className="w-5 h-5 text-gray-500 cursor-pointer" />
               {unreadCount > 0 && (
-                <span className="absolute top-1.5 right-1.5 min-w-[16px] h-4 px-1 bg-red-500 rounded-full border-2 border-white text-[10px] font-bold text-white flex items-center justify-center">
+                <span className="absolute top-1.5 right-1.5 min-w-[16px] cursor-pointer h-4 px-1 bg-red-500 rounded-full border-2 border-white text-[10px] font-bold text-white flex items-center justify-center">
                   {unreadCount > 9 ? "9+" : unreadCount}
                 </span>
               )}
@@ -319,7 +319,7 @@ export default function Topbar({ onToggleSidebar }) {
 
             {profileOpen && (
               <div className="absolute right-0 top-12 w-64 bg-white border border-gray-100 rounded-2xl shadow-lg z-30 overflow-hidden">
-                <div className="px-4 py-3 border-b border-gray-100">
+                <div className="px-4 py-3 border-b border-gray-100 cursor-pointer">
                   <p className="text-sm font-bold text-gray-800 truncate">
                     {displayName}
                   </p>
@@ -334,7 +334,7 @@ export default function Topbar({ onToggleSidebar }) {
                       setProfileOpen(false);
                       navigate("/vendor/settings");
                     }}
-                    className="flex items-center gap-2 w-full px-3 py-2 text-sm font-semibold text-gray-700 rounded-xl hover:bg-gray-50 transition-colors"
+                    className="flex items-center cursor-pointer gap-2 w-full px-3 py-2 text-sm font-semibold text-gray-700 rounded-xl hover:bg-gray-50 transition-colors"
                   >
                     <Settings className="w-4 h-4 text-gray-400" />
                     Settings
@@ -342,7 +342,7 @@ export default function Topbar({ onToggleSidebar }) {
 
                   <button
                     onClick={handleLogout}
-                    className="flex items-center gap-2 w-full px-3 py-2 text-sm font-semibold text-red-600 rounded-xl hover:bg-red-50 transition-colors"
+                    className="flex items-center cursor-pointer gap-2 w-full px-3 py-2 text-sm font-semibold text-red-600 rounded-xl hover:bg-red-50 transition-colors"
                   >
                     <LogOut className="w-4 h-4" />
                     Logout
