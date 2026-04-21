@@ -80,9 +80,21 @@ export default function Sidebar({
             </div>
 
             {(!collapsed || isMobile) && (
-              <div className="flex flex-col leading-tight min-w-0">
-                <span className="text-green-700 font-800 text-lg font-extrabold tracking-tight truncate">
-                  Kirana<span className="text-green-500">Plus</span>
+              // <div className="flex flex-col leading-tight min-w-0">
+              //   <span className="text-green-700 font-800 text-lg font-extrabold tracking-tight truncate">
+              //     Kirana<span className="text-green-500">Plus</span>
+              //   </span>
+              //   <span className="text-xs text-gray-400 font-medium">
+              //     Vendor Dashboard
+              //   </span>
+              // </div>
+
+              <div
+                className="flex items-center flex-col gap-1 cursor-pointer"
+                onClick={() => handleNavigate("/vendor")}
+              >
+                <span className="text-xs font-bold text-green-800">
+                  Greenhouse Market
                 </span>
                 <span className="text-xs text-gray-400 font-medium">
                   Vendor Dashboard
@@ -169,7 +181,7 @@ export default function Sidebar({
 
           <button
             onClick={handleLogout}
-            className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-red-500 hover:bg-red-50 transition-all text-sm font-semibold"
+            className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl cursor-pointer text-red-500 hover:bg-red-50 transition-all text-sm font-semibold"
           >
             <LogOut className="w-5 h-5 flex-shrink-0" />
             {(!collapsed || isMobile) && <span>Logout</span>}
