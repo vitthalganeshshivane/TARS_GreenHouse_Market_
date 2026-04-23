@@ -93,8 +93,8 @@ function OrderDetailsModal({ order, open, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6 overflow-y-auto">
-      <div className="w-full max-w-4xl rounded-2xl border border-gray-100 bg-white shadow-xl max-h-[90vh] overflow-y-auto my-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6 overflow-y-auto scrollbar-hide">
+      <div className="w-full max-w-4xl rounded-2xl border border-gray-100 bg-white shadow-xl max-h-[90vh] overflow-y-auto scrollbar-hide my-auto">
         <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
           <div>
             <h3 className="text-lg font-bold text-gray-800">Order Details</h3>
