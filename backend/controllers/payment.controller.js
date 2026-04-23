@@ -4,7 +4,7 @@ import { createPendingOrderAndPayment } from "../services/payment.service.js";
 import { getCashfreePaymentsByOrderId } from "../services/cashfree.service.js";
 
 export const createCashfreePaymentSession = async (req, res) => {
-  console.log("payment session hiiting api");
+  // console.log("payment session hiiting api");
   try {
     const { shippingAddress } = req.body;
 
@@ -37,14 +37,14 @@ export const verifyPaymentStatus = async (req, res) => {
   try {
     const { orderId } = req.params;
 
-    console.log("verify orderId from params:", orderId);
-    console.log("verify req.user:", req.user);
+    // console.log("verify orderId from params:", orderId);
+    // console.log("verify req.user:", req.user);
     const order = await Order.findOne({
       orderId,
       user: req.user._id,
     });
 
-    console.log("found order:", order);
+    // console.log("found order:", order);
 
     if (!order) {
       return res.status(404).json({
@@ -54,7 +54,7 @@ export const verifyPaymentStatus = async (req, res) => {
     }
 
     const payment = await Payment.findOne({ order: order._id });
-    console.log("found payment:", payment);
+    // console.log("found payment:", payment);
     if (!payment) {
       return res.status(404).json({
         success: false,
@@ -62,11 +62,11 @@ export const verifyPaymentStatus = async (req, res) => {
       });
     }
 
-    console.log("cashfreeOrderId:", payment.cashfreeOrderId);
+    // console.log("cashfreeOrderId:", payment.cashfreeOrderId);
 
     const cashfreePayments = await getCashfreePaymentsByOrderId(order.orderId);
 
-    console.log("cashfreePayments:", cashfreePayments);
+    // console.log("cashfreePayments:", cashfreePayments);
 
     const successfulPayment = cashfreePayments.find(
       (item) => item.payment_status === "SUCCESS",

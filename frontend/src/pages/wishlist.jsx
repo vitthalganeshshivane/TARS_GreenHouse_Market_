@@ -28,7 +28,7 @@ export default function WishlistPage() {
         {/* <div className="px-10">
           <Topbar />
         </div> */}
-        <div className="px-10 md:px-30">
+        <div className="px-5 md:px-15">
           <Navbar />
         </div>
       </div>

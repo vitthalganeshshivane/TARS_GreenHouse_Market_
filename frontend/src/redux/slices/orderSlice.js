@@ -22,6 +22,18 @@ export const createOrderAsync = createAsyncThunk(
   },
 );
 
+export const fetchMyOrdersAsync = createAsyncThunk(
+  "order/fetchMyOrders",
+  async (_, thunkAPI) => {
+    try {
+      const { data } = await API.get("/order/my");
+      return data.orders;
+    } catch (error) {
+      return thunk(error, thunkAPI);
+    }
+  },
+);
+
 export const fetchSingleOrderAsync = createAsyncThunk(
   "order/fetchSingle",
   async (orderId, thunkAPI) => {
@@ -73,6 +85,19 @@ const orderSlice = createSlice({
         state.loading = false;
         state.success = false;
         state.error = action.payload?.message || "Order creation failed";
+      })
+
+      .addCase(fetchMyOrdersAsync.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchMyOrdersAsync.fulfilled, (state, action) => {
+        state.loading = false;
+        state.myOrders = action.payload;
+      })
+      .addCase(fetchMyOrdersAsync.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message || "Failed to fetch my orders";
       })
 
       .addCase(fetchSingleOrderAsync.pending, (state) => {

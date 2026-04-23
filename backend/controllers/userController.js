@@ -1,5 +1,5 @@
-import Address from "../models/Address";
-import User from "../models/User";
+import Address from "../models/Address.js";
+import User from "../models/User.js";
 
 export const getProfile = async (req, res) => {
   try {
@@ -18,22 +18,26 @@ export const getProfile = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const { name, phone, password } = req.body;
 
-    const { name, phone } = req.body;
+    const updateData = {};
 
-    const updated = await User.findByIdAndUpdate(
-      userId,
-      {
-        ...(name && { name }),
-        ...(phone && { phone }),
-      },
-      { new: true },
-    ).select("-password");
+    if (name !== undefined) updateData.name = name;
+    if (phone !== undefined) updateData.phone = phone;
 
-    res.json(updated);
+    if (password !== undefined) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      updateData.password = hashedPassword;
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(req.user.id, updateData, {
+      returnDocument: "after",
+    }).select("-password");
+
+    return res.status(200).json(updatedUser);
   } catch (error) {
-    console.log("Error in Updating Profile:", error.message);
+    console.error("Update profile error:", error);
+    return res.status(500).json({ message: "Server error" });
   }
 };
 

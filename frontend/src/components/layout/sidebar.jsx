@@ -1,7 +1,22 @@
-import { X, Grid, Star, Home, ShoppingBag, Percent, Info, PhoneCall, Mail, User, Heart, ShoppingCart, Recycle } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Link } from "react-router"
-import { Navigations } from "./navigation"
+import {
+  X,
+  Grid,
+  Star,
+  Home,
+  ShoppingBag,
+  Percent,
+  Info,
+  PhoneCall,
+  Mail,
+  User,
+  Heart,
+  ShoppingCart,
+  Recycle,
+  Leaf,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router";
+import { Navigations } from "./navigation";
 
 export default function Sidebar({ isOpen, onClose }) {
   return (
@@ -23,16 +38,13 @@ export default function Sidebar({ isOpen, onClose }) {
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b">
-            <img
-              className="h-8"
-              src="https://brandlogos.net/wp-content/uploads/2025/08/bigbasket-logo_brandlogos.net_n0gb0-768x171.png"
-              alt="BigBasket Logo"
-            />
-            <Button
-              size="icon"
-              variant="ghost"
-              onClick={onClose}
-            >
+            <div className="flex items-center gap-1">
+              <Leaf className="h-7 w-7 fill-emerald-700 text-emerald-700" />
+              <span className="text-xl font-bold text-green-800">
+                Greenhouse Market
+              </span>
+            </div>
+            <Button size="icon" variant="ghost" onClick={onClose}>
               <X className="w-5 h-5" />
             </Button>
           </div>
@@ -42,7 +54,10 @@ export default function Sidebar({ isOpen, onClose }) {
             {/* User Section */}
             <div className="p-4 border-b bg-gray-50">
               <Link to="/account" onClick={onClose}>
-                <Button variant="outline" className="w-full justify-start gap-2">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-2"
+                >
                   <User className="w-4 h-4" />
                   <span>My Account</span>
                 </Button>
@@ -51,27 +66,51 @@ export default function Sidebar({ isOpen, onClose }) {
 
             {/* Quick Links */}
             <div className="p-4 border-b">
-              <h3 className="text-sm font-semibold text-gray-500 mb-3">QUICK LINKS</h3>
+              <h3 className="text-sm font-semibold text-gray-500 mb-3">
+                QUICK LINKS
+              </h3>
               <div className="space-y-2">
-                <Link to="/" onClick={onClose} className="flex items-center gap-3 py-2 hover:text-primary transition">
+                <Link
+                  to="/"
+                  onClick={onClose}
+                  className="flex items-center gap-3 py-2 hover:text-primary transition"
+                >
                   <Home className="w-5 h-5" />
                   <span>Home</span>
                 </Link>
-                <Link to="/wishlist" onClick={onClose} className="flex items-center gap-3 py-2 hover:text-primary transition">
+                <Link
+                  to="/wishlist"
+                  onClick={onClose}
+                  className="flex items-center gap-3 py-2 hover:text-primary transition"
+                >
                   <Heart className="w-5 h-5" />
                   <span>Wishlist</span>
-                  <span className="ml-auto bg-primary text-white text-xs px-2 py-0.5 rounded-full">5</span>
+                  <span className="ml-auto bg-primary text-white text-xs px-2 py-0.5 rounded-full">
+                    5
+                  </span>
                 </Link>
-                <Link to="/cart" onClick={onClose} className="flex items-center gap-3 py-2 hover:text-primary transition">
+                <Link
+                  to="/cart"
+                  onClick={onClose}
+                  className="flex items-center gap-3 py-2 hover:text-primary transition"
+                >
                   <ShoppingCart className="w-5 h-5" />
                   <span>Cart</span>
-                  <span className="ml-auto bg-primary text-white text-xs px-2 py-0.5 rounded-full">5</span>
+                  <span className="ml-auto bg-primary text-white text-xs px-2 py-0.5 rounded-full">
+                    5
+                  </span>
                 </Link>
-                <Link to="/compare" onClick={onClose} className="flex items-center gap-3 py-2 hover:text-primary transition">
+                {/* <Link 
+                  to="/compare"
+                  onClick={onClose}
+                  className="flex items-center gap-3 py-2 hover:text-primary transition"
+                >
                   <Recycle className="w-5 h-5" />
                   <span>Compare</span>
-                  <span className="ml-auto bg-primary text-white text-xs px-2 py-0.5 rounded-full">5</span>
-                </Link>
+                  <span className="ml-auto bg-primary text-white text-xs px-2 py-0.5 rounded-full">
+                    5
+                  </span>
+                </Link> */}
               </div>
             </div>
 
@@ -81,23 +120,30 @@ export default function Sidebar({ isOpen, onClose }) {
                 <Grid className="w-4 h-4" />
                 <span className="font-medium">Browse All Categories</span>
               </Button>
-              <Link to="/hot-deals" onClick={onClose} className="flex items-center gap-3 py-2 hover:text-primary transition">
+              <Link
+                to="/hot-deals"
+                onClick={onClose}
+                className="flex items-center gap-3 py-2 hover:text-primary transition"
+              >
                 <Star className="w-5 h-5" />
                 <span>Hot Deals</span>
               </Link>
             </div>
 
             {/* Navigation Links */}
-            <div className="p-4 border-b">
+            {/* <div className="p-4 border-b">
               <h3 className="text-sm font-semibold text-gray-500 mb-3">MENU</h3>
               <div className="flex flex-col space-y-2">
                 <Navigations mobile onClose={onClose} />
               </div>
-            </div>
+            </div> */}
 
             {/* Vendor Section */}
             <div className="p-4 border-b">
-              <Button variant="outline" className="w-full text-primary justify-center">
+              <Button
+                variant="outline"
+                className="w-full text-primary justify-center"
+              >
                 <span>Become Vendor</span>
               </Button>
             </div>
@@ -109,12 +155,14 @@ export default function Sidebar({ isOpen, onClose }) {
               <PhoneCall className="text-primary w-6 h-6" />
               <div className="flex flex-col leading-tight">
                 <span className="font-semibold text-primary">7828767035</span>
-                <span className="text-xs text-gray-500">24/7 Support Center</span>
+                <span className="text-xs text-gray-500">
+                  24/7 Support Center
+                </span>
               </div>
             </div>
           </div>
         </div>
       </div>
     </>
-  )
+  );
 }

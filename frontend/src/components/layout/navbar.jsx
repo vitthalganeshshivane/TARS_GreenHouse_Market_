@@ -41,7 +41,8 @@ export default function Navbar() {
           />
         </div> */}
 
-        <div className="flex items-center gap-1">
+        {/* Force hidden by default, only flex at sm and above */}
+        <div className="hidden sm:flex items-center gap-1">
           <Leaf className="h-7 w-7 fill-emerald-700 text-emerald-700" />
           <span className="text-xl font-bold text-green-800">
             Greenhouse Market
@@ -63,7 +64,7 @@ export default function Navbar() {
           </Button> */}
 
           <div className="flex items-center justify-between gap-4">
-            <NavbarBtn icon={<Recycle />} text="Compare" link="/compare" />
+            {/* <NavbarBtn icon={<Recycle />} text="Compare" link="/compare" /> */}
             <NavbarBtn icon={<Heart />} text="Wishlist" link="/wishlist" />
             <NavbarBtn
               icon={<ShoppingCart />}
@@ -71,7 +72,7 @@ export default function Navbar() {
               link="/cart"
               badge={{ status: totalItems > 0, value: totalItems }}
             />
-            <NavbarBtn icon={<User />} text="Account" link="/address" />
+            <NavbarBtn icon={<User />} text="Account" link="/account" />
           </div>
         </div>
       </nav>
@@ -87,13 +88,13 @@ export default function Navbar() {
             Browse All Categories
           </Button>
 
-          <Link
+          {/* <Link
             to="/hot-deals"
             className="flex items-center gap-2 text-xs md:text-sm font-medium whitespace-nowrap"
           >
             <Star className="w-4 h-4" />
             Hot Deals
-          </Link>
+          </Link> */}
         </div>
 
         <div className="flex items-center gap-2 md:gap-3 text-sm">
@@ -124,11 +125,12 @@ export default function Navbar() {
           <Menu />
         </Button>
 
-        <img
-          className="h-6 absolute left-1/2 transform -translate-x-1/2"
-          src="https://brandlogos.net/wp-content/uploads/2025/08/bigbasket-logo_brandlogos.net_n0gb0-768x171.png"
-          alt="logo"
-        />
+        <div className="flex items-center gap-1">
+          <Leaf className="h-7 w-7 fill-emerald-700 text-emerald-700" />
+          <span className="text-xl font-bold text-green-800">
+            Greenhouse Market
+          </span>
+        </div>
 
         <div className="flex gap-2">
           <NavbarBtn icon={<Heart />} text="Wishlist" link="/wishlist" />

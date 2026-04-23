@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import db from "./config/db.js";
 
+import userRoutes from "./routes/userRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import uploadRoutes from "./routes/upload.routes.js";
 import productRoutes from "./routes/product.routes.js";
@@ -34,6 +35,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/category", categoryRoutes);

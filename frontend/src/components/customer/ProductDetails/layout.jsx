@@ -6,6 +6,7 @@ import Navbar from "../../layout/navbar";
 
 import ProductInfoSection from "./ProductInfoSection";
 import ProductModal from "./ProductModal";
+import BackHeader from "../../common/BackHeader";
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -24,13 +25,14 @@ export default function ProductDetail() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="px-10 border-1 border-gray-100">
+      {/* <div className="px-10 border-1 border-gray-100">
         <Navbar />
-      </div>
+      </div> */}
+      <BackHeader title="Product" fallback="/home" />
       <div>
         <ProductModal product={singleProduct} />
 
-        <div className="max-w-[700px] mx-auto pb-50 px-5">
+        <div className="max-w-[900px] mx-auto pb-50 px-5">
           <ProductInfoSection product={singleProduct} />
         </div>
       </div>

@@ -13,6 +13,7 @@ import CartPaymentMethod from "./CartPaymentMethod";
 import CartCheckoutAction from "./CartCheckoutAction";
 
 import useCheckout from "../../../hooks/useCheckout";
+import BackHeader from "../../common/BackHeader";
 
 export default function CartPage() {
   const dispatch = useDispatch();
@@ -69,36 +70,35 @@ export default function CartPage() {
   }
 
   return (
-    <div className="bg-[#f5f5f5] min-h-screen py-4">
-      <div className="flex items-center gap-2 mb-4 px-4">
-        <ArrowLeft size={17} strokeWidth={2} className="text-black/80" />
-        <div className="text-[16px] font-semibold text-black/80">Checkout</div>
-      </div>
-      <div className="max-w-2xl mx-auto px-4">
-        <div className="bg-white px-2 py-2 rounded-xl">
-          <div className="font-semibold text-black/90 ml-2">Items</div>
-          {cartItems.map((item) => (
-            <CartItemCard key={item._id} item={item} />
-          ))}
+    <div className="min-h-screen">
+      <BackHeader title="Checkout" fallback="/home" />
+      <div className="bg-[#f5f5f5]  py-4">
+        <div className="max-w-2xl mx-auto px-4">
+          <div className="bg-white px-2 py-2 rounded-xl">
+            <div className="font-semibold text-black/90 ml-2">Items</div>
+            {cartItems.map((item) => (
+              <CartItemCard key={item._id} item={item} />
+            ))}
+          </div>
+
+          <CartAddressCard />
+
+          <CartBillDetails item={cartItems} subtotal={subTotal} />
+
+          <CartPaymentMethod
+            selectedMethod={paymentMethod}
+            onChangeMethod={setPaymentMethod}
+          />
+
+          <CartCheckoutAction
+            paymentMethod={paymentMethod}
+            onPlaceOrder={handlePlaceOrder}
+            onPayOnline={handlePlaceOrder}
+            items={cartItems}
+            total={subTotal}
+            loading={orderLoading}
+          />
         </div>
-
-        <CartAddressCard />
-
-        <CartBillDetails item={cartItems} subtotal={subTotal} />
-
-        <CartPaymentMethod
-          selectedMethod={paymentMethod}
-          onChangeMethod={setPaymentMethod}
-        />
-
-        <CartCheckoutAction
-          paymentMethod={paymentMethod}
-          onPlaceOrder={handlePlaceOrder}
-          onPayOnline={handlePlaceOrder}
-          items={cartItems}
-          total={subTotal}
-          loading={orderLoading}
-        />
       </div>
     </div>
   );

@@ -26,7 +26,7 @@ export default function Home() {
         {/* <div className="px-5">
           <Topbar />
         </div> */}
-        <div className="px-10">
+        <div className="px-5">
           <Navbar />
         </div>
       </div>
@@ -40,9 +40,9 @@ export default function Home() {
             {
               src: Banner2,
             },
-            {
-              src: Banner1,
-            },
+            // {
+            //   src: Banner1,
+            // },
           ]}
         />
       </div>

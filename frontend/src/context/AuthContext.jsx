@@ -44,6 +44,11 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateUser = (updatedUser) => {
+    setUser(updatedUser);
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+  };
+
   useEffect(() => {
     const token = getToken();
     // console.log("TOKEN ON LOAD:", token);
@@ -54,7 +59,9 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading, signup }}>
+    <AuthContext.Provider
+      value={{ user, login, logout, loading, signup, updateUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

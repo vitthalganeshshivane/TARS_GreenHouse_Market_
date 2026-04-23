@@ -70,34 +70,36 @@ export default function ProductCard({
   return (
     <div
       className={cn(
-        "relative flex justify-center items-center flex-col w-full rounded-xl border-1 border-gray-100/90 p-2 ",
+        "relative flex justify-center items-center flex-col w-full h-full rounded-xl border-1 border-gray-100/90 p-2 ",
         className,
       )}
     >
-      <span className="rounded-tl-xl rounded-br-xl absolute top-0 left-0 bg-green-500 text-white px-4 hidden md:inline">
+      {/* <div className="flex-row justify-between"> */}
+      <div className="rounded-tl-xl rounded-br-xl absolute top-0 left-0 bg-green-500 text-white px-4 hidden md:inline">
         {discount}%
-      </span>
+      </div>
 
-      <div className="relative w-full h-28 md:h-40 flex items-center justify-center overflow-hidden rounded-xl">
+      <button
+        type="button"
+        onClick={handleWishlist}
+        className="absolute top-0 right-0 h-9 w-9 flex items-center justify-center transition cursor-pointer"
+        aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+      >
+        <Heart
+          size={16}
+          className={
+            isWishlisted ? "text-red-500 fill-red-500" : "text-gray-400"
+          }
+        />
+      </button>
+      {/* </div> */}
+
+      <div className="relative w-full h-28 md:h-40 flex items-center justify-center overflow-hidden rounded-xl mt-5">
         <img
           src={image}
           alt={image}
           className="w-full h-full object-contain rounded-xl"
         />
-
-        <button
-          type="button"
-          onClick={handleWishlist}
-          className="absolute top-2 right-2 h-9 w-9 rounded-full bg-white shadow-sm flex items-center justify-center border border-gray-100 hover:bg-gray-50 transition"
-          aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
-        >
-          <Heart
-            size={16}
-            className={
-              isWishlisted ? "text-red-500 fill-red-500" : "text-gray-400"
-            }
-          />
-        </button>
 
         <Button
           onClick={navigate}
@@ -108,7 +110,7 @@ export default function ProductCard({
         </Button>
       </div>
 
-      <div className="w-full flex justify-center items-center flex-col">
+      <div className="w-full flex justify-center items-center flex-col flex-1">
         <div className="w-full flex justify-between">
           <div className="text-gray-500 text-[12px]">{category?.name}</div>
           <div className="text-gray-500 text-[12px]">{label}</div>

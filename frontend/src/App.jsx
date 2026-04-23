@@ -43,6 +43,10 @@ import PaymentStatusPage from "./components/customer/payment/PaymentStatusPage.j
 import WishlistPage from "./pages/wishlist.jsx";
 import { fetchWishlist } from "./redux/slices/wishlistSlice";
 import AccountLayout from "./components/customer/Account/layout.jsx";
+<<<<<<< Updated upstream
+=======
+import MyOrders from "./components/customer/Account/MyOrders.jsx";
+>>>>>>> Stashed changes
 
 function RootRedirect() {
   const { user, loading } = useAuth();
@@ -82,7 +86,10 @@ function App() {
       > */}
       <Route path="/home" element={<Home />} />
       {/* <Route path="/address" element={<AddressPage />} /> */}
+<<<<<<< Updated upstream
       <Route path="/account" element={<AccountLayout />} />
+=======
+>>>>>>> Stashed changes
       <Route path="/product" element={<Product />} />
       <Route path="/product/:id" element={<ProductDetail />} />
       <Route path="/category/:slug" element={<BrowseCategory />} />
@@ -92,6 +99,17 @@ function App() {
 
       <Route path="/order/:id" element={<OrderDetailsPage />} />
       <Route path="/payment-status" element={<PaymentStatusPage />} />
+
+      <Route path="/account" element={<AccountLayout />} />
+
+      <Route
+        path="/orders"
+        element={
+          <div className="bg-white px-5 py-5">
+            <MyOrders />
+          </div>
+        }
+      />
       {/* </Route> */}
 
       {/* Public routes */}
