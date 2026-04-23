@@ -386,6 +386,7 @@ export default function AddProductPage() {
                   </label>
                   <input
                     type="number"
+                    min="0"
                     name="life"
                     value={form.life}
                     onChange={handleChange}
@@ -463,6 +464,7 @@ export default function AddProductPage() {
                         className="w-full px-4 py-2.5 text-sm border border-gray-200 rounded-xl bg-white"
                       />
                       <input
+                        min="0"
                         type="number"
                         value={variant.price}
                         onChange={(e) =>
@@ -473,6 +475,7 @@ export default function AddProductPage() {
                       />
                       <input
                         type="number"
+                        min="0"
                         value={variant.discountPrice}
                         onChange={(e) =>
                           handleVariantChange(
@@ -486,6 +489,7 @@ export default function AddProductPage() {
                       />
                       <input
                         type="number"
+                        min="0"
                         value={variant.stock}
                         onChange={(e) =>
                           handleVariantChange(index, "stock", e.target.value)
