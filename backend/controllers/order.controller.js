@@ -152,13 +152,6 @@ export const createOrder = async (req, res) => {
     });
   } catch (error) {
     console.log("Error in Order Creation:", error.message);
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
     res.status(500).json({
       success: false,
       message: "Order creation failed",
