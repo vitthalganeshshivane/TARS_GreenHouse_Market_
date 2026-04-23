@@ -39,6 +39,7 @@ import AddressPage from "./components/customer/Address/layout.jsx";
 import { fetchAddresses } from "./redux/slices/addressSlice.js";
 import CartPage from "./components/customer/cart/layout.jsx";
 import OrderDetailsPage from "./components/customer/order/OrderDetailsPage.jsx";
+<<<<<<< Updated upstream
 import PaymentStatusPage from "./components/customer/payment/PaymentStatusPage.jsx";
 import WishlistPage from "./pages/wishlist.jsx";
 import { fetchWishlist } from "./redux/slices/wishlistSlice";
@@ -46,6 +47,8 @@ import AccountLayout from "./components/customer/Account/layout.jsx";
 <<<<<<< Updated upstream
 =======
 import MyOrders from "./components/customer/Account/MyOrders.jsx";
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 function RootRedirect() {
@@ -68,10 +71,18 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCart());
+<<<<<<< Updated upstream
     dispatch(fetchAddresses());
     dispatch(fetchWishlist());
   }, [dispatch]);
 
+=======
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchAddresses());
+  }, [dispatch]);
+>>>>>>> Stashed changes
   return (
     <Routes>
       <Route path="/" element={<RootRedirect />} />
@@ -85,10 +96,14 @@ function App() {
         }
       > */}
       <Route path="/home" element={<Home />} />
+<<<<<<< Updated upstream
       {/* <Route path="/address" element={<AddressPage />} /> */}
 <<<<<<< Updated upstream
       <Route path="/account" element={<AccountLayout />} />
 =======
+>>>>>>> Stashed changes
+=======
+      <Route path="/address" element={<AddressPage />} />
 >>>>>>> Stashed changes
       <Route path="/product" element={<Product />} />
       <Route path="/product/:id" element={<ProductDetail />} />
@@ -98,6 +113,7 @@ function App() {
       <Route path="/cart" element={<CartPage />} />
 
       <Route path="/order/:id" element={<OrderDetailsPage />} />
+<<<<<<< Updated upstream
       <Route path="/payment-status" element={<PaymentStatusPage />} />
 
       <Route path="/account" element={<AccountLayout />} />
@@ -110,6 +126,8 @@ function App() {
           </div>
         }
       />
+=======
+>>>>>>> Stashed changes
       {/* </Route> */}
 
       {/* Public routes */}
