@@ -71,7 +71,7 @@ export default function Navbar() {
               link="/cart"
               badge={{ status: totalItems > 0, value: totalItems }}
             />
-            <NavbarBtn icon={<User />} text="Account" link="/address" />
+            <NavbarBtn icon={<User />} text="Account" link="/account" />
           </div>
         </div>
       </nav>

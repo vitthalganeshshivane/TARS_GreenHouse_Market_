@@ -42,6 +42,7 @@ import OrderDetailsPage from "./components/customer/order/OrderDetailsPage.jsx";
 import PaymentStatusPage from "./components/customer/payment/PaymentStatusPage.jsx";
 import WishlistPage from "./pages/wishlist.jsx";
 import { fetchWishlist } from "./redux/slices/wishlistSlice";
+import AccountLayout from "./components/customer/Account/layout.jsx";
 
 function RootRedirect() {
   const { user, loading } = useAuth();
@@ -80,7 +81,8 @@ function App() {
         }
       > */}
       <Route path="/home" element={<Home />} />
-      <Route path="/address" element={<AddressPage />} />
+      {/* <Route path="/address" element={<AddressPage />} /> */}
+      <Route path="/account" element={<AccountLayout />} />
       <Route path="/product" element={<Product />} />
       <Route path="/product/:id" element={<ProductDetail />} />
       <Route path="/category/:slug" element={<BrowseCategory />} />
