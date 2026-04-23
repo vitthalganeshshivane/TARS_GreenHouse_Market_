@@ -3,7 +3,10 @@ import Address from "../models/Address.js";
 export const createAddress = async (req, res) => {
   try {
     // console.log("creating address api hit");
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     const userId = req.user._id;
 
     const { fullName, addressLine, city, state, pincode, location, isDefault } =
@@ -43,7 +46,10 @@ export const createAddress = async (req, res) => {
     });
   } catch (error) {
     console.log("Error in creating adress:", error.message);
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     res.status(500).json({
       success: false,
       message: "Failed to create address",

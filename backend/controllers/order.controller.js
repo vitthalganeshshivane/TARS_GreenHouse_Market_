@@ -125,6 +125,11 @@ export const createOrder = async (req, res) => {
       { items: [], totalAmount: 0 },
     );
 
+    await Cart.findOneAndUpdate(
+      { user: req.user._id },
+      { items: [], totalAmount: 0 },
+    );
+
     // 🔔 NEW ORDER NOTIFICATION
     await Notification.create({
       user: vendorId,
@@ -142,7 +147,10 @@ export const createOrder = async (req, res) => {
     });
   } catch (error) {
     console.log("Error in Order Creation:", error.message);
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     res.status(500).json({
       success: false,
       message: "Order creation failed",

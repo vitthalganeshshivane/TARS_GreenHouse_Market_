@@ -39,10 +39,13 @@ import AddressPage from "./components/customer/Address/layout.jsx";
 import { fetchAddresses } from "./redux/slices/addressSlice.js";
 import CartPage from "./components/customer/cart/layout.jsx";
 import OrderDetailsPage from "./components/customer/order/OrderDetailsPage.jsx";
+<<<<<<< Updated upstream
 import PaymentStatusPage from "./components/customer/payment/PaymentStatusPage.jsx";
 import WishlistPage from "./pages/wishlist.jsx";
 import { fetchWishlist } from "./redux/slices/wishlistSlice";
 import AccountLayout from "./components/customer/Account/layout.jsx";
+=======
+>>>>>>> Stashed changes
 
 function RootRedirect() {
   const { user, loading } = useAuth();
@@ -64,10 +67,18 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCart());
+<<<<<<< Updated upstream
     dispatch(fetchAddresses());
     dispatch(fetchWishlist());
   }, [dispatch]);
 
+=======
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchAddresses());
+  }, [dispatch]);
+>>>>>>> Stashed changes
   return (
     <Routes>
       <Route path="/" element={<RootRedirect />} />
@@ -81,8 +92,12 @@ function App() {
         }
       > */}
       <Route path="/home" element={<Home />} />
+<<<<<<< Updated upstream
       {/* <Route path="/address" element={<AddressPage />} /> */}
       <Route path="/account" element={<AccountLayout />} />
+=======
+      <Route path="/address" element={<AddressPage />} />
+>>>>>>> Stashed changes
       <Route path="/product" element={<Product />} />
       <Route path="/product/:id" element={<ProductDetail />} />
       <Route path="/category/:slug" element={<BrowseCategory />} />
@@ -91,8 +106,11 @@ function App() {
       <Route path="/cart" element={<CartPage />} />
 
       <Route path="/order/:id" element={<OrderDetailsPage />} />
+<<<<<<< Updated upstream
 
       <Route path="/payment-status" element={<PaymentStatusPage />} />
+=======
+>>>>>>> Stashed changes
       {/* </Route> */}
 
       {/* Public routes */}
