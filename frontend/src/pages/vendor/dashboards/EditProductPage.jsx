@@ -1,6 +1,23 @@
 import { useEffect, useMemo, useState } from "react";
-import { X, Plus, Save, ChevronDown, ImagePlus, Trash2 } from "lucide-react";
-import { useNavigate, useParams } from "react-router-dom";
+import toast from "react-hot-toast";
+import {
+  Search,
+  IndianRupee,
+  CreditCard,
+  CheckCircle2,
+  XCircle,
+  Clock,
+  X,
+  Package,
+  MapPin,
+  User,
+  Save,
+  ChevronDown,
+  Plus,
+  Trash2,
+  ImagePlus,
+} from "lucide-react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import API from "../../../api/axios";
 import Loader from "../../../components/Loader";
 
@@ -44,7 +61,6 @@ const formatDateForInput = (value) => {
 };
 
 export default function EditProductPage() {
-  const navigate = useNavigate();
   const { id } = useParams();
 
   const [form, setForm] = useState({
@@ -77,6 +93,9 @@ export default function EditProductPage() {
   const [categoryLoading, setCategoryLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [selectedTransaction, setSelectedTransaction] = useState(null);
+
+  const navigate = useNavigate();
 
   const parentCategories = useMemo(
     () => categories.filter((category) => !category?.parent),
@@ -304,6 +323,7 @@ export default function EditProductPage() {
         },
       });
 
+      toast.success("Product updated successfully");
       navigate("/vendor/products");
     } catch (err) {
       setError(
@@ -432,6 +452,7 @@ export default function EditProductPage() {
                 <input
                   type="number"
                   name="life"
+                  min="0"
                   value={form.life}
                   onChange={handleChange}
                   placeholder="Shelf life"
@@ -500,6 +521,7 @@ export default function EditProductPage() {
                         className="w-full px-4 py-2.5 text-sm border border-gray-200 rounded-xl bg-white"
                       />
                       <input
+                        min="0"
                         type="number"
                         value={variant.price}
                         onChange={(e) =>
@@ -509,6 +531,7 @@ export default function EditProductPage() {
                         className="w-full px-4 py-2.5 text-sm border border-gray-200 rounded-xl bg-white"
                       />
                       <input
+                        min="0"
                         type="number"
                         value={variant.discountPrice}
                         onChange={(e) =>
@@ -522,6 +545,7 @@ export default function EditProductPage() {
                         className="w-full px-4 py-2.5 text-sm border border-gray-200 rounded-xl bg-white"
                       />
                       <input
+                        min="0"
                         type="number"
                         value={variant.stock}
                         onChange={(e) =>
