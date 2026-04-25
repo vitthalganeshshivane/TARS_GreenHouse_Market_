@@ -1,6 +1,7 @@
 import Product from "../models/Product.js";
 import cloudinary from "../config/cloudinary.js";
 import Category from "../models/Category.js";
+import { notifyWishlistUsersForStockChange } from "../services/notification.service.js";
 
 export const createProduct = async (req, res) => {
   try {
@@ -127,6 +128,13 @@ export const getSingleProduct = async (req, res) => {
   }
 };
 
+const getTotalStock = (variants = []) => {
+  return variants.reduce(
+    (sum, variant) => sum + Number(variant?.stock || 0),
+    0,
+  );
+};
+
 export const updateProduct = async (req, res) => {
   try {
     let product = await Product.findById(req.params.id);
@@ -138,13 +146,14 @@ export const updateProduct = async (req, res) => {
       });
     }
 
-    // 🔐 Ownership check
     if (product.vendor.toString() !== req.user._id.toString()) {
       return res.status(403).json({
         success: false,
         message: "You are not allowed to modify this product",
       });
     }
+
+    const previousTotalStock = getTotalStock(product.variants);
 
     let imageUrls = product.images;
 
@@ -238,7 +247,6 @@ export const updateProduct = async (req, res) => {
           : product.isAvailable,
       images: imageUrls,
       thumbnail: imageUrls[0],
-
       vendor: product.vendor,
     };
 
@@ -247,6 +255,21 @@ export const updateProduct = async (req, res) => {
       updatedData,
       { new: true },
     );
+
+    const newTotalStock = getTotalStock(updatedProduct.variants);
+
+    try {
+      await notifyWishlistUsersForStockChange({
+        product: updatedProduct,
+        oldStock: previousTotalStock,
+        newStock: newTotalStock,
+      });
+    } catch (notificationError) {
+      console.error(
+        "Wishlist stock notification failed:",
+        notificationError.message,
+      );
+    }
 
     res.status(200).json({
       success: true,
@@ -263,6 +286,143 @@ export const updateProduct = async (req, res) => {
     });
   }
 };
+
+// export const updateProduct = async (req, res) => {
+//   try {
+//     let product = await Product.findById(req.params.id);
+
+//     if (!product) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Product not found",
+//       });
+//     }
+
+//     // 🔐 Ownership check
+//     if (product.vendor.toString() !== req.user._id.toString()) {
+//       return res.status(403).json({
+//         success: false,
+//         message: "You are not allowed to modify this product",
+//       });
+//     }
+
+//     let imageUrls = product.images;
+
+//     if (req.body.imagesToDelete) {
+//       let imagesToDelete = req.body.imagesToDelete;
+
+//       if (typeof imagesToDelete === "string") {
+//         imagesToDelete = imagesToDelete.split(",");
+//       }
+
+//       for (let img of imagesToDelete) {
+//         const publicId = img.split("/").pop().split(".")[0];
+//         await cloudinary.uploader.destroy(`products/${publicId}`);
+//       }
+
+//       imageUrls = product.images.filter((img) => !imagesToDelete.includes(img));
+//     }
+
+//     if (req.files && req.files.length > 0) {
+//       const newImages = req.files.map((file) => file.path);
+
+//       if (req.body.replaceImages === "true") {
+//         for (let img of product.images) {
+//           const publicId = img.split("/").pop().split(".")[0];
+//           await cloudinary.uploader.destroy(`products/${publicId}`);
+//         }
+
+//         imageUrls = newImages;
+//       } else {
+//         imageUrls = [...imageUrls, ...newImages];
+//       }
+//     }
+
+//     let variants = product.variants;
+
+//     if (req.body.variants) {
+//       variants =
+//         typeof req.body.variants === "string"
+//           ? JSON.parse(req.body.variants)
+//           : req.body.variants;
+
+//       if (!variants || variants.length === 0) {
+//         return res.status(400).json({
+//           success: false,
+//           message: "At least one variant is required",
+//         });
+//       }
+
+//       const labels = variants.map((v) => v.label);
+//       if (labels.length !== new Set(labels).size) {
+//         return res.status(400).json({
+//           success: false,
+//           message: "Duplicate variant labels not allowed",
+//         });
+//       }
+//     }
+
+//     const tags = req.body.tags
+//       ? typeof req.body.tags === "string"
+//         ? JSON.parse(req.body.tags)
+//         : req.body.tags
+//       : product.tags;
+
+//     const additionalInfo = req.body.additionalInfo
+//       ? typeof req.body.additionalInfo === "string"
+//         ? JSON.parse(req.body.additionalInfo)
+//         : req.body.additionalInfo
+//       : product.additionalInfo;
+
+//     const updatedData = {
+//       title: req.body.title ?? product.title,
+//       description: req.body.description ?? product.description,
+//       brand: req.body.brand ?? product.brand,
+//       category: req.body.category ?? product.category,
+//       subCategory: req.body.subCategory ?? product.subCategory,
+//       sku: req.body.sku ?? product.sku,
+//       mfgDate: req.body.mfgDate ?? product.mfgDate,
+//       life: req.body.life ?? product.life,
+//       type: req.body.type ?? product.type,
+//       unit: req.body.unit ?? product.unit,
+//       variants,
+//       tags,
+//       additionalInfo,
+//       isFeatured:
+//         req.body.isFeatured !== undefined
+//           ? req.body.isFeatured
+//           : product.isFeatured,
+//       isAvailable:
+//         req.body.isAvailable !== undefined
+//           ? req.body.isAvailable
+//           : product.isAvailable,
+//       images: imageUrls,
+//       thumbnail: imageUrls[0],
+
+//       vendor: product.vendor,
+//     };
+
+//     const updatedProduct = await Product.findByIdAndUpdate(
+//       req.params.id,
+//       updatedData,
+//       { new: true },
+//     );
+
+//     res.status(200).json({
+//       success: true,
+//       message: "Product updated successfully",
+//       product: updatedProduct,
+//     });
+//   } catch (error) {
+//     console.error("Update Error:", error);
+
+//     res.status(500).json({
+//       success: false,
+//       message: "Update failed",
+//       error: error.message,
+//     });
+//   }
+// };
 
 export const deleteProduct = async (req, res) => {
   try {

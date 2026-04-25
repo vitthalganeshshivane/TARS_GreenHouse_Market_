@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import OTP from "../models/Otp.js";
 import { generateOTP } from "../utils/generateOTP.js";
 import { sendEmail } from "../utils/sendEmail.js";
+import { sendTemplatedEmail } from "../services/notification.service.js";
 
 // generate jwt
 const generateToken = (user) => {
@@ -65,6 +66,15 @@ export const signup = async (req, res) => {
     await OTP.deleteOne({ email: normalizedEmail });
 
     const token = generateToken(user);
+
+    await sendTemplatedEmail({
+      type: "WELCOME",
+      to: user.email,
+      data: {
+        name: user.name || "Customer",
+        shopUrl: `${process.env.CLIENT_URL}/home`,
+      },
+    });
 
     res.status(201).json({
       success: true,
@@ -150,7 +160,15 @@ export const sendOtpController = async (req, res) => {
       { upsert: true, new: true },
     );
 
-    await sendEmail(normalizedEmail, "Your OTP Code", `Your OTP is ${otp}`);
+    await sendTemplatedEmail({
+      type: "OTP",
+      to: normalizedEmail,
+      data: {
+        name: normalizedEmail.split("@")[0],
+        email: normalizedEmail,
+        otp,
+      },
+    });
 
     res.status(200).json({
       success: true,
@@ -237,11 +255,15 @@ export const forgotPassword = async (req, res) => {
       { upsert: true, new: true },
     );
 
-    await sendEmail(
-      normalizedEmail,
-      "Password Reset OTP",
-      `Your password reset OTP is ${otp}`,
-    );
+    await sendTemplatedEmail({
+      type: "OTP",
+      to: normalizedEmail,
+      data: {
+        name: user.name || normalizedEmail.split("@")[0],
+        email: normalizedEmail,
+        otp,
+      },
+    });
 
     res.status(200).json({
       success: true,
