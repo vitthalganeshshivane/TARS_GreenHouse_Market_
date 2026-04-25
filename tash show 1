@@ -1,0 +1,17 @@
+ backend/controllers/payment.controller.js          |  14 [32m+[m[31m--[m
+ backend/controllers/userController.js              |  32 [32m+++[m[31m---[m
+ backend/routes/userRoutes.js                       |   9 [32m+[m[31m-[m
+ backend/server.js                                  |   2 [32m+[m
+ frontend/src/App.jsx                               |  15 [32m++[m[31m-[m
+ .../src/components/customer/BrowseAllProducts.jsx  |  97 [32m+++++++++[m[31m---------[m
+ .../customer/ProductDetails/ProductModal.jsx       |   2 [32m+[m[31m-[m
+ .../components/customer/ProductDetails/layout.jsx  |   8 [32m+[m[31m-[m
+ frontend/src/components/customer/cart/layout.jsx   |  58 [32m+++++[m[31m------[m
+ frontend/src/components/layout/navbar.jsx          |  22 [32m+++[m[31m--[m
+ frontend/src/components/layout/sidebar.jsx         | 108 [32m+++++++++++++++[m[31m------[m
+ frontend/src/components/product/productCard.jsx    |  40 [32m++++[m[31m----[m
+ frontend/src/context/AuthContext.jsx               |   9 [32m+[m[31m-[m
+ frontend/src/pages/home.jsx                        |   8 [32m+[m[31m-[m
+ frontend/src/pages/wishlist.jsx                    |   2 [32m+[m[31m-[m
+ frontend/src/redux/slices/orderSlice.js            |  25 [32m+++++[m
+ 16 files changed, 283 insertions(+), 168 deletions(-)

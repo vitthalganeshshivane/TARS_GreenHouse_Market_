@@ -3,7 +3,12 @@ import OTPInput from "@/components/auth/OTPInput";
 import { Button } from "@/components/ui/button";
 import { ShieldCheck, X } from "lucide-react";
 
-export default function OTPVerificationModal({ isOpen, onClose, onVerify, email }) {
+export default function OTPVerificationModal({
+  isOpen,
+  onClose,
+  onVerify,
+  email,
+}) {
   const [otp, setOtp] = useState("");
 
   const handleOTPChange = (value) => {
@@ -14,7 +19,7 @@ export default function OTPVerificationModal({ isOpen, onClose, onVerify, email 
     if (otp.length === 6) {
       // Simulate OTP verification (in real app, call API)
       console.log("OTP Verified:", otp);
-      onVerify();
+      onVerify(otp);
       setOtp("");
     }
   };
@@ -25,7 +30,9 @@ export default function OTPVerificationModal({ isOpen, onClose, onVerify, email 
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4 sm:px-6">
       <div className="w-full max-w-[560px] rounded-3xl bg-white shadow-2xl">
         <div className="relative flex items-center justify-between border-b border-slate-200 px-6 py-5 sm:px-8 sm:py-6">
-          <h2 className="text-2xl font-bold text-slate-950 sm:text-3xl">Verify Your Email</h2>
+          <h2 className="text-2xl font-bold text-slate-950 sm:text-3xl">
+            Verify Your Email
+          </h2>
           <button
             onClick={onClose}
             className="text-slate-400 hover:text-slate-600"

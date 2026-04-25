@@ -3,7 +3,20 @@ import express from "express";
 import cors from "cors";
 import db from "./config/db.js";
 
+import userRoutes from "./routes/userRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import uploadRoutes from "./routes/upload.routes.js";
+import productRoutes from "./routes/product.routes.js";
+import categoryRoutes from "./routes/category.routes.js";
+import vendorRoutes from "./routes/vendor.routes.js";
+import addressRoutes from "./routes/address.routes.js";
+import orderRoutes from "./routes/order.routes.js";
+import notificationRoutes from "./routes/notification.routes.js";
+import cartRoutes from "./routes/cart.routes.js";
+import wishlistRoutes from "./routes/wishlist.routes.js";
+
+import paymentRoutes from "./routes/payment.routes.js";
+import webhookRoutes from "./routes/webhook.routes.js";
 
 const app = express();
 const PORT = 3000;
@@ -16,10 +29,24 @@ app.use(
   }),
 );
 
+app.use("/api/webhooks", webhookRoutes);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/upload", uploadRoutes);
+app.use("/api/product", productRoutes);
+app.use("/api/category", categoryRoutes);
+app.use("/api/vendor", vendorRoutes);
+app.use("/api/address", addressRoutes);
+app.use("/api/order", orderRoutes);
+app.use("/api/notification", notificationRoutes);
+app.use("/api/cart", cartRoutes);
+app.use("/api/wishlist", wishlistRoutes);
+
+app.use("/api/payments", paymentRoutes);
 
 // GLOBAL ERROR HANDLER
 app.use((err, req, res, next) => {

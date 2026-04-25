@@ -15,13 +15,15 @@ const userSchema = new mongoose.Schema(
 
     phone: {
       type: String,
-      required: true,
       unique: true,
+      sparse: true,
     },
 
     password: {
       type: String,
     },
+
+    image: String,
 
     role: {
       type: String,
@@ -29,21 +31,34 @@ const userSchema = new mongoose.Schema(
       default: "customer",
     },
 
+    store: {
+      storeName: { type: String, default: "" },
+      gstNumber: { type: String, default: "" },
+      address: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Address",
+      },
+      pincode: { type: String, default: "" },
+      openTime: { type: String, default: "" },
+      closeTime: { type: String, default: "" },
+      deliveryRadius: { type: Number, default: 0 },
+      minOrderAmount: { type: Number, default: 0 },
+      freeDeliveryAbove: { type: Number, default: 0 },
+    },
+
+    notificationPreferences: {
+      newOrder: { type: Boolean, default: true },
+      lowStock: { type: Boolean, default: true },
+      payment: { type: Boolean, default: true },
+      delivery: { type: Boolean, default: false },
+      weeklyReport: { type: Boolean, default: true },
+      promotional: { type: Boolean, default: false },
+    },
+
     isVerified: {
       type: Boolean,
       default: false,
     },
-
-    addresses: [
-      {
-        fullName: String,
-        phone: String,
-        addressLine: String,
-        city: String,
-        state: String,
-        pincode: String,
-      },
-    ],
   },
   { timestamps: true },
 );

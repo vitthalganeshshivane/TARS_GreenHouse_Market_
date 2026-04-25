@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import OTP from "../models/Otp.js";
 import { generateOTP } from "../utils/generateOTP.js";
 import { sendEmail } from "../utils/sendEmail.js";
+import { sendTemplatedEmail } from "../services/notification.service.js";
 
 // generate jwt
 const generateToken = (user) => {
@@ -20,6 +21,7 @@ const isMatch = (user, password) => {
 export const signup = async (req, res) => {
   try {
     const { name, email, phone, password } = req.body;
+    console.log("fiels signup:", name, email, password);
 
     if (!name || !email || !password) {
       return res.status(400).json({ message: "All fields are required" });
@@ -65,6 +67,15 @@ export const signup = async (req, res) => {
 
     const token = generateToken(user);
 
+    await sendTemplatedEmail({
+      type: "WELCOME",
+      to: user.email,
+      data: {
+        name: user.name || "Customer",
+        shopUrl: `${process.env.CLIENT_URL}/home`,
+      },
+    });
+
     res.status(201).json({
       success: true,
       message: "User registered successfully",
@@ -73,7 +84,7 @@ export const signup = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
-        phone: user.phone,
+        role: user.role,
       },
     });
   } catch (error) {
@@ -118,6 +129,7 @@ export const login = async (req, res) => {
         name: user.name,
         email: user.email,
         phone: user.phone,
+        role: user.role,
       },
     });
   } catch (error) {
@@ -148,7 +160,15 @@ export const sendOtpController = async (req, res) => {
       { upsert: true, new: true },
     );
 
-    await sendEmail(normalizedEmail, "Your OTP Code", `Your OTP is ${otp}`);
+    await sendTemplatedEmail({
+      type: "OTP",
+      to: normalizedEmail,
+      data: {
+        name: normalizedEmail.split("@")[0],
+        email: normalizedEmail,
+        otp,
+      },
+    });
 
     res.status(200).json({
       success: true,
@@ -162,6 +182,8 @@ export const sendOtpController = async (req, res) => {
 export const verifyOtpController = async (req, res) => {
   try {
     const { email, otp } = req.body;
+
+    console.log("email: ", email);
 
     if (!email || !otp) {
       return res.status(400).json({
@@ -195,5 +217,105 @@ export const verifyOtpController = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+
+export const getMe = async (req, res) => {
+  res.json({
+    user: req.user,
+  });
+};
+
+export const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+
+    const normalizedEmail = email.toLowerCase();
+
+    const user = await User.findOne({ email: normalizedEmail });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const otp = generateOTP();
+
+    await OTP.findOneAndUpdate(
+      { email: normalizedEmail },
+      {
+        email: normalizedEmail,
+        otp,
+        isVerified: false,
+        expiresAt: Date.now() + 5 * 60 * 1000,
+      },
+      { upsert: true, new: true },
+    );
+
+    await sendTemplatedEmail({
+      type: "OTP",
+      to: normalizedEmail,
+      data: {
+        name: user.name || normalizedEmail.split("@")[0],
+        email: normalizedEmail,
+        otp,
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Password reset OTP sent successfully",
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        message: "Email and new password are required",
+      });
+    }
+
+    const normalizedEmail = email.toLowerCase();
+
+    const otpRecord = await OTP.findOne({ email: normalizedEmail });
+
+    if (!otpRecord || !otpRecord.isVerified) {
+      return res.status(400).json({
+        message: "Please verify OTP first",
+      });
+    }
+
+    if (otpRecord.expiresAt < Date.now()) {
+      return res.status(400).json({
+        message: "OTP expired, please request again",
+      });
+    }
+
+    const user = await User.findOne({ email: normalizedEmail });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.password = await bcrypt.hash(password, 10);
+    await user.save();
+
+    await OTP.deleteOne({ email: normalizedEmail });
+
+    res.status(200).json({
+      success: true,
+      message: "Password reset successfully",
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
