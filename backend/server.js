@@ -19,7 +19,6 @@ import paymentRoutes from "./routes/payment.routes.js";
 import webhookRoutes from "./routes/webhook.routes.js";
 
 const app = express();
-const PORT = 3000;
 
 // middleware
 app.use(
@@ -48,6 +47,10 @@ app.use("/api/wishlist", wishlistRoutes);
 
 app.use("/api/payments", paymentRoutes);
 
+app.get("/", (req, res) => {
+  res.send("Backend is running 🚀");
+});
+
 // GLOBAL ERROR HANDLER
 app.use((err, req, res, next) => {
   console.error("Error:", err.message);
@@ -57,14 +60,17 @@ app.use((err, req, res, next) => {
   });
 });
 
+const PORT = process.env.PORT || 3000;
+
 const startServer = async () => {
   try {
     await db();
+
     app.listen(PORT, () => {
       console.log(`✅ Server running on port ${PORT}`);
     });
   } catch (error) {
-    console.log("Error in starting server");
+    console.log("❌ Error in starting server", error);
   }
 };
 
