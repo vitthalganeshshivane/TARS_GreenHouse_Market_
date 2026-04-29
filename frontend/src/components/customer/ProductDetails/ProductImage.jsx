@@ -6,7 +6,8 @@ import "swiper/css/pagination";
 
 export default function ProductImage({ images }) {
   return (
-    <div className="max-w-full sm:max-w-[270px] mx-auto my-auto p-7 border-1 border-gray-200 rounded-xl">
+    <div className="max-w-full sm:max-w-[270px] mx-auto my-auto p-3 border border-gray-200 rounded-xl">
+      {" "}
       <Swiper
         modules={[Navigation, Pagination]}
         navigation

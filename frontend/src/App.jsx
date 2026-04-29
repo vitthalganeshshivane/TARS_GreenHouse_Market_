@@ -44,6 +44,7 @@ import WishlistPage from "./pages/wishlist.jsx";
 import { fetchWishlist } from "./redux/slices/wishlistSlice";
 import AccountLayout from "./components/customer/Account/layout.jsx";
 import MyOrders from "./components/customer/Account/MyOrders.jsx";
+import BackHeader from "./components/common/BackHeader.jsx";
 
 function RootRedirect() {
   const { user, loading } = useAuth();
@@ -99,9 +100,12 @@ function App() {
       <Route
         path="/orders"
         element={
-          <div className="bg-white px-5 py-5">
-            <MyOrders />
-          </div>
+          <>
+            <BackHeader title="My Order" fallback="/home" />
+            <div className="min-h-screen bg-white px-5 py-5">
+              <MyOrders />
+            </div>
+          </>
         }
       />
       {/* </Route> */}

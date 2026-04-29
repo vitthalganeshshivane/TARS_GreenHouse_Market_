@@ -94,7 +94,7 @@ export default function ProductCard({
       </button>
       {/* </div> */}
 
-      <div className="relative w-full h-28 md:h-40 flex items-center justify-center overflow-hidden rounded-xl mt-5">
+      <div className="relative w-full h-30 md:h-40 flex items-center justify-center overflow-hidden rounded-xl mt-5">
         <img
           src={image}
           alt={image}
@@ -104,7 +104,7 @@ export default function ProductCard({
         <Button
           onClick={navigate}
           variant="outline"
-          className="absolute border border-green-200 cursor-pointer rounded-sm text-green-800 block md:hidden -bottom-1 -right-1"
+          className="absolute bg-green-100 h-6 cursor-pointer rounded-xs text-green-800 text-xs block md:hidden bottom-3 right-0 z-999"
         >
           <span>Add</span>
         </Button>
@@ -116,7 +116,7 @@ export default function ProductCard({
           <div className="text-gray-500 text-[12px]">{label}</div>
         </div>
 
-        <span className="w-full text-[16px] font-bold">{name}</span>
+        <span className="w-full text-xs sm:text-[16px] font-bold">{name}</span>
 
         <div className="w-full">
           <Rating rating={rating} total={ratingCount} />

@@ -22,21 +22,22 @@ export default function Home() {
 
   return (
     <div className="bg-white min-h-screen">
-      <div>
-        {/* <div className="px-5">
+      {/* <div> */}
+      {/* <div className="px-5">
           <Topbar />
         </div> */}
-        <div className="px-5">
+      {/* <div>
           <Navbar />
         </div>
-      </div>
+      </div> */}
+      <Navbar />
 
-      <div className="px-2">
+      <div className="px-2 mt-0">
         <ImageSlider
           slides={[
-            {
-              src: Banner1,
-            },
+            // {
+            //   src: Banner1,
+            // },
             {
               src: Banner2,
             },

@@ -35,7 +35,7 @@ export default function ImageSlider({ slides = [], interval = 3000 }) {
 
   return (
     <div
-      className="relative w-full h-[180px] sm:h-[240px] md:h-[320px] lg:h-[350px] overflow-hidden rounded-sm group"
+      className="relative w-full h-[160px] sm:h-[240px] md:h-[320px] lg:h-[350px] overflow-hidden rounded-sm group"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onTouchStart={handleTouchStart}
@@ -50,7 +50,7 @@ export default function ImageSlider({ slides = [], interval = 3000 }) {
             <img
               src={slide.src}
               alt={slide.alt || ""}
-              className="w-full h-full object-cover rounded-sm-mt-5"
+              className="w-full h-full object-cover rounded-sm"
               draggable={false}
             />
           </div>
@@ -58,19 +58,19 @@ export default function ImageSlider({ slides = [], interval = 3000 }) {
       </div>
 
       {/* Arrows */}
-      <button
+      {/* <button
         onClick={goPrev}
         className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/40 text-white rounded-full flex items-center justify-center opacity-70 lg:opacity-0 lg:group-hover:opacity-100"
       >
         ‹
-      </button>
+      </button> */}
 
-      <button
+      {/* <button
         onClick={goNext}
         className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/40 text-white rounded-full flex items-center justify-center opacity-70 lg:opacity-0 lg:group-hover:opacity-100"
       >
         ›
-      </button>
+      </button> */}
 
       {/* Dots */}
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5">

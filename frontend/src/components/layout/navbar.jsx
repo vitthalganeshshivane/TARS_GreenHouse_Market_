@@ -31,7 +31,7 @@ export default function Navbar() {
   // console.log("totalitem:", totalItems);
 
   const desktop = (
-    <div>
+    <div className="px-3">
       <nav className="flex-wrap flex flex-col md:flex-row w-full justify-between items-center py-2 px-4 md:px-2 gap-3 md:gap-0">
         {/* <div className="flex items-center justify-between gap-2 md:gap-4 w-full md:w-auto ">
           <img
@@ -127,7 +127,7 @@ export default function Navbar() {
 
         <div className="flex items-center gap-1">
           <Leaf className="h-7 w-7 fill-emerald-700 text-emerald-700" />
-          <span className="text-xl font-bold text-green-800">
+          <span className="text-xl font-bold text-green-800 whitespace-nowrap">
             Greenhouse Market
           </span>
         </div>

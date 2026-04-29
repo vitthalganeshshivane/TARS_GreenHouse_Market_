@@ -5,10 +5,16 @@ function thunk(error, thunkAPI) {
   return thunkAPI.rejectWithValue(error.response?.data || error.message);
 }
 
+// ADD TO CART
 export const addToCartAsync = createAsyncThunk(
   "cart/addToCartAsync",
   async ({ productId, variantLabel, quantity }, thunkAPI) => {
     try {
+      console.log("ADD TO CART PAYLOAD:", {
+        productId,
+        variantLabel,
+        quantity,
+      });
       const { data } = await API.post("/cart/add", {
         productId,
         variantLabel,
@@ -17,11 +23,16 @@ export const addToCartAsync = createAsyncThunk(
 
       return data.cart;
     } catch (error) {
-      return thunkAPI(error, thunkAPI);
+      console.log(
+        "Error in Add in cart:",
+        error.response?.data || error.message,
+      );
+      return thunk(error, thunkAPI);
     }
   },
 );
 
+// UPDATE CART
 export const updateCartAsync = createAsyncThunk(
   "cart/updateCartAsync",
   async ({ productId, variantLabel, quantity }, thunkAPI) => {
@@ -34,11 +45,12 @@ export const updateCartAsync = createAsyncThunk(
 
       return data.cart;
     } catch (error) {
-      return thunkAPI(error, thunkAPI);
+      return thunk(error, thunkAPI);
     }
   },
 );
 
+// REMOVE CART ITEM
 export const removeCartAsync = createAsyncThunk(
   "cart/removeCartAsync",
   async ({ productId, variantLabel }, thunkAPI) => {
@@ -49,11 +61,12 @@ export const removeCartAsync = createAsyncThunk(
 
       return data.cart;
     } catch (error) {
-      return thunkAPI(error, thunkAPI);
+      return thunk(error, thunkAPI);
     }
   },
 );
 
+// FETCH CART
 export const fetchCart = createAsyncThunk("cart/fetch", async () => {
   const { data } = await API.get("/cart");
   return data.cart;
@@ -63,35 +76,54 @@ const initialState = {
   items: [],
   totalAmount: 0,
   loading: false,
-
-  // 🔥 for rollback
   prevState: null,
+};
+
+const calculateTotal = (items) => {
+  return items.reduce(
+    (total, item) => total + item.variant.priceAtTime * item.quantity,
+    0,
+  );
 };
 
 const cartSlice = createSlice({
   name: "cart",
   initialState,
+
   reducers: {
     clearCartLocal: (state) => {
       state.items = [];
       state.totalAmount = 0;
       state.prevState = null;
     },
+
+    // OPTIMISTIC ADD
     optimisticAdd: (state, action) => {
-      const { productId, variantLabel, price, name, image } = action.payload;
+      const {
+        productId,
+        variantLabel,
+        price,
+        name,
+        image,
+        quantity = 1,
+      } = action.payload;
 
       state.prevState = JSON.parse(JSON.stringify(state));
 
       const item = state.items.find(
-        (i) => i.product === productId && i.variant.label === variantLabel,
+        (i) =>
+          (i.product?._id || i.product) === productId &&
+          i.variant.label === variantLabel,
       );
 
       if (item) {
-        item.quantity = action.payload.quantity || 1;
+        item.quantity = quantity;
       } else {
         state.items.push({
-          product: productId,
-          quantity: 1,
+          product: {
+            _id: productId,
+          },
+          quantity,
           name,
           image,
           variant: {
@@ -101,33 +133,46 @@ const cartSlice = createSlice({
         });
       }
 
-      state.totalAmount += price;
+      state.totalAmount = calculateTotal(state.items);
     },
 
+    // OPTIMISTIC UPDATE
     optimisticUpdate: (state, action) => {
       const { productId, variantLabel, quantity } = action.payload;
 
       state.prevState = JSON.parse(JSON.stringify(state));
 
       const item = state.items.find(
-        (i) => i.product === productId && i.variant.label === variantLabel,
+        (i) =>
+          (i.product?._id || i.product) === productId &&
+          i.variant.label === variantLabel,
       );
 
       if (item) {
         item.quantity = quantity;
       }
+
+      state.totalAmount = calculateTotal(state.items);
     },
 
+    // OPTIMISTIC REMOVE
     optimisticRemove: (state, action) => {
       const { productId, variantLabel } = action.payload;
 
       state.prevState = JSON.parse(JSON.stringify(state));
 
       state.items = state.items.filter(
-        (i) => !(i.product === productId && i.variant.label === variantLabel),
+        (i) =>
+          !(
+            (i.product?._id || i.product) === productId &&
+            i.variant.label === variantLabel
+          ),
       );
+
+      state.totalAmount = calculateTotal(state.items);
     },
 
+    // ROLLBACK
     rollback: (state) => {
       if (state.prevState) {
         return state.prevState;
@@ -138,13 +183,22 @@ const cartSlice = createSlice({
   extraReducers: (builder) => {
     builder
 
-      // fetch
+      // FETCH SUCCESS
+      .addCase(fetchCart.pending, (state) => {
+        state.loading = true;
+      })
+
       .addCase(fetchCart.fulfilled, (state, action) => {
+        state.loading = false;
         state.items = action.payload.items;
         state.totalAmount = action.payload.totalAmount;
       })
 
-      //   success - sync real data
+      .addCase(fetchCart.rejected, (state) => {
+        state.loading = false;
+      })
+
+      // ALL CART SUCCESS ACTIONS
       .addMatcher(
         (action) =>
           action.type.endsWith("/fulfilled") && action.type.includes("cart/"),
@@ -156,7 +210,7 @@ const cartSlice = createSlice({
         },
       )
 
-      // failure - rollback
+      // ALL CART FAILURES → ROLLBACK
       .addMatcher(
         (action) =>
           action.type.endsWith("/rejected") && action.type.includes("cart/"),
@@ -171,8 +225,8 @@ const cartSlice = createSlice({
 
 export const {
   optimisticAdd,
-  optimisticRemove,
   optimisticUpdate,
+  optimisticRemove,
   rollback,
   clearCartLocal,
 } = cartSlice.actions;

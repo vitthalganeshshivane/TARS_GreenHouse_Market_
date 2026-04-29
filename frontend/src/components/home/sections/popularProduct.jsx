@@ -46,16 +46,12 @@ export default function PopularProduct() {
   if (filterLoading) return <p>Filtering...</p>;
   return (
     <section className="w-full px-6 py-4">
-      <h2 className="px-4 text-xl md:text-3xl font-semibold mb-5">
+      <h2
+        onClick={() => setFilteredProducts(null)}
+        className=" text-xl md:text-3xl font-semibold mb-3"
+      >
         Popular Products
       </h2>
-
-      <button
-        onClick={() => setFilteredProducts(null)}
-        className="mb-4 px-3 py-1 bg-gray-200 rounded"
-      >
-        All Products
-      </button>
 
       <div className="flex">
         {/* left side */}

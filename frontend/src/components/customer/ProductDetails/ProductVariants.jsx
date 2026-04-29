@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Heart, IndianRupee, Minus, Plus, ShoppingCart } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import {
   optimisticAdd,
@@ -15,13 +14,14 @@ import {
 } from "../../../redux/slices/wishlistSlice";
 
 export default function ProductVariant({ product }) {
-  const { items } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-
-  console.log("items", items);
+  const { items = [] } = useSelector((state) => state.cart);
 
   const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
   const [quantity, setQuantity] = useState(1);
+  const [inputVal, setInputVal] = useState("1");
+
+  const getProductId = (item) => item.product?._id || item.product;
 
   const wishlistItems = useSelector((state) => state.wishlist?.items ?? []);
 
@@ -45,48 +45,53 @@ export default function ProductVariant({ product }) {
   // ✅ Derived during render — always fresh
   const existingItem = items.find(
     (item) =>
-      item.product._id === product._id &&
-      item.variant.label === selectedVariant.label,
+      getProductId(item) === product._id &&
+      item.variant?.label === selectedVariant.label,
   );
 
-  // ✅ Sync when cart items load from API OR when variant changes
   useEffect(() => {
-    if (!items.length) return;
+    if (existingItem) {
+      setQuantity(existingItem.quantity);
+      setInputVal(String(existingItem.quantity));
+    } else {
+      setQuantity(1);
+      setInputVal("1");
+    }
+  }, [existingItem]);
+
+  const handleVariantChange = (variant) => {
+    setSelectedVariant(variant);
 
     const cartItem = items.find(
       (item) =>
-        item.product._id === product._id &&
-        item.variant.label === selectedVariant.label,
+        getProductId(item) === product._id &&
+        item.variant?.label === variant.label,
     );
 
-    if (cartItem && cartItem.quantity !== quantity) {
+    if (cartItem) {
       setQuantity(cartItem.quantity);
+      setInputVal(String(cartItem.quantity));
+    } else {
+      setQuantity(1);
+      setInputVal("1");
     }
-  }, [items, selectedVariant]);
-
-  // ✅ On first mount — set variant + quantity from cart if exists
-  useEffect(() => {
-    if (!items.length) return;
-
-    const cartItem = items.find((item) => item.product._id === product._id);
-
-    if (!cartItem) return;
-
-    const matchedVariant = product.variants.find(
-      (v) => v.label === cartItem.variant.label,
-    );
-
-    if (matchedVariant) {
-      setSelectedVariant(matchedVariant);
-      setQuantity(cartItem.quantity);
-    }
-  }, [items, product]); // runs once on mount
+  };
 
   const handleIncrement = () => {
-    setQuantity((prev) => prev + 1);
+    setQuantity((prev) => {
+      const next = prev + 1;
+      setInputVal(String(next));
+      return next;
+    });
   };
-  const handleDecrement = () =>
-    setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+
+  const handleDecrement = () => {
+    setQuantity((prev) => {
+      const next = prev > 1 ? prev - 1 : 1;
+      setInputVal(String(next));
+      return next;
+    });
+  };
 
   const handleAddToCart = () => {
     if (!selectedVariant) return;
@@ -94,7 +99,6 @@ export default function ProductVariant({ product }) {
     const finalPrice = selectedVariant.discountPrice || selectedVariant.price;
 
     if (existingItem) {
-      // update
       dispatch(
         updateCartAsync({
           productId: product._id,
@@ -104,52 +108,57 @@ export default function ProductVariant({ product }) {
       );
 
       toast.success("Cart updated");
-    } else {
-      // optimistic add (instant ui)
-      dispatch(
-        optimisticAdd({
-          productId: product._id,
-          variantLabel: selectedVariant.label,
-          price: finalPrice,
-          name: product.title,
-          image: product.thumbnail,
-          quantity,
-        }),
-      );
-
-      // backend sync
-      dispatch(
-        addToCartAsync({
-          productId: product._id,
-          variantLabel: selectedVariant.label,
-          quantity,
-        }),
-      );
-
-      toast.success("Item added to cart");
+      return;
     }
+
+    dispatch(
+      optimisticAdd({
+        productId: product._id,
+        variantLabel: selectedVariant.label,
+        price: finalPrice,
+        name: product.title,
+        image: product.thumbnail,
+        quantity,
+      }),
+    );
+
+    dispatch(
+      addToCartAsync({
+        productId: product._id,
+        variantLabel: selectedVariant.label,
+        quantity,
+      }),
+    );
+
+    toast.success("Item added to cart");
   };
 
   return (
     <div className="mt-2">
       <div className="flex items-center text-4xl font-bold text-green-500">
         <IndianRupee size={26} strokeWidth={3} />
-        {selectedVariant?.price}
+        {selectedVariant?.discountPrice || selectedVariant?.price}
       </div>
 
       <div className="flex items-center gap-2 mt-2">
         <div className="text-[12px] text-slate-500">Size / Weight :</div>
+
         {product.variants.map((variant) => (
           <button
             key={variant._id}
-            onClick={() => setSelectedVariant(variant)}
-            className={`px-1 py-1 rounded cursor-pointer text-[12px] text-slate-500 ${selectedVariant._id === variant._id ? "bg-green-500 text-white" : "bg-white"}`}
+            onClick={() => handleVariantChange(variant)}
+            className={`px-1 py-1 rounded cursor-pointer text-[12px] ${
+              selectedVariant._id === variant._id
+                ? "bg-green-500 text-white"
+                : "bg-white text-slate-500"
+            }`}
           >
             {variant.label}
           </button>
         ))}
       </div>
-      <div className="flex items-center  mt-4">
+
+      <div className="flex items-center mt-4">
         <div className="border-2 border-green-500 rounded">
           <button
             className="p-2 text-green-500 cursor-pointer"
@@ -158,9 +167,31 @@ export default function ProductVariant({ product }) {
             <Minus className="h-3 w-3" strokeWidth={3} />
           </button>
 
-          <span className="w-3 text-center font-bold text-sm text-slate-500">
-            {quantity}
-          </span>
+          <input
+            type="number"
+            min={1}
+            value={inputVal}
+            onChange={(e) => {
+              setInputVal(e.target.value);
+              const val = parseInt(e.target.value);
+
+              if (!isNaN(val) && val >= 1) {
+                setQuantity(val);
+              }
+            }}
+            onBlur={() => {
+              const val = parseInt(inputVal);
+
+              if (isNaN(val) || val < 1) {
+                setInputVal("1");
+                setQuantity(1);
+              } else {
+                setInputVal(String(val));
+                setQuantity(val);
+              }
+            }}
+            className="w-8 text-center font-bold text-sm text-slate-500 outline-none bg-transparent"
+          />
 
           <button
             onClick={handleIncrement}
@@ -175,9 +206,7 @@ export default function ProductVariant({ product }) {
             onClick={handleAddToCart}
             className="flex items-center gap-2 text-white text-[13px] px-2 py-2 cursor-pointer"
           >
-            <span>
-              <ShoppingCart size={16} strokeWidth={2} />
-            </span>
+            <ShoppingCart size={16} strokeWidth={2} />
             <span>{existingItem ? "Update cart" : "Add to Cart"}</span>
           </button>
         </div>
