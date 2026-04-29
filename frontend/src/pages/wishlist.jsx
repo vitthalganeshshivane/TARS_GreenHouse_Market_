@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Heart } from "lucide-react";
 
 import Topbar from "../components/layout/topbar.jsx";
@@ -21,6 +21,8 @@ export default function WishlistPage() {
   const { items, loading } = useSelector((state) => state.wishlist);
 
   const wishlistItems = useMemo(() => items || [], [items]);
+
+  const navigate = useNavigate();
 
   return (
     <div className="bg-white min-h-screen">
@@ -93,7 +95,7 @@ export default function WishlistPage() {
                   discount={defaultVariant?.discountPrice || 0}
                   label={defaultVariant?.label}
                   sale={true}
-                  navigate={() => {}}
+                  navigate={() => navigate(`/product/${item._id}`)}
                 />
               );
             })}
