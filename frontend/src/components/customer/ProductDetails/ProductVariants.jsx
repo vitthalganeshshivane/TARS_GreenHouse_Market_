@@ -43,6 +43,7 @@ export default function ProductVariant({ product }) {
   };
 
   // ✅ Derived during render — always fresh
+
   const existingItem = items.find(
     (item) =>
       getProductId(item) === product._id &&
@@ -213,7 +214,8 @@ export default function ProductVariant({ product }) {
 
         <div
           onClick={handleWishlist}
-          className="p-2 border-1 border-gray-200 ml-3 rounded cursor-pointer"
+          className="p-2 border border-gray-200 ml-3 rounded cursor-pointer"
+          className="p-2 border border-gray-200 ml-3 rounded cursor-pointer"
         >
           <Heart
             className={
