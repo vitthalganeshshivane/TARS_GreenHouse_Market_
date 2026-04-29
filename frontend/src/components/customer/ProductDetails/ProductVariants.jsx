@@ -9,6 +9,11 @@ import {
 } from "../../../redux/slices/cartSlice";
 import toast from "react-hot-toast";
 
+import {
+  addToWishlistAsync,
+  removeFromWishlistAsync,
+} from "../../../redux/slices/wishlistSlice";
+
 export default function ProductVariant({ product }) {
   const { items } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
@@ -17,6 +22,25 @@ export default function ProductVariant({ product }) {
 
   const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
   const [quantity, setQuantity] = useState(1);
+
+  const wishlistItems = useSelector((state) => state.wishlist?.items ?? []);
+
+  const isWishlisted = wishlistItems.some((item) => item._id === product._id);
+
+  const handleWishlist = async () => {
+    try {
+      if (isWishlisted) {
+        await dispatch(removeFromWishlistAsync(product._id)).unwrap();
+        toast.success("Removed from wishlist");
+      } else {
+        await dispatch(addToWishlistAsync(product._id)).unwrap();
+        toast.success("Added to wishlist");
+      }
+    } catch (error) {
+      toast.error("Wishlist action failed");
+      console.log(error);
+    }
+  };
 
   // ✅ Derived during render — always fresh
   const existingItem = items.find(
@@ -158,8 +182,17 @@ export default function ProductVariant({ product }) {
           </button>
         </div>
 
-        <div className="p-2 border-1 border-gray-200 ml-3 rounded cursor-pointer">
-          <Heart className="text-gray-500" size={18} strokeWidth={2} />
+        <div
+          onClick={handleWishlist}
+          className="p-2 border-1 border-gray-200 ml-3 rounded cursor-pointer"
+        >
+          <Heart
+            className={
+              isWishlisted ? "text-red-500 fill-red-500" : "text-gray-500"
+            }
+            size={18}
+            strokeWidth={2}
+          />
         </div>
       </div>
     </div>
