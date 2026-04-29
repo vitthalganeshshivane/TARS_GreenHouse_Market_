@@ -7,13 +7,15 @@ import {
   Settings,
   LogOut,
 } from "lucide-react";
-// import { useAuth } from "../context/AuthContext"; // adjust path as needed
+
 import { useAuth } from "../../../hooks/useAuth";
 import Overview from "./Overview";
 import MyOrders from "./MyOrders";
 import AddressPage from "./Address";
-// import Wishlist from "./Wishlist";
+
 import AccountSettings from "./AccountSetting";
+import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 const NAV_ITEMS = [
   { id: "overview", label: "Overview", Icon: LayoutDashboard },
@@ -35,6 +37,8 @@ export default function AccountLayout() {
       .toUpperCase() ?? "U";
 
   const tabProps = { user };
+
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -118,7 +122,11 @@ export default function AccountLayout() {
               })}
 
               <button
-                onClick={logout}
+                onClick={() => {
+                  logout();
+                  toast.success("Logout Successful");
+                  navigate("/login");
+                }}
                 className="w-full flex items-center gap-3 px-5 py-3.5 text-sm font-medium text-red-400 hover:bg-red-50 hover:text-red-500 transition-all duration-200 border-t border-gray-100"
               >
                 <LogOut size={17} />
