@@ -8,7 +8,7 @@ import Notification from "../models/Notification.js";
 const verifyCashfreeSignature = (rawBody, signature, timestamp) => {
   const signedPayload = timestamp + rawBody;
   const expectedSignature = crypto
-    .createHmac("sha256", process.env.CASHFREE_SECRET_KEY)
+    .createHmac("sha256", process.env.CASHFREE_CLIENT_SECRET)
     .update(signedPayload)
     .digest("base64");
 
