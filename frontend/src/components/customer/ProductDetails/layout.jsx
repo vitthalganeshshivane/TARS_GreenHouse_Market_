@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchSingleProduct } from "../../../redux/slices/productSlice";
 import { useParams } from "react-router";
 import Navbar from "../../layout/navbar";
-
 import ProductInfoSection from "./ProductInfoSection";
 import ProductModal from "./ProductModal";
 import BackHeader from "../../common/BackHeader";
 import ProductCartSummary from "./ProductCartSummary";
+import ReviewsSection from "./ReviewsSection";
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -35,6 +35,7 @@ export default function ProductDetail() {
           <div className="lg:col-span-2">
             <ProductModal product={singleProduct} />
             <ProductInfoSection product={singleProduct} />
+            <ReviewsSection product={singleProduct} />
           </div>
 
           <div className="lg:col-span-1">
