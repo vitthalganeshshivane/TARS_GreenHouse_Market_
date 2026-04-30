@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function ProductData({ product }) {
-  const mfg = product?.mfgDate.split("T")[0];
+  const mfg = product?.mfgDate?.split("T")[0] || "N/A";
   return (
     <div className="flex mt-6 gap-5">
       <div className="text-[12px] text-slate-500">
@@ -22,7 +22,7 @@ export default function ProductData({ product }) {
         </div>
         <div className="mb-1">
           Tags:{" "}
-          {product?.tags.map((pro, index) => (
+          {(product?.tags || []).map((pro, index) => (
             <span key={index} className="text-green-500">
               {pro},{" "}
             </span>
