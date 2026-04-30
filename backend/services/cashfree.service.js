@@ -1,9 +1,29 @@
 import axios from "axios";
 
 const CASHFREE_BASE_URL =
-  process.env.NODE_ENV === "production"
+  process.env.CASHFREE_BASE_URL ||
+  (process.env.NODE_ENV === "production"
     ? "https://api.cashfree.com/pg"
-    : "https://sandbox.cashfree.com/pg";
+    : "https://sandbox.cashfree.com/pg");
+
+const CASHFREE_CLIENT_ID = process.env.CASHFREE_CLIENT_ID;
+const CASHFREE_CLIENT_SECRET = process.env.CASHFREE_CLIENT_SECRET;
+const CASHFREE_API_VERSION = process.env.CASHFREE_API_VERSION || "2025-01-01";
+
+const getCashfreeHeaders = () => {
+  if (!CASHFREE_CLIENT_ID || !CASHFREE_CLIENT_SECRET) {
+    throw new Error(
+      "Cashfree credentials are missing. Set CASHFREE_CLIENT_ID and CASHFREE_CLIENT_SECRET in backend .env",
+    );
+  }
+
+  return {
+    "Content-Type": "application/json",
+    "x-client-id": CASHFREE_CLIENT_ID,
+    "x-client-secret": CASHFREE_CLIENT_SECRET,
+    "x-api-version": CASHFREE_API_VERSION,
+  };
+};
 
 export const createCashfreeOrder = async ({
   orderId,
@@ -26,29 +46,48 @@ export const createCashfreeOrder = async ({
     },
   };
 
-  const res = await axios.post(`${CASHFREE_BASE_URL}/orders`, payload, {
-    headers: {
-      "Content-Type": "application/json",
-      "x-client-id": process.env.CASHFREE_APP_ID,
-      "x-client-secret": process.env.CASHFREE_SECRET_KEY,
-      "x-api-version": "2025-01-01",
-    },
-  });
+  try {
+    const res = await axios.post(`${CASHFREE_BASE_URL}/orders`, payload, {
+      headers: getCashfreeHeaders(),
+    });
 
-  return res.data;
+    return res.data;
+  } catch (error) {
+    console.log(
+      "Cashfree create order error:",
+      error.response?.status,
+      error.response?.data || error.message,
+    );
+
+    throw new Error(
+      error.response?.data?.message ||
+        error.response?.data?.type ||
+        "Failed to create Cashfree order",
+    );
+  }
 };
 
 export const getCashfreePaymentsByOrderId = async (cashfreeOrderId) => {
-  const res = await axios.get(
-    `${CASHFREE_BASE_URL}/orders/${cashfreeOrderId}/payments`,
-    {
-      headers: {
-        "x-client-id": process.env.CASHFREE_APP_ID,
-        "x-client-secret": process.env.CASHFREE_SECRET_KEY,
-        "x-api-version": "2025-01-01",
+  try {
+    const res = await axios.get(
+      `${CASHFREE_BASE_URL}/orders/${cashfreeOrderId}/payments`,
+      {
+        headers: getCashfreeHeaders(),
       },
-    },
-  );
+    );
 
-  return res.data;
+    return res.data;
+  } catch (error) {
+    console.log(
+      "Cashfree verify payment error:",
+      error.response?.status,
+      error.response?.data || error.message,
+    );
+
+    throw new Error(
+      error.response?.data?.message ||
+        error.response?.data?.type ||
+        "Failed to fetch Cashfree payment status",
+    );
+  }
 };
