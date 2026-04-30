@@ -1,25 +1,18 @@
 import { useEffect, useState } from "react";
 import API from "../../../api/axios";
-import { useNavigate } from "react-router";
-import axios from "axios";
 import { Minus } from "lucide-react";
 
 export default function CategoryAside({ onSelectCategory }) {
   const [categories, setCategories] = useState([]);
   const [open, setOpen] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategories = async () => {
-      console.log("hiiting api");
       try {
-        const { data } = await axios.get(
-          "http://localhost:3000/api/category/tree",
-        );
-        console.log("Category aside:", data.categories);
+        const { data } = await API.get("/category/tree");
         setCategories(data.categories);
       } catch (error) {
-        console.log("Category fetch error", error);
+        console.error("Category fetch error", error);
       }
     };
 
