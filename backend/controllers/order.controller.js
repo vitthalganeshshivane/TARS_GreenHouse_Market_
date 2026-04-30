@@ -9,7 +9,7 @@ const generateOrderId = async () => {
   const counter = await Counter.findOneAndUpdate(
     { name: "order" },
     { $inc: { value: 1 } },
-    { new: true, upsert: true },
+    { returnDocument: "after", upsert: true },
   );
 
   return `ORD-${counter.value.toString().padStart(6, "0")}`;
