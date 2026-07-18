@@ -7,6 +7,9 @@ import {
   addToWishlistAsync,
   removeFromWishlistAsync,
 } from "../../redux/slices/wishlistSlice";
+import { useState } from "react";
+import { useAuth } from "../../hooks/useAuth";
+import LoginPromptModal from "../common/LoginPromptModal";
 
 function Rating({ rating = 0, total = 0 }) {
   return (
@@ -46,6 +49,8 @@ export default function ProductCard({
   navigate,
 }) {
   const dispatch = useDispatch();
+  const { user } = useAuth();
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const wishlistItems = useSelector((state) => state.wishlist?.items ?? []);
   const isWishlisted = wishlistItems.some((item) => item._id === productId);
 
@@ -53,6 +58,11 @@ export default function ProductCard({
     e.stopPropagation();
 
     if (!productId) return;
+
+    if (!user) {
+      setShowLoginModal(true);
+      return;
+    }
 
     try {
       if (isWishlisted) {
@@ -74,6 +84,11 @@ export default function ProductCard({
         className,
       )}
     >
+      <LoginPromptModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        message="Please login to add items to your wishlist."
+      />
       {/* <div className="flex-row justify-between"> */}
       <div className="rounded-tl-xl rounded-br-xl absolute top-0 left-0 bg-green-500 text-white px-4 hidden md:inline">
         {discount}%
