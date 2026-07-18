@@ -9,6 +9,8 @@ import {
   submitReviewAsync,
 } from "../../../redux/slices/reviewSlice";
 import { fetchMyOrdersAsync } from "../../../redux/slices/orderSlice";
+import { useAuth } from "../../../hooks/useAuth";
+import LoginPromptModal from "../../common/LoginPromptModal";
 
 const StarButton = ({ active, onClick }) => (
   <button
@@ -25,6 +27,7 @@ const StarButton = ({ active, onClick }) => (
 
 export default function ReviewsSection({ product }) {
   const dispatch = useDispatch();
+  const { user } = useAuth();
   const { items, ratings, myReview, loading, submitting } = useSelector(
     (state) => state.review,
   );
@@ -34,13 +37,16 @@ export default function ReviewsSection({ product }) {
   const [title, setTitle] = useState("");
   const [comment, setComment] = useState("");
   const [files, setFiles] = useState([]);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   useEffect(() => {
     if (!product?._id) return;
     dispatch(fetchProductReviewsAsync(product._id));
-    dispatch(fetchMyReviewAsync(product._id));
-    dispatch(fetchMyOrdersAsync());
-  }, [dispatch, product?._id]);
+    if (user) {
+      dispatch(fetchMyReviewAsync(product._id));
+      dispatch(fetchMyOrdersAsync());
+    }
+  }, [dispatch, product?._id, user]);
 
   useEffect(() => {
     if (myReview) {
@@ -129,6 +135,11 @@ export default function ReviewsSection({ product }) {
 
   return (
     <div className="mt-5 border rounded-xl p-5 bg-white">
+      <LoginPromptModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        message="Please login to submit a review."
+      />
       <div className="flex items-start justify-between gap-3 border-b border-gray-100 pb-4">
         <div>
           <h2 className="text-xl sm:text-2xl font-semibold text-black/80">
@@ -150,7 +161,18 @@ export default function ReviewsSection({ product }) {
         </div>
       </div>
 
-      {!hasPurchasedProduct && !myReview ? (
+      {!user ? (
+        <div className="mt-5 rounded-xl bg-gray-50 p-4 text-sm text-gray-500">
+          Please{" "}
+          <button
+            onClick={() => setShowLoginModal(true)}
+            className="text-green-600 font-semibold hover:underline"
+          >
+            login
+          </button>{" "}
+          to leave a review.
+        </div>
+      ) : !hasPurchasedProduct && !myReview ? (
         <div className="mt-5 rounded-xl bg-gray-50 p-4 text-sm text-gray-500">
           You need to buy this product before you can leave a review.
         </div>
