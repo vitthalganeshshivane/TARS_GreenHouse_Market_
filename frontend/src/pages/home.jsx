@@ -1,4 +1,3 @@
-import { useAuth } from "../hooks/useAuth";
 import Topbar from "../components/layout/topbar.jsx";
 import Navbar from "../components/layout/navbar.jsx";
 import ImageSlider from "../components/common/imageSlider.jsx";
@@ -14,12 +13,6 @@ import Footer from "../components/layout/footer.jsx";
 import ChooseUsComponent from "../components/common/chooseUsComponent.jsx";
 
 export default function Home() {
-  const { user, loading } = useAuth();
-
-  if (loading) return <p>Loading...</p>;
-
-  if (!user) return <p>Unauthorized</p>;
-
   return (
     <div className="bg-white min-h-screen">
       {/* <div> */}
