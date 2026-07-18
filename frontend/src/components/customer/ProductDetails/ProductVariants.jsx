@@ -12,14 +12,18 @@ import {
   addToWishlistAsync,
   removeFromWishlistAsync,
 } from "../../../redux/slices/wishlistSlice";
+import { useAuth } from "../../../hooks/useAuth";
+import LoginPromptModal from "../../common/LoginPromptModal";
 
 export default function ProductVariant({ product }) {
   const dispatch = useDispatch();
+  const { user } = useAuth();
   const { items = [] } = useSelector((state) => state.cart);
 
   const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
   const [quantity, setQuantity] = useState(1);
   const [inputVal, setInputVal] = useState("1");
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const getProductId = (item) => item.product?._id || item.product;
 
@@ -28,6 +32,10 @@ export default function ProductVariant({ product }) {
   const isWishlisted = wishlistItems.some((item) => item._id === product._id);
 
   const handleWishlist = async () => {
+    if (!user) {
+      setShowLoginModal(true);
+      return;
+    }
     try {
       if (isWishlisted) {
         await dispatch(removeFromWishlistAsync(product._id)).unwrap();
@@ -95,6 +103,10 @@ export default function ProductVariant({ product }) {
   };
 
   const handleAddToCart = () => {
+    if (!user) {
+      setShowLoginModal(true);
+      return;
+    }
     if (!selectedVariant) return;
 
     const finalPrice = selectedVariant.discountPrice || selectedVariant.price;
@@ -136,6 +148,11 @@ export default function ProductVariant({ product }) {
 
   return (
     <div className="mt-2">
+      <LoginPromptModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        message="Please login to add items to your cart or wishlist."
+      />
       <div className="flex items-center text-4xl font-bold text-green-500">
         <IndianRupee size={26} strokeWidth={3} />
         {selectedVariant?.discountPrice || selectedVariant?.price}
@@ -214,7 +231,6 @@ export default function ProductVariant({ product }) {
 
         <div
           onClick={handleWishlist}
-          className="p-2 border border-gray-200 ml-3 rounded cursor-pointer"
           className="p-2 border border-gray-200 ml-3 rounded cursor-pointer"
         >
           <Heart
