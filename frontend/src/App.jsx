@@ -4,16 +4,7 @@ import Login from "./pages/login.jsx";
 import ForgotPassword from "./pages/forgot.jsx";
 import VerifyOTP from "./pages/verify.jsx";
 import Success from "./pages/success.jsx";
-import { Button } from "./components/ui/button.jsx";
-import SearchProduct from "./components/product/searchProduct.jsx";
-import NavbarBtn from "./components/layout/navbarBtn.jsx";
-import { Recycle } from "lucide-react";
-import CategoryEntry from "./components/common/categoryEntry.jsx";
-import CategoryCard from "./components/common/categoryCard.jsx";
-import ProductCard from "./components/product/productCard.jsx";
-import Topbar from "./components/layout/topbar.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
-import PublicRoute from "./routes/PublicRoute.jsx";
 import Home from "./pages/home.jsx";
 import { useAuth } from "./hooks/useAuth.js";
 import Product from "./pages/product.jsx";
@@ -31,7 +22,6 @@ import TransactionsPage from "./pages/vendor/dashboards/TransactionsPage.jsx";
 import SettingsPage from "./pages/vendor/dashboards/SettingsPage.jsx";
 import EditProductPage from "./pages/vendor/dashboards/EditProductPage.jsx";
 import VendorRoute from "./routes/VendorRoute.jsx";
-import MainLayout from "./components/layout/MainLayout.jsx";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchCart } from "./redux/slices/cartSlice.js";
@@ -52,7 +42,7 @@ function RootRedirect() {
   if (loading) return <p>Loading...</p>;
 
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/home" replace />;
   }
 
   return user.role === "vendor" ? (
@@ -64,68 +54,43 @@ function RootRedirect() {
 
 function App() {
   const dispatch = useDispatch();
+  const { user } = useAuth();
+
   useEffect(() => {
-    dispatch(fetchCart());
-    dispatch(fetchAddresses());
-    dispatch(fetchWishlist());
-  }, [dispatch]);
+    if (user) {
+      dispatch(fetchCart());
+      dispatch(fetchAddresses());
+      dispatch(fetchWishlist());
+    }
+  }, [dispatch, user]);
 
   return (
     <Routes>
       <Route path="/" element={<RootRedirect />} />
 
-      {/* 🔥 FIXED: Nested routes */}
-      {/* <Route
-        element={
-          <ProtectedRoute>
-            <MainLayout />
-          </ProtectedRoute>
-        }
-      > */}
+      {/* Public browsing pages - no auth required */}
       <Route path="/home" element={<Home />} />
-      {/* <Route path="/address" element={<AddressPage />} /> */}
-      <Route path="/address" element={<AddressPage />} />
       <Route path="/product" element={<Product />} />
       <Route path="/product/:id" element={<ProductDetail />} />
       <Route path="/category/:slug" element={<BrowseCategory />} />
       <Route path="/all-products" element={<BrowseAllProducts />} />
 
-      <Route path="/cart" element={<CartPage />} />
-
-      <Route path="/order/:id" element={<OrderDetailsPage />} />
-      <Route path="/payment-status" element={<PaymentStatusPage />} />
-
-      <Route path="/account" element={<AccountLayout />} />
-
-      <Route
-        path="/orders"
-        element={
-          <>
-            <BackHeader title="My Order" fallback="/home" />
-            <div className="min-h-screen bg-white px-5 py-5">
-              <MyOrders />
-            </div>
-          </>
-        }
-      />
-      {/* </Route> */}
-
-      {/* Public routes */}
+      {/* Auth pages */}
       <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/verify" element={<VerifyOTP />} />
       <Route path="/success" element={<Success />} />
 
+      {/* Protected user pages - login required */}
       <Route
-        path="/product"
+        path="/cart"
         element={
           <ProtectedRoute>
-            <Product />
+            <CartPage />
           </ProtectedRoute>
         }
       />
-
       <Route
         path="/wishlist"
         element={
@@ -134,27 +99,58 @@ function App() {
           </ProtectedRoute>
         }
       />
-
-      <Route path="/category/:slug" element={<BrowseCategory />} />
-
-      <Route path="/all-products" element={<BrowseAllProducts />} />
-
       <Route
-        path="/product/:id"
+        path="/address"
         element={
           <ProtectedRoute>
-            <ProductDetail />
+            <AddressPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/account"
+        element={
+          <ProtectedRoute>
+            <AccountLayout />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/order/:id"
+        element={
+          <ProtectedRoute>
+            <OrderDetailsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/payment-status"
+        element={
+          <ProtectedRoute>
+            <PaymentStatusPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/orders"
+        element={
+          <ProtectedRoute>
+            <>
+              <BackHeader title="My Order" fallback="/home" />
+              <div className="min-h-screen bg-white px-5 py-5">
+                <MyOrders />
+              </div>
+            </>
           </ProtectedRoute>
         }
       />
 
-      {/* <Route path="/vendor" element={<DashboardLayout />} /> */}
+      {/* Vendor routes - vendor login required */}
       <Route
         path="/vendor"
         element={
           <VendorRoute>
-            {" "}
-            <DashboardLayout />{" "}
+            <DashboardLayout />
           </VendorRoute>
         }
       >
@@ -168,8 +164,6 @@ function App() {
         <Route path="transactions" element={<TransactionsPage />} />
         <Route path="settings" element={<SettingsPage />} />
       </Route>
-
-      {/* <Route path="*" element={<Navigate to="/signup" replace />} /> */}
     </Routes>
   );
 }
