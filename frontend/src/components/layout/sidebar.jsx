@@ -17,8 +17,16 @@ import {
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
 import { Navigations } from "./navigation";
+import { useSelector } from "react-redux";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function Sidebar({ isOpen, onClose }) {
+  const { user } = useAuth();
+  const { items: cartItems } = useSelector((state) => state.cart);
+  const { items: wishlistItems } = useSelector((state) => state.wishlist);
+
+  const totalCartItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const totalWishlistItems = wishlistItems?.length || 0;
   return (
     <>
       {/* Overlay */}
@@ -85,9 +93,11 @@ export default function Sidebar({ isOpen, onClose }) {
                 >
                   <Heart className="w-5 h-5" />
                   <span>Wishlist</span>
-                  <span className="ml-auto bg-primary text-white text-xs px-2 py-0.5 rounded-full">
-                    5
-                  </span>
+                  {user && totalWishlistItems > 0 && (
+                    <span className="ml-auto bg-primary text-white text-xs px-2 py-0.5 rounded-full">
+                      {totalWishlistItems}
+                    </span>
+                  )}
                 </Link>
                 <Link
                   to="/cart"
@@ -96,9 +106,11 @@ export default function Sidebar({ isOpen, onClose }) {
                 >
                   <ShoppingCart className="w-5 h-5" />
                   <span>Cart</span>
-                  <span className="ml-auto bg-primary text-white text-xs px-2 py-0.5 rounded-full">
-                    5
-                  </span>
+                  {user && totalCartItems > 0 && (
+                    <span className="ml-auto bg-primary text-white text-xs px-2 py-0.5 rounded-full">
+                      {totalCartItems}
+                    </span>
+                  )}
                 </Link>
                 {/* <Link 
                   to="/compare"
