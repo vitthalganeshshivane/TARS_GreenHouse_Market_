@@ -13,10 +13,10 @@ import { protect, authorizeRoles } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-// customer producy list route by category
-router.get("/category/:slug", protect, getProductByCategory);
+// customer product list route by category (public - no auth needed)
+router.get("/category/:slug", getProductByCategory);
 
-router.get("/grouped-by-category", protect, getProductsGroupedByCategory);
+router.get("/grouped-by-category", getProductsGroupedByCategory);
 
 router.post(
   "/",
